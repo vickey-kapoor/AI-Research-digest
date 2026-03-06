@@ -1,5 +1,7 @@
 name: Daily AI News Alert
 
+# Sends daily AI news to WhatsApp
+
 on:
   schedule:
     # Run daily at 8:00 AM UTC (adjust timezone as needed)
