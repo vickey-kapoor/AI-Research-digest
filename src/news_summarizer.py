@@ -4,6 +4,10 @@ import re
 
 from openai import OpenAI
 
+from src.logger import get_logger
+
+logger = get_logger(__name__)
+
 
 def _sanitize_text(text: str, max_length: int = 500) -> str:
     """
@@ -102,7 +106,7 @@ Now write the summary:"""
         return research_with_summary
 
     except Exception:
-        print("Warning: Could not generate summary")
+        logger.warning("Could not generate summary")
         return research
 
 
@@ -184,5 +188,5 @@ Now write the detailed explanation:"""
         return research_with_summary
 
     except Exception:
-        print("Warning: Could not generate detailed summary")
+        logger.warning("Could not generate detailed summary")
         return research

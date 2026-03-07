@@ -5,11 +5,14 @@ import sys
 
 from dotenv import load_dotenv
 
+from src.logger import get_logger
 from src.research_fetcher import fetch_ai_research
 from src.news_ranker import rank_research
 from src.news_summarizer import summarize_research, summarize_research_detailed
 from src.whatsapp_sender import format_research_message, send_whatsapp_message
 from src.pdf_generator import generate_research_pdf
+
+logger = get_logger(__name__)
 
 
 def main():
@@ -38,60 +41,60 @@ def main():
         missing.append("OPENAI_API_KEY")
 
     if missing:
-        print(f"Error: Missing required environment variables: {', '.join(missing)}")
+        logger.error("Missing required environment variables: %s", ", ".join(missing))
         sys.exit(1)
 
     # Fetch AI research
-    print("Fetching AI research...")
+    logger.info("Fetching AI research...")
     research_items = []
     try:
         research_items = fetch_ai_research(max_results=10)
-        print(f"Found {len(research_items)} research items")
+        logger.info("Found %d research items", len(research_items))
     except Exception as e:
-        print(f"Error fetching research: {e}")
+        logger.error("Error fetching research: %s", e)
 
     # Check if we have any content
     if not research_items:
-        print("No AI research found today")
+        logger.info("No AI research found today")
         sys.exit(0)
 
     # Rank and select top research
-    print("Selecting most important research...")
+    logger.info("Selecting most important research...")
     try:
         top_research = rank_research(research_items, openai_key)
-        print(f"Selected: {top_research['title']}")
+        logger.info("Selected: %s", top_research["title"])
     except Exception as e:
-        print(f"Error ranking research: {e}")
+        logger.error("Error ranking research: %s", e)
         top_research = research_items[0]
 
     # Generate short summary for WhatsApp
-    print("Generating WhatsApp summary...")
+    logger.info("Generating WhatsApp summary...")
     try:
         top_research = summarize_research(top_research, openai_key)
         if "summary" in top_research:
-            print("Generated short summary for WhatsApp")
+            logger.info("Generated short summary for WhatsApp")
     except Exception:
-        print("Warning: Could not generate WhatsApp summary")
+        logger.warning("Could not generate WhatsApp summary")
 
     # Generate detailed summary for PDF
-    print("Generating detailed PDF summary...")
+    logger.info("Generating detailed PDF summary...")
     try:
         top_research = summarize_research_detailed(top_research, openai_key)
         if "detailed_summary" in top_research:
-            print("Generated detailed summary for PDF")
+            logger.info("Generated detailed summary for PDF")
     except Exception:
-        print("Warning: Could not generate detailed summary")
+        logger.warning("Could not generate detailed summary")
 
     # Generate PDF report
-    print("Generating PDF report...")
+    logger.info("Generating PDF report...")
     try:
         pdf_path = generate_research_pdf(top_research)
-        print(f"PDF saved: {pdf_path}")
+        logger.info("PDF saved: %s", pdf_path)
     except Exception:
-        print("Warning: Could not generate PDF")
+        logger.warning("Could not generate PDF")
 
     # Send WhatsApp message
-    print("Sending WhatsApp message...")
+    logger.info("Sending WhatsApp message...")
     try:
         message = format_research_message(top_research)
         message_sid = send_whatsapp_message(
@@ -101,9 +104,9 @@ def main():
             your_whatsapp,
             message,
         )
-        print(f"Message sent successfully! SID: {message_sid}")
+        logger.info("Message sent successfully! SID: %s", message_sid)
     except Exception as e:
-        print(f"Error sending WhatsApp message: {e}")
+        logger.error("Error sending WhatsApp message: %s", e)
         sys.exit(1)
 
 

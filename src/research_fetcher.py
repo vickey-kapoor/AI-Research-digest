@@ -5,10 +5,14 @@ from datetime import datetime
 from difflib import SequenceMatcher
 from typing import Callable
 
+from src.constants import DEDUP_SIMILARITY_THRESHOLD
 from src.fetchers.arxiv_fetcher import fetch_arxiv_papers
 from src.fetchers.huggingface_fetcher import fetch_huggingface_papers
 from src.fetchers.pwc_fetcher import fetch_pwc_papers
 from src.fetchers.blog_fetcher import fetch_blog_posts
+from src.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def _title_similarity(title1: str, title2: str) -> float:
@@ -20,7 +24,7 @@ def _title_similarity(title1: str, title2: str) -> float:
     ).ratio()
 
 
-def _deduplicate_papers(papers: list[dict], threshold: float = 0.85) -> list[dict]:
+def _deduplicate_papers(papers: list[dict], threshold: float = DEDUP_SIMILARITY_THRESHOLD) -> list[dict]:
     """
     Remove duplicate papers based on title similarity.
 
@@ -81,14 +85,14 @@ def fetch_ai_research(max_results: int = 5) -> list[dict]:
             source = future_to_source[future]
             try:
                 results = future.result()
-                print(f"Fetched {len(results)} items from {source}")
+                logger.info("Fetched %d items from %s", len(results), source)
                 all_research.extend(results)
             except Exception:
-                print(f"Error: Failed to fetch from {source}")
+                logger.error("Failed to fetch from %s", source)
 
     # Deduplicate by title similarity
     unique_research = _deduplicate_papers(all_research)
-    print(f"After deduplication: {len(unique_research)} unique items")
+    logger.info("After deduplication: %d unique items", len(unique_research))
 
     # Sort by published date (most recent first)
     unique_research.sort(

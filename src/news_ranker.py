@@ -4,6 +4,10 @@ import re
 
 from openai import OpenAI
 
+from src.logger import get_logger
+
+logger = get_logger(__name__)
+
 
 def _sanitize_text(text: str, max_length: int = 500) -> str:
     """
@@ -100,7 +104,7 @@ Respond with ONLY the number (e.g., "1" or "3"). No explanation."""
     except (ValueError, IndexError, TypeError, AttributeError):
         pass
     except Exception:
-        print("Error: Failed to rank research with AI")
+        logger.error("Failed to rank research with AI")
 
     # Fallback to first paper if parsing fails
     return research[0]

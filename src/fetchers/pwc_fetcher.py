@@ -5,32 +5,34 @@ This fetcher returns an empty list if the API is unavailable.
 """
 
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Tuple
 
 import requests
 
+from src.constants import FILTER_KEYWORDS, PWC_API_URL, REQUEST_TIMEOUT
+from src.logger import get_logger
+from src.utils.retry import retry_with_backoff
 
-PWC_API_URL = "https://paperswithcode.com/api/v1/papers/"
+logger = get_logger(__name__)
 
-# Keywords for filtering AI Agents & Reasoning papers
-AGENT_REASONING_KEYWORDS = [
-    "agent",
-    "reasoning",
-    "chain of thought",
-    "cot",
-    "react",
-    "tool use",
-    "planning",
-    "multi-agent",
-    "agentic",
-    "autonomous",
-]
+
+@retry_with_backoff(
+    max_retries=2,
+    base_delay=1.0,
+    exceptions=(requests.Timeout, requests.ConnectionError),
+)
+def _fetch_pwc_data(params: dict) -> Tuple[dict, str]:
+    """Fetch data from Papers With Code API with retry."""
+    response = requests.get(PWC_API_URL, params=params, timeout=REQUEST_TIMEOUT)
+    response.raise_for_status()
+    content_type = response.headers.get("content-type", "")
+    return response.json(), content_type
 
 
 def _matches_keywords(text: str) -> bool:
     """Check if text contains any agent/reasoning keywords."""
     text_lower = text.lower()
-    return any(kw.lower() in text_lower for kw in AGENT_REASONING_KEYWORDS)
+    return any(kw.lower() in text_lower for kw in FILTER_KEYWORDS)
 
 
 def fetch_pwc_papers(max_results: int = 5) -> list[dict]:
@@ -49,16 +51,12 @@ def fetch_pwc_papers(max_results: int = 5) -> list[dict]:
             "ordering": "-published",
             "page_size": max_results * 4,  # Fetch extra to filter
         }
-        response = requests.get(PWC_API_URL, params=params, timeout=15)
-        response.raise_for_status()
+        data, content_type = _fetch_pwc_data(params)
 
         # Check if response is JSON
-        content_type = response.headers.get("content-type", "")
         if "application/json" not in content_type:
             # API might require auth or be temporarily unavailable
             return []
-
-        data = response.json()
 
         papers = []
         results = data.get("results", [])
@@ -115,11 +113,11 @@ def fetch_pwc_papers(max_results: int = 5) -> list[dict]:
         return papers
 
     except requests.Timeout:
-        print("Error: Papers With Code request timed out")
+        logger.error("Papers With Code request timed out")
         return []
     except requests.RequestException:
-        print("Error: Failed to fetch Papers With Code")
+        logger.error("Failed to fetch Papers With Code")
         return []
     except Exception:
-        print("Error: Failed to parse Papers With Code response")
+        logger.error("Failed to parse Papers With Code response")
         return []

@@ -7,26 +7,31 @@ import socket
 
 import feedparser
 
+from src.constants import (
+    ARXIV_API_URL,
+    ARXIV_CATEGORIES,
+    AGENT_REASONING_KEYWORDS,
+    REQUEST_TIMEOUT,
+)
+from src.logger import get_logger
+from src.utils.retry import retry_with_backoff
 
-# Use HTTPS for secure communication
-ARXIV_API_URL = "https://export.arxiv.org/api/query"
+logger = get_logger(__name__)
 
-# Timeout for feedparser requests (seconds)
-REQUEST_TIMEOUT = 30
 
-# Keywords for AI Agents & Reasoning research
-AGENT_REASONING_KEYWORDS = [
-    "AI agent",
-    "autonomous agent",
-    "reasoning",
-    "chain of thought",
-    "CoT",
-    "ReAct",
-    "tool use",
-    "planning",
-    "multi-agent",
-    "agentic",
-]
+@retry_with_backoff(
+    max_retries=2,
+    base_delay=1.0,
+    exceptions=(socket.timeout, OSError),
+)
+def _parse_arxiv_feed(url: str):
+    """Parse arXiv feed with retry on timeout."""
+    old_timeout = socket.getdefaulttimeout()
+    socket.setdefaulttimeout(REQUEST_TIMEOUT)
+    try:
+        return feedparser.parse(url)
+    finally:
+        socket.setdefaulttimeout(old_timeout)
 
 
 def fetch_arxiv_papers(max_results: int = 5) -> list[dict]:
@@ -40,7 +45,7 @@ def fetch_arxiv_papers(max_results: int = 5) -> list[dict]:
         List of normalized paper dictionaries
     """
     # Build search query for AI/ML categories with agent/reasoning focus
-    categories = "(cat:cs.AI OR cat:cs.LG OR cat:cs.CL OR cat:cs.MA)"
+    categories = "(" + " OR ".join(f"cat:{cat}" for cat in ARXIV_CATEGORIES) + ")"
     keywords = " OR ".join(f'all:"{kw}"' for kw in AGENT_REASONING_KEYWORDS[:5])
     query = f"{categories} AND ({keywords})"
 
@@ -55,16 +60,10 @@ def fetch_arxiv_papers(max_results: int = 5) -> list[dict]:
     url = f"{ARXIV_API_URL}?{urllib.parse.urlencode(params)}"
 
     try:
-        # Set socket timeout for feedparser
-        old_timeout = socket.getdefaulttimeout()
-        socket.setdefaulttimeout(REQUEST_TIMEOUT)
-        try:
-            feed = feedparser.parse(url)
-        finally:
-            socket.setdefaulttimeout(old_timeout)
+        feed = _parse_arxiv_feed(url)
 
         if feed.bozo and not feed.entries:
-            print("Warning: arXiv feed parse error")
+            logger.warning("arXiv feed parse error")
             return []
 
         papers = []
@@ -108,8 +107,8 @@ def fetch_arxiv_papers(max_results: int = 5) -> list[dict]:
         return papers
 
     except socket.timeout:
-        print("Error: arXiv request timed out")
+        logger.error("arXiv request timed out")
         return []
     except Exception:
-        print("Error: Failed to fetch arXiv papers")
+        logger.error("Failed to fetch arXiv papers")
         return []

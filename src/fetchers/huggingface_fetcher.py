@@ -5,29 +5,29 @@ from typing import Optional
 
 import requests
 
+from src.constants import FILTER_KEYWORDS, HF_DAILY_PAPERS_URL, REQUEST_TIMEOUT
+from src.logger import get_logger
+from src.utils.retry import retry_with_backoff
 
-HF_DAILY_PAPERS_URL = "https://huggingface.co/api/daily_papers"
+logger = get_logger(__name__)
 
-# Keywords for filtering AI Agents & Reasoning papers
-AGENT_REASONING_KEYWORDS = [
-    "agent",
-    "reasoning",
-    "chain of thought",
-    "cot",
-    "react",
-    "tool",
-    "planning",
-    "multi-agent",
-    "agentic",
-    "llm",
-    "autonomous",
-]
+
+@retry_with_backoff(
+    max_retries=2,
+    base_delay=1.0,
+    exceptions=(requests.Timeout, requests.ConnectionError),
+)
+def _fetch_hf_data() -> list:
+    """Fetch data from Hugging Face API with retry."""
+    response = requests.get(HF_DAILY_PAPERS_URL, timeout=REQUEST_TIMEOUT)
+    response.raise_for_status()
+    return response.json()
 
 
 def _matches_keywords(text: str) -> bool:
     """Check if text contains any agent/reasoning keywords."""
     text_lower = text.lower()
-    return any(kw.lower() in text_lower for kw in AGENT_REASONING_KEYWORDS)
+    return any(kw.lower() in text_lower for kw in FILTER_KEYWORDS)
 
 
 def fetch_huggingface_papers(max_results: int = 5) -> list[dict]:
@@ -41,9 +41,7 @@ def fetch_huggingface_papers(max_results: int = 5) -> list[dict]:
         List of normalized paper dictionaries
     """
     try:
-        response = requests.get(HF_DAILY_PAPERS_URL, timeout=15)
-        response.raise_for_status()
-        data = response.json()
+        data = _fetch_hf_data()
 
         papers = []
         for item in data:
@@ -101,11 +99,11 @@ def fetch_huggingface_papers(max_results: int = 5) -> list[dict]:
         return papers
 
     except requests.Timeout:
-        print("Error: Hugging Face request timed out")
+        logger.error("Hugging Face request timed out")
         return []
     except requests.RequestException:
-        print("Error: Failed to fetch Hugging Face papers")
+        logger.error("Failed to fetch Hugging Face papers")
         return []
     except Exception:
-        print("Error: Failed to parse Hugging Face response")
+        logger.error("Failed to parse Hugging Face response")
         return []

@@ -6,39 +6,32 @@ import socket
 
 import feedparser
 
-# Timeout for feedparser requests (seconds)
-REQUEST_TIMEOUT = 30
+from src.constants import BLOG_FEEDS, FILTER_KEYWORDS, REQUEST_TIMEOUT
+from src.logger import get_logger
+from src.utils.retry import retry_with_backoff
+
+logger = get_logger(__name__)
 
 
-# Blog RSS feeds from major AI labs
-BLOG_FEEDS = {
-    "Google AI": "https://blog.google/technology/ai/rss/",
-    "DeepMind": "https://deepmind.google/blog/rss.xml",
-    "Meta AI": "https://ai.meta.com/blog/rss/",
-}
-
-# Keywords for filtering AI Agents & Reasoning content
-AGENT_REASONING_KEYWORDS = [
-    "agent",
-    "reasoning",
-    "chain of thought",
-    "cot",
-    "tool use",
-    "planning",
-    "multi-agent",
-    "agentic",
-    "autonomous",
-    "llm",
-    "language model",
-    "gemini",
-    "llama",
-]
+@retry_with_backoff(
+    max_retries=2,
+    base_delay=1.0,
+    exceptions=(socket.timeout, OSError),
+)
+def _parse_blog_feed(url: str):
+    """Parse blog RSS feed with retry on timeout."""
+    old_timeout = socket.getdefaulttimeout()
+    socket.setdefaulttimeout(REQUEST_TIMEOUT)
+    try:
+        return feedparser.parse(url)
+    finally:
+        socket.setdefaulttimeout(old_timeout)
 
 
 def _matches_keywords(text: str) -> bool:
     """Check if text contains any agent/reasoning keywords."""
     text_lower = text.lower()
-    return any(kw.lower() in text_lower for kw in AGENT_REASONING_KEYWORDS)
+    return any(kw.lower() in text_lower for kw in FILTER_KEYWORDS)
 
 
 def _parse_date(entry: dict) -> str:
@@ -60,16 +53,10 @@ def _parse_date(entry: dict) -> str:
 def _fetch_single_feed(source: str, url: str, max_per_source: int) -> list[dict]:
     """Fetch posts from a single RSS feed."""
     try:
-        # Set socket timeout for feedparser
-        old_timeout = socket.getdefaulttimeout()
-        socket.setdefaulttimeout(REQUEST_TIMEOUT)
-        try:
-            feed = feedparser.parse(url)
-        finally:
-            socket.setdefaulttimeout(old_timeout)
+        feed = _parse_blog_feed(url)
 
         if feed.bozo and not feed.entries:
-            print(f"Warning: {source} feed parse error")
+            logger.warning("%s feed parse error", source)
             return []
 
         posts = []
@@ -106,10 +93,10 @@ def _fetch_single_feed(source: str, url: str, max_per_source: int) -> list[dict]
         return posts
 
     except socket.timeout:
-        print(f"Error: {source} blog request timed out")
+        logger.error("%s blog request timed out", source)
         return []
     except Exception:
-        print(f"Error: Failed to fetch {source} blog")
+        logger.error("Failed to fetch %s blog", source)
         return []
 
 
