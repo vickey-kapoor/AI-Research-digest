@@ -61,3 +61,4 @@ In production (Vercel), data is fetched from GitHub's raw content API with 5-min
 - `/reports` - View PDF reports
 - `/analytics` - Charts and trends
 - `/settings` - Configuration view
+
