@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-03-10",
+      "top_paper_id": "c1bd5944-1840-4f04-abdd-1a4b573df328",
+      "papers_fetched": 10,
+      "pdf_path": "reports/10-Mar/Agentic_Critical_Training.pdf",
+      "whatsapp_sent": true,
+      "workflow_run_id": "22914378486"
+    },
+    {
       "date": "2026-03-09",
       "top_paper_id": "b25e85b1-4c01-45ee-99fd-7aa7bba7d03e",
       "papers_fetched": 10,

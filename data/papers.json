@@ -1,6 +1,169 @@
 {
   "papers": [
     {
+      "id": "cede5608-6329-428e-b8bb-7a10ffa33c64",
+      "title": "Gemini in Google Sheets just achieved state-of-the-art performance.",
+      "description": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Workspace_Jan_Moment_Sheets_Blo.max-600x600.format-webp.webp\" />Today we announced new beta features for Gemini in Sheets to help you create, organize and edit entire sheets, from basic tasks to complex data analysis — just describe …",
+      "source": "Google AI",
+      "url": "https://blog.google/products-and-platforms/products/workspace/gemini-google-sheets-state-of-the-art/",
+      "published_at": "2026-03-10T13:00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Google AI",
+      "topics": [
+        "Vision"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "eb371147-2cca-4b1e-8129-8ec081a409ee",
+      "title": "NLE: Non-autoregressive LLM-based ASR by Transcript Editing",
+      "description": "While autoregressive (AR) LLM-based ASR systems achieve strong accuracy, their sequential decoding limits parallelism and incurs high latency. We propose NLE, a non-autoregressive (NAR) approach that formulates speech recognition as conditional transcript editing, enabling fully parallel prediction. NLE extracts acoustic embeddings and an initial hypothesis from a pretrained speech encoder, then refines the hypothesis using a bidirectional LLM editor trained with a latent alignment objective....",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.08397",
+      "published_at": "2026-03-09T13:56:52+00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Avihu Dekel, Samuel Thomas, Takashi Fukada, George Saon",
+      "topics": [
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "c1bd5944-1840-4f04-abdd-1a4b573df328",
+      "title": "Agentic Critical Training",
+      "description": "Training large language models (LLMs) as autonomous agents often begins with imitation learning, but it only teaches agents what to do without understanding why: agents never contrast successful actions against suboptimal alternatives and thus lack awareness of action quality. Recent approaches attempt to address this by introducing self-reflection supervision derived from contrasts between expert and alternative actions. However, the training paradigm fundamentally remains imitation learning...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.08706v1",
+      "published_at": "2026-03-09T00:00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Weize Liu, Minghui Liu, Sy-Tuyen Ho, Souradip Chakraborty, Xiyao Wang, Furong Huang",
+      "topics": [
+        "cs.CL",
+        "AI Agent",
+        "LLM",
+        "Vision"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "876888bd-bf0a-42db-8ee9-72d31ae1bd8b",
+      "title": "Evaluating Financial Intelligence in Large Language Models: Benchmarking SuperInvesting AI with LLM Engines",
+      "description": "Large language models are increasingly used for financial analysis and investment research, yet systematic evaluation of their financial reasoning capabilities remains limited. In this work, we introduce the AI Financial Intelligence Benchmark (AFIB), a multi-dimensional evaluation framework designed to assess financial analysis capabilities across five dimensions: factual accuracy, analytical completeness, data recency, model consistency, and failure patterns. We evaluate five AI systems: GP...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.08704v1",
+      "published_at": "2026-03-09T00:00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Akshay Gulati, Kanha Singhania, Tushar Banga, Parth Arora, Anshul Verma, Vaibhav Kumar Singh, Agy...",
+      "topics": [
+        "cs.CL",
+        "Reasoning",
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "60b2cd11-3993-486e-b0fc-4cf64797362e",
+      "title": "CODA: Difficulty-Aware Compute Allocation for Adaptive Reasoning",
+      "description": "The emergence of large reasoning models demonstrates that scaling inference-time compute significantly enhances performance on complex tasks. However, it often falls into another trap: overthinking simple problems, where repetitive rationales yield minimal accuracy gains at a disproportionately high cost. This motivates adaptive reasoning: dynamically aligning reasoning depth with instance difficulty. In this paper, we study adaptive reasoning from an optimality perspective, formalizing it as...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.08659v1",
+      "published_at": "2026-03-09T00:00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Siye Wu, Jian Xie, Yikai Zhang, Yanghua Xiao",
+      "topics": [
+        "Reasoning"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "52df7df0-5a58-42c7-9e17-bcea72919745",
+      "title": "OfficeQA Pro: An Enterprise Benchmark for End-to-End Grounded Reasoning",
+      "description": "We introduce OfficeQA Pro, a benchmark for evaluating AI agents on grounded, multi-document reasoning over a large and heterogeneous document corpus. The corpus consists of U.S. Treasury Bulletins spanning nearly 100 years, comprising 89,000 pages and over 26 million numerical values. OfficeQA Pro consists of 133 questions that require precise document parsing, retrieval, and analytical reasoning across both unstructured text and tabular data. Frontier LLMs including Claude Opus 4.6, GPT-5.4,...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.08655v1",
+      "published_at": "2026-03-09T00:00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Krista Opsahl-Ong, Arnav Singhvi, Jasmine Collins, Ivan Zhou, Cindy Wang, Ashutosh Baheti, Owen O...",
+      "topics": [
+        "AI Agent",
+        "Reasoning",
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "bef43547-e2a3-4f90-82f4-81e85de6db11",
+      "title": "CoCo: Code as CoT for Text-to-Image Preview and Rare Concept Generation",
+      "description": "Recent advancements in Unified Multimodal Models (UMMs) have significantly advanced text-to-image (T2I) generation, particularly through the integration of Chain-of-Thought (CoT) reasoning. However, existing CoT-based T2I methods largely rely on abstract natural-language planning, which lacks the precision required for complex spatial layouts, structured visual elements, and dense textual content. In this work, we propose CoCo (Code-as-CoT), a code-driven reasoning framework that represents t...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.08652v1",
+      "published_at": "2026-03-09T00:00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Haodong Li, Chunmei Qing, Huanyu Zhang, Dongzhi Jiang, Yihang Zou, Hongbo Peng, Dingming Li, Yuho...",
+      "topics": [
+        "cs.CL",
+        "Reasoning",
+        "Planning",
+        "Vision"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "bf613f6d-5db1-4c3c-a13a-ea96af584177",
+      "title": "Scaling Data Difficulty: Improving Coding Models via Reinforcement Learning on Fresh and Challenging Problems",
+      "description": "Training next-generation code generation models requires high-quality datasets, yet existing datasets face difficulty imbalance, format inconsistency, and data quality problems. We address these challenges through systematic data processing and difficulty scaling. We introduce a four-stage Data Processing Framework encompassing collection, processing, filtering, and verification, incorporating Automatic Difficulty Filtering via an LLM-based predict-calibrate-select framework that leverages mu...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.07779",
+      "published_at": "2026-03-08T19:45:51+00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Zongqian Li, Tengchao Lv, Shaohan Huang, Yixuan Su, Qinzheng Sun et al. (11 authors)",
+      "topics": [
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "7d251962-ba91-4995-a627-0e781de46c80",
+      "title": "Making LLMs Optimize Multi-Scenario CUDA Kernels Like Experts",
+      "description": "Optimizing GPU kernels manually is a challenging and time-consuming task. With the rapid development of LLMs, automated GPU kernel optimization is gradually becoming a tangible reality. However, current LLM-driven automated optimization methods narrowly focus on machine learning applications, such as PyTorch operator optimization, while overlooking broader domains like sparse matrix operations in scientific computing. Extending to these broader applications brings new challenges for the bench...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.07169",
+      "published_at": "2026-03-07T12:22:43+00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Yuxuan Han, Meng-Hao Guo, Zhengning Liu, Wenguang Chen, Shi-Min Hu",
+      "topics": [
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "67a665cc-2b0b-42ed-99da-dde07c9c20fd",
+      "title": "Agentic Planning with Reasoning for Image Styling via Offline RL",
+      "description": "Direct prompt-based editing often fails on complex transformations because vague and subjective prompts often require nuanced understanding of what should be changed in the image. Our core intuition is that leveraging compositional image editing tools rather than direct prompting profits from structured agent-level planning with explicit reasoning, leading to better results. This structured planning framework enables efficient offline RL post-training on quality-scored trajectories to improve...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.07148",
+      "published_at": "2026-03-07T11:14:37+00:00",
+      "fetched_at": "2026-03-10T17:00:55.820961Z",
+      "authors": "Subhojyoti Mukherjee, Stefano Petrangeli, Branislav Kveton, Trung Bui, Franck Dernoncourt et al. (6 authors)",
+      "topics": [
+        "AI Agent",
+        "Reasoning",
+        "Planning",
+        "Vision"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "f5c0cd7a-aa60-46a0-a66f-64df2f5fd9f5",
       "title": "EffectMaker: Unifying Reasoning and Generation for Customized Visual Effect Creation",
       "description": "Visual effects (VFX) are essential for enhancing the expressiveness and creativity of video content, yet producing high-quality effects typically requires expert knowledge and costly production pipelines. Existing AIGC systems face significant challenges in VFX generation due to the scarcity of effect-specific data and the inherent difficulty of modeling supernatural or stylized effects. Moreover, these approaches often require per-effect fine-tuning, which severely limits their scalability a...",
