@@ -1,6 +1,130 @@
 {
   "papers": [
     {
+      "id": "d438b1d8-1e78-41bb-bbc1-dad7e9fe9c9e",
+      "title": "Reading, Not Thinking: Understanding and Bridging the Modality Gap When Text Becomes Pixels in Multimodal LLMs",
+      "description": "Multimodal large language models (MLLMs) can process text presented as images, yet they often perform worse than when the same content is provided as textual tokens. We systematically diagnose this \"modality gap\" by evaluating seven MLLMs across seven benchmarks in five input modes, spanning both synthetically rendered text and realistic document images from arXiv PDFs to Wikipedia pages. We find that the modality gap is task- and data-dependent. For example, math tasks degrade by over 60 poi...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.09095",
+      "published_at": "2026-03-10T02:14:23+00:00",
+      "fetched_at": "2026-03-11T01:41:05.120986Z",
+      "authors": "Kaiser Sun, Xiaochuang Yuan, Hongjun Liu, Chen Zhao, Cheng Zhang et al. (7 authors)",
+      "topics": [
+        "LLM",
+        "Vision"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "43243c89-0dea-417b-9056-f8b6c54db38a",
+      "title": "Context Engineering: From Prompts to Corporate Multi-Agent Architecture",
+      "description": "As artificial intelligence (AI) systems evolve from stateless chatbots to autonomous multi-step agents, prompt engineering (PE), the discipline of crafting individual queries, proves necessary but insufficient. This paper introduces context engineering (CE) as a standalone discipline concerned with designing, structuring, and managing the entire informational environment in which an AI agent makes decisions. Drawing on vendor architectures (Google ADK, Anthropic, LangChain), current academic ...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.09619v1",
+      "published_at": "2026-03-10T00:00:00",
+      "fetched_at": "2026-03-11T01:41:05.120986Z",
+      "authors": "Vera V. Vishnyakova",
+      "topics": [
+        "cs.AI",
+        "AI Agent",
+        "Multi-Agent"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "46724a93-2c2f-4ceb-8935-e31002c55695",
+      "title": "ALARM: Audio-Language Alignment for Reasoning Models",
+      "description": "Large audio language models (ALMs) extend LLMs with auditory understanding. A common approach freezes the LLM and trains only an adapter on self-generated targets. However, this fails for reasoning LLMs (RLMs) whose built-in chain-of-thought traces expose the textual surrogate input, yielding unnatural responses. We propose self-rephrasing, converting self-generated responses into audio-understanding variants compatible with RLMs while preserving distributional alignment. We further fuse and ...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.09556v1",
+      "published_at": "2026-03-10T00:00:00",
+      "fetched_at": "2026-03-11T01:41:05.120986Z",
+      "authors": "Petr Grinberg, Hassan Shahmohammadi",
+      "topics": [
+        "cs.CL",
+        "Reasoning",
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "6060b11b-7a6a-451c-9a55-a7ba21defc7d",
+      "title": "What Do We Care About in Bandits with Noncompliance? BRACE: Bandits with Recommendations, Abstention, and Certified Effects",
+      "description": "Bandits with noncompliance separate the learner's recommendation from the treatment actually delivered, so the learning target itself must be chosen. A platform may care about recommendation welfare in the current mediated workflow, treatment learning for a future direct-control regime, or anytime-valid uncertainty for one of those targets. These objectives need not agree. We formalize this objective-choice problem, identify the direct-control regime in which recommendation and treatment obje...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.09532v1",
+      "published_at": "2026-03-10T00:00:00",
+      "fetched_at": "2026-03-11T01:41:05.120986Z",
+      "authors": "Nicolás Della Penna",
+      "topics": [],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "b83c8da6-aa73-4bb3-b6ea-f36c61500686",
+      "title": "You Didn't Have to Say It like That: Subliminal Learning from Faithful Paraphrases",
+      "description": "When language models are trained on synthetic data, they (student model) can covertly acquire behavioral traits from the data-generating model (teacher model). Subliminal learning refers to the transmission of traits from a teacher to a student model via training on data unrelated to those traits. Prior work demonstrated this in the training domains of number sequences, code, and math Chain-of-Thought traces including transmission of misaligned behaviors. We investigate whether transmission o...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.09517v1",
+      "published_at": "2026-03-10T00:00:00",
+      "fetched_at": "2026-03-11T01:41:05.120986Z",
+      "authors": "Isaia Gisler, Zhonghao He, Tianyi Qiu",
+      "topics": [
+        "cs.CL",
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "537b1222-dc71-4851-aa56-19fc93355f25",
+      "title": "Vibe-Creation: The Epistemology of Human-AI Emergent Cognition",
+      "description": "The encounter between human reasoning and generative artificial intelligence (GenAI) cannot be adequately described by inherited metaphors of tool use, augmentation, or collaborative partnership. This article argues that such interactions produce a qualitatively distinct cognitive-epistemic formation, designated here as the Third Entity: an emergent, transient structure that arises from the transductive coupling of two ontologically incommensurable modes of cognition. Drawing on Peirce semiot...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.09486v1",
+      "published_at": "2026-03-10T00:00:00",
+      "fetched_at": "2026-03-11T01:41:05.120986Z",
+      "authors": "Ilya Levin",
+      "topics": [
+        "cs.AI",
+        "Reasoning",
+        "Tool Use"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "55ca3dac-5b95-4544-b911-1aefb172fabb",
+      "title": "Retrieval-Augmented Generation for Predicting Cellular Responses to Gene Perturbation",
+      "description": "Predicting how cells respond to genetic perturbations is fundamental to understanding gene function, disease mechanisms, and therapeutic development. While recent deep learning approaches have shown promise in modeling single-cell perturbation responses, they struggle to generalize across cell types and perturbation contexts due to limited contextual information during generation. We introduce PT-RAG (Perturbation-aware Two-stage Retrieval-Augmented Generation), a novel framework that extends...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.07233",
+      "published_at": "2026-03-07T14:31:27+00:00",
+      "fetched_at": "2026-03-11T01:41:05.120986Z",
+      "authors": "Andrea Giuseppe Di Francesco, Andrea Rubbi, Pietro Liò",
+      "topics": [],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "8d310309-9eb8-433f-befa-eebb27ab61b2",
+      "title": "LiveWorld: Simulating Out-of-Sight Dynamics in Generative Video World Models",
+      "description": "Recent generative video world models aim to simulate visual environment evolution, allowing an observer to interactively explore the scene via camera control. However, they implicitly assume that the world only evolves within the observer's field of view. Once an object leaves the observer's view, its state is \"frozen\" in memory, and revisiting the same region later often fails to reflect events that should have occurred in the meantime. In this work, we identify and formalize this overlooked...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.07145",
+      "published_at": "2026-03-07T10:31:39+00:00",
+      "fetched_at": "2026-03-11T01:41:05.120986Z",
+      "authors": "Zicheng Duan, Jiatong Xia, Zeyu Zhang, Wenbo Zhang, Gengze Zhou et al. (10 authors)",
+      "topics": [
+        "Vision"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "cede5608-6329-428e-b8bb-7a10ffa33c64",
       "title": "Gemini in Google Sheets just achieved state-of-the-art performance.",
       "description": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Workspace_Jan_Moment_Sheets_Blo.max-600x600.format-webp.webp\" />Today we announced new beta features for Gemini in Sheets to help you create, organize and edit entire sheets, from basic tasks to complex data analysis — just describe …",
