@@ -170,8 +170,6 @@ def mock_blog_feed():
 @pytest.fixture
 def env_vars(monkeypatch):
     """Set up required environment variables for testing."""
-    monkeypatch.setenv("TWILIO_ACCOUNT_SID", "test_sid")
-    monkeypatch.setenv("TWILIO_AUTH_TOKEN", "test_token")
-    monkeypatch.setenv("TWILIO_WHATSAPP_NUMBER", "whatsapp:+14155238886")
-    monkeypatch.setenv("YOUR_WHATSAPP_NUMBER", "whatsapp:+14081234567")
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "test_bot_token")
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "12345")
     monkeypatch.setenv("OPENAI_API_KEY", "test_openai_key")

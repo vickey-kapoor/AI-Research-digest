@@ -145,7 +145,7 @@ def export_digest(
     top_paper_id: str,
     papers_fetched: int,
     pdf_path: str = None,
-    whatsapp_sent: bool = False,
+    telegram_sent: bool = False,
     workflow_run_id: str = None
 ):
     """
@@ -155,7 +155,7 @@ def export_digest(
         top_paper_id: ID of the top-ranked paper
         papers_fetched: Number of papers fetched
         pdf_path: Path to generated PDF report
-        whatsapp_sent: Whether WhatsApp message was sent
+        telegram_sent: Whether Telegram message was sent
         workflow_run_id: GitHub Actions run ID (optional)
     """
     data = load_json("digests.json")
@@ -172,7 +172,7 @@ def export_digest(
             digest["papers_fetched"] = papers_fetched
             if pdf_path:
                 digest["pdf_path"] = pdf_path
-            digest["whatsapp_sent"] = whatsapp_sent
+            digest["telegram_sent"] = telegram_sent
             if workflow_run_id:
                 digest["workflow_run_id"] = workflow_run_id
             save_json("digests.json", data)
@@ -185,7 +185,7 @@ def export_digest(
         "top_paper_id": top_paper_id or "",
         "papers_fetched": papers_fetched,
         "pdf_path": pdf_path or "",
-        "whatsapp_sent": whatsapp_sent,
+        "telegram_sent": telegram_sent,
         "workflow_run_id": workflow_run_id or ""
     }
 
