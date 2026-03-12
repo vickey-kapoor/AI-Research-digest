@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-03-12",
+      "top_paper_id": "9989eaa3-7887-44de-b6f8-b60083dc3837",
+      "papers_fetched": 10,
+      "pdf_path": "reports/12-Mar/A_Hybrid_Knowledge-Grounded_Framework_for_Safety_a.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "23014050241"
+    },
+    {
       "date": "2026-03-11",
       "top_paper_id": "18d9cdfe-a5fc-4fae-b635-400991da0b98",
       "papers_fetched": 10,

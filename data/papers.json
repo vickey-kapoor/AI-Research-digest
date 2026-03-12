@@ -1,6 +1,151 @@
 {
   "papers": [
     {
+      "id": "aed467f7-2fcd-47b6-a996-ae3c18fb47a9",
+      "title": "Causal Concept Graphs in LLM Latent Space for Stepwise Reasoning",
+      "description": "Sparse autoencoders can localize where concepts live in language models, but not how they interact during multi-step reasoning. We propose Causal Concept Graphs (CCG): a directed acyclic graph over sparse, interpretable latent features, where edges capture learned causal dependencies between concepts. We combine task-conditioned sparse autoencoders for concept discovery with DAGMA-style differentiable structure learning for graph recovery and introduce the Causal Fidelity Score (CFS) to evalu...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.10377",
+      "published_at": "2026-03-11T03:46:38+00:00",
+      "fetched_at": "2026-03-12T17:03:33.080733Z",
+      "authors": "Md Muntaqim Meherab, Noor Islam S. Mohammad, Faiza Feroz",
+      "topics": [
+        "Reasoning",
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "4afda15f-bc0a-46ec-8afb-16e8e417724c",
+      "title": "Does AI See like Art Historians? Interpreting How Vision Language Models Recognize Artistic Style",
+      "description": "VLMs have become increasingly proficient at a range of computer vision tasks, such as visual question answering and object detection. This includes increasingly strong capabilities in the domain of art, from analyzing artwork to generation of art. In an interdisciplinary collaboration between computer scientists and art historians, we characterize the mechanisms underlying VLMs' ability to predict artistic style and assess the extent to which they align with the criteria art historians use to...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.11024v1",
+      "published_at": "2026-03-11T00:00:00",
+      "fetched_at": "2026-03-12T17:03:33.080733Z",
+      "authors": "Marvin Limpijankit, Milad Alshomary, Yassin Oulad Daoud, Amith Ananthram, Tim Trombley, Elias Ste...",
+      "topics": [
+        "LLM",
+        "Vision"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "c4d0a1e8-8423-4367-8625-618084ae34bf",
+      "title": "GroundCount: Grounding Vision-Language Models with Object Detection for Mitigating Counting Hallucinations",
+      "description": "Vision Language Models (VLMs) exhibit persistent hallucinations in counting tasks, with accuracy substantially lower than other visual reasoning tasks (excluding sentiment). This phenomenon persists even in state-of-the-art reasoning-capable VLMs. Conversely, CNN-based object detection models (ODMs) such as YOLO excel at spatial localization and instance counting with minimal computational overhead. We propose GroundCount, a framework that augments VLMs with explicit spatial grounding from OD...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.10978v1",
+      "published_at": "2026-03-11T00:00:00",
+      "fetched_at": "2026-03-12T17:03:33.080733Z",
+      "authors": "Boyuan Chen, Minghao Shao, Siddharth Garg, Ramesh Karri, Muhammad Shafique",
+      "topics": [
+        "cs.CL",
+        "Reasoning",
+        "LLM",
+        "Vision"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "2915910b-a8f7-4cb1-9aa0-1181c65726ed",
+      "title": "Ranking Reasoning LLMs under Test-Time Scaling",
+      "description": "Test-time scaling evaluates reasoning LLMs by sampling multiple outputs per prompt, but ranking models in this regime remains underexplored. We formalize dense benchmark ranking under test-time scaling and introduce Scorio, a library that implements statistical ranking methods such as paired-comparison models, item response theory (IRT) models, voting rules, and graph- and spectral-based methods. Across $20$ reasoning models on four Olympiad-style math benchmarks (AIME'24, AIME'25, HMMT'25, a...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.10960v1",
+      "published_at": "2026-03-11T00:00:00",
+      "fetched_at": "2026-03-12T17:03:33.080733Z",
+      "authors": "Mohsen Hariri, Michael Hinczewski, Jing Ma, Vipin Chaudhary",
+      "topics": [
+        "Reasoning",
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "be1c1fc0-1441-4866-9fea-a758834431cd",
+      "title": "LLM2Vec-Gen: Generative Embeddings from Large Language Models",
+      "description": "LLM-based text embedders typically encode the semantic content of their input. However, embedding tasks require mapping diverse inputs to similar outputs. Typically, this input-output is addressed by training embedding models with paired data using contrastive learning. In this work, we propose a novel self-supervised approach, LLM2Vec-Gen, which adopts a different paradigm: rather than encoding the input, we learn to represent the model's potential response. Specifically, we add trainable sp...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.10913v1",
+      "published_at": "2026-03-11T00:00:00",
+      "fetched_at": "2026-03-12T17:03:33.080733Z",
+      "authors": "Parishad BehnamGhader, Vaibhav Adlakha, Fabian David Schmidt, Nicolas Chapados, Marius Mosbach, S...",
+      "topics": [
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "9989eaa3-7887-44de-b6f8-b60083dc3837",
+      "title": "A Hybrid Knowledge-Grounded Framework for Safety and Traceability in Prescription Verification",
+      "description": "Medication errors pose a significant threat to patient safety, making pharmacist verification (PV) a critical, yet heavily burdened, final safeguard. The direct application of Large Language Models (LLMs) to this zero-tolerance domain is untenable due to their inherent factual unreliability, lack of traceability, and weakness in complex reasoning. To address these challenges, we introduce PharmGraph-Auditor, a novel system designed for safe and evidence-grounded prescription auditing. The cor...",
+      "source": "arXiv",
+      "url": "https://arxiv.org/abs/2603.10891v1",
+      "published_at": "2026-03-11T00:00:00",
+      "fetched_at": "2026-03-12T17:03:33.080733Z",
+      "authors": "Yichi Zhu, Kan Ling, Xu Liu, Hengrun Zhang, Huiqun Yu, Guisheng Fan",
+      "topics": [
+        "cs.CL",
+        "Reasoning",
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "f9134208-1cb9-4944-817f-a88ae8eec06b",
+      "title": "Lost in Backpropagation: The LM Head is a Gradient Bottleneck",
+      "description": "The last layer of neural language models (LMs) projects output features of dimension D to logits in dimension V, the size of the vocabulary, where usually D ll V. This mismatch is known to raise risks of limited expressivity in neural LMs, creating a so-called softmax bottleneck. We show the softmax bottleneck is not only an expressivity bottleneck but also an optimization bottleneck. Backpropagating V-dimensional gradients through a rank-D linear layer induces unavoidable compression, which ...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.10145",
+      "published_at": "2026-03-10T18:27:01+00:00",
+      "fetched_at": "2026-03-12T17:03:33.080733Z",
+      "authors": "Nathan Godey, Yoav Artzi",
+      "topics": [
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "8ad16b75-e8e0-49ba-a3ab-1bbeefbe6383",
+      "title": "StyleVLA: Driving Style-Aware Vision Language Action Model for Autonomous Driving",
+      "description": "Vision Language Models (VLMs) bridge visual perception and linguistic reasoning. In Autonomous Driving (AD), this synergy has enabled Vision Language Action (VLA) models, which translate high-level multimodal understanding into driving behaviors, typically represented as future trajectories. However, existing VLA models mainly generate generic collision-free trajectories. Beyond collision avoidance, adapting to diverse driving styles (e.g., sporty, comfortable) is essential for personalized d...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.09482",
+      "published_at": "2026-03-10T10:33:58+00:00",
+      "fetched_at": "2026-03-12T17:03:33.080733Z",
+      "authors": "Yuan Gao, Dengyuan Hua, Mattia Piccinini, Finn Rasmus Schäfer, Korbinian Moller et al. (7 authors)",
+      "topics": [
+        "Reasoning",
+        "LLM",
+        "Vision"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "e47c92cf-cb57-48a7-84e3-6a21d63b92e4",
+      "title": "Hindsight Credit Assignment for Long-Horizon LLM Agents",
+      "description": "Large Language Model (LLM) agents often face significant credit assignment challenges in long-horizon, multi-step tasks due to sparse rewards. Existing value-free methods, such as Group Relative Policy Optimization (GRPO), encounter two fundamental bottlenecks: inaccurate step-level Q-value estimation and misaligned value baselines for intermediate states. To address these limitations, we introduce HCAPO, the first framework to integrate hindsight credit assignment into LLM agents. HCAPO leve...",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/papers/2603.08754",
+      "published_at": "2026-03-07T06:05:20+00:00",
+      "fetched_at": "2026-03-12T17:03:33.080733Z",
+      "authors": "Hui-Ze Tan, Xiao-Wen Yang, Hao Chen, Jie-Jing Shao, Yi Wen et al. (10 authors)",
+      "topics": [
+        "LLM"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "18d9cdfe-a5fc-4fae-b635-400991da0b98",
       "title": "Do What I Say: A Spoken Prompt Dataset for Instruction-Following",
       "description": "Speech Large Language Models (SLLMs) have rapidly expanded, supporting a wide range of tasks. These models are typically evaluated using text prompts, which may not reflect real-world scenarios where users interact with speech. To address this gap, we introduce DoWhatISay (DOWIS), a multilingual dataset of human-recorded spoken and written prompts designed to pair with any existing benchmark for realistic evaluation of SLLMs under spoken instruction conditions. Spanning 9 tasks and 11 languag...",
