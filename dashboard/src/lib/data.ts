@@ -25,11 +25,9 @@ export interface Digest {
 export interface Config {
   keywords: string[];
   sources: {
-    arxiv: boolean;
-    huggingface: boolean;
-    pwc: boolean;
     blogs: boolean;
   };
+  labs: string[];
   schedule: string;
   telegram_enabled: boolean;
 }
@@ -69,10 +67,12 @@ export async function getDigests(): Promise<Digest[]> {
 export function getConfig(): Config {
   return {
     keywords: [
-      "AI agent", "autonomous agent", "reasoning", "chain of thought",
-      "CoT", "ReAct", "tool use", "planning", "multi-agent", "agentic"
+      "API", "SDK", "model release", "new feature", "changelog",
+      "launch", "developer tools", "fine-tuning", "embeddings",
+      "function calling", "multimodal", "context window"
     ],
-    sources: { arxiv: true, huggingface: true, pwc: true, blogs: true },
+    sources: { blogs: true },
+    labs: ["OpenAI", "Anthropic", "Google DeepMind", "Meta AI"],
     schedule: "0 16 * * *",
     telegram_enabled: true,
   };

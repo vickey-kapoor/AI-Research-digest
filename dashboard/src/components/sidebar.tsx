@@ -14,7 +14,7 @@ import {
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: Home },
-  { name: "Papers", href: "/papers", icon: FileText },
+  { name: "Updates", href: "/papers", icon: FileText },
   { name: "Reports", href: "/reports", icon: FolderOpen },
   { name: "Analytics", href: "/analytics", icon: BarChart3 },
   { name: "Settings", href: "/settings", icon: Settings },
@@ -29,8 +29,8 @@ export function Sidebar() {
       <div className="flex h-16 items-center gap-2 px-6 border-b border-gray-200">
         <Brain className="h-8 w-8 text-blue-600" />
         <div className="flex flex-col">
-          <span className="text-sm font-semibold text-gray-900">AI Research</span>
-          <span className="text-xs text-gray-500">Command Center</span>
+          <span className="text-sm font-semibold text-gray-900">AI Dev Digest</span>
+          <span className="text-xs text-gray-500">Product Tracker</span>
         </div>
       </div>
 
