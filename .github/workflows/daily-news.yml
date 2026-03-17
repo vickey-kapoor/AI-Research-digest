@@ -14,10 +14,22 @@ permissions:
 jobs:
   send-news:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Validate secrets
+        run: |
+          missing=""
+          [ -z "${{ secrets.OPENAI_API_KEY }}" ] && missing="$missing OPENAI_API_KEY"
+          [ -z "${{ secrets.TELEGRAM_BOT_TOKEN }}" ] && missing="$missing TELEGRAM_BOT_TOKEN"
+          [ -z "${{ secrets.TELEGRAM_CHAT_ID }}" ] && missing="$missing TELEGRAM_CHAT_ID"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing required secrets:$missing"
+            exit 1
+          fi
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -44,3 +56,8 @@ jobs:
           git add reports/ data/
           git diff --staged --quiet || git commit -m "Add daily research digest for $(date +'%d-%b-%Y')"
           git push
+
+      - name: Annotate on failure
+        if: failure()
+        run: |
+          echo "::error::Daily AI Research Digest pipeline failed. Check the logs above for details."
