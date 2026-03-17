@@ -1,6 +1,7 @@
 """Fetch developer product updates from major AI lab blogs."""
 
-from datetime import datetime
+from datetime import datetime, timezone
+from html.parser import HTMLParser
 import socket
 
 import feedparser
@@ -10,6 +11,27 @@ from src.logger import get_logger
 from src.utils.retry import retry_with_backoff
 
 logger = get_logger(__name__)
+
+
+class _HTMLTextExtractor(HTMLParser):
+    """Extract plain text from HTML content."""
+
+    def __init__(self):
+        super().__init__()
+        self._parts: list[str] = []
+
+    def handle_data(self, data: str):
+        self._parts.append(data)
+
+    def get_text(self) -> str:
+        return " ".join("".join(self._parts).split())
+
+
+def _strip_html(text: str) -> str:
+    """Remove HTML tags from text using stdlib HTMLParser."""
+    extractor = _HTMLTextExtractor()
+    extractor.feed(text)
+    return extractor.get_text()
 
 
 @retry_with_backoff(
@@ -40,7 +62,7 @@ def _parse_date(entry: dict) -> str:
                     return datetime(*parsed[:6]).isoformat()
             except (TypeError, ValueError):
                 pass
-    return datetime.now().isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 def _fetch_single_feed(source: str, url: str, max_per_source: int) -> list[dict]:
@@ -57,10 +79,8 @@ def _fetch_single_feed(source: str, url: str, max_per_source: int) -> list[dict]
             title = entry.get("title", "")
             summary = entry.get("summary", "") or entry.get("description", "")
 
-            # Clean summary (remove HTML tags if present)
-            summary = summary.replace("<p>", "").replace("</p>", " ")
-            summary = summary.replace("<br>", " ").replace("<br/>", " ")
-            summary = " ".join(summary.split())  # Normalize whitespace
+            # Clean summary (remove HTML tags)
+            summary = _strip_html(summary)
             if len(summary) > 500:
                 summary = summary[:497] + "..."
 

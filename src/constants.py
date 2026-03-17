@@ -17,6 +17,25 @@ DEDUP_SIMILARITY_THRESHOLD = float(os.getenv("DEDUP_SIMILARITY_THRESHOLD", "0.85
 # Digest settings
 DIGEST_MAX_RESULTS = int(os.getenv("DIGEST_MAX_RESULTS", "10"))
 
+# OpenAI model settings
+OPENAI_MODEL = "gpt-4o-mini"
+OPENAI_TEMPERATURE = 0.7
+OPENAI_MAX_TOKENS_RANKING = 10
+OPENAI_MAX_TOKENS_SUMMARY = 500
+OPENAI_MAX_TOKENS_DETAILED = 1500
+OPENAI_MAX_TOKENS_BUNDLE = 1800
+
+# Telegram settings
+TELEGRAM_API_URL = "https://api.telegram.org/bot{token}/sendMessage"
+TELEGRAM_MAX_MESSAGE_LENGTH = 4096
+
+# Data cap settings
+PAPERS_CAP = 500
+DIGEST_CAP_DAYS = 90
+
+# Thread pool settings
+THREAD_POOL_WORKERS = 2
+
 # Keywords for developer-facing product features
 PRODUCT_FEATURE_KEYWORDS = [
     "API",

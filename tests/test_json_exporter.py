@@ -91,7 +91,7 @@ class TestExportDigest:
 
         class FrozenDatetime:
             @classmethod
-            def utcnow(cls):
+            def now(cls, tz=None):
                 from datetime import datetime
 
                 return datetime(2026, 3, 13, 12, 0, 0)

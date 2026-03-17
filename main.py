@@ -5,6 +5,7 @@ import sys
 
 from dotenv import load_dotenv
 
+from src.constants import DIGEST_MAX_RESULTS
 from src.logger import get_logger
 from src.research_fetcher import fetch_ai_research
 from src.news_ranker import rank_research
@@ -43,7 +44,7 @@ def main():
     logger.info("Fetching product updates from AI labs...")
     research_items = []
     try:
-        research_items = fetch_ai_research(max_results=10)
+        research_items = fetch_ai_research(max_results=DIGEST_MAX_RESULTS)
         logger.info("Found %d product updates", len(research_items))
     except Exception as e:
         logger.error("Error fetching updates: %s", e)

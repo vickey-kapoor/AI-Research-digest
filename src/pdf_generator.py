@@ -2,7 +2,7 @@
 
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from fpdf import FPDF
@@ -51,7 +51,7 @@ class ResearchPDF(FPDF):
         self.cell(0, 10, "Daily AI Dev Digest", align="C", new_x="LMARGIN", new_y="NEXT")
         self.set_font("Helvetica", "I", 10)
         self.set_text_color(100, 100, 100)
-        self.cell(0, 6, datetime.now().strftime("%A, %B %d, %Y"), align="C", new_x="LMARGIN", new_y="NEXT")
+        self.cell(0, 6, datetime.now(timezone.utc).strftime("%A, %B %d, %Y"), align="C", new_x="LMARGIN", new_y="NEXT")
         self.ln(5)
 
     def footer(self):
@@ -74,7 +74,7 @@ def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
         Path to the generated PDF file
     """
     # Create date-formatted folder (e.g., "06-Mar")
-    date_folder = datetime.now().strftime("%d-%b")
+    date_folder = datetime.now(timezone.utc).strftime("%d-%b")
     full_output_dir = Path(output_dir) / date_folder
     full_output_dir.mkdir(parents=True, exist_ok=True)
 

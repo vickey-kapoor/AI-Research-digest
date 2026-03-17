@@ -4,9 +4,10 @@ import json
 import os
 import tempfile
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
+from src.constants import PAPERS_CAP, DIGEST_CAP_DAYS
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -101,7 +102,7 @@ def export_papers(research_items: list[dict], ranked_paper: dict = None) -> str:
         for paper in data["papers"]
     }
     top_paper_id = None
-    now = datetime.utcnow().isoformat() + "Z"
+    now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
     for item in research_items:
         identity = _paper_identity(item)
@@ -139,8 +140,8 @@ def export_papers(research_items: list[dict], ranked_paper: dict = None) -> str:
     # Sort by fetched_at descending
     data["papers"].sort(key=lambda x: x.get("fetched_at", ""), reverse=True)
 
-    # Keep only last 500 papers to prevent unbounded growth
-    data["papers"] = data["papers"][:500]
+    # Keep only last N papers to prevent unbounded growth
+    data["papers"] = data["papers"][:PAPERS_CAP]
 
     save_json("papers.json", data)
     logger.info("Exported %d papers to papers.json", len(research_items))
@@ -196,7 +197,7 @@ def export_digest(
     if "digests" not in data:
         data["digests"] = []
 
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     # Check if digest for today already exists
     for digest in data["digests"]:
@@ -226,8 +227,8 @@ def export_digest(
     # Add to beginning of list
     data["digests"].insert(0, digest)
 
-    # Keep only last 90 days
-    data["digests"] = data["digests"][:90]
+    # Keep only last N days
+    data["digests"] = data["digests"][:DIGEST_CAP_DAYS]
 
     save_json("digests.json", data)
     logger.info("Exported digest for %s", today)

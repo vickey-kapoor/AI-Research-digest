@@ -3,10 +3,23 @@
 from openai import OpenAI
 
 from src.ai_text import sanitize_prompt_text
+from src.constants import OPENAI_MODEL, OPENAI_MAX_TOKENS_RANKING
 from src.logger import get_logger
+from src.utils.retry import retry_with_backoff
 
 logger = get_logger(__name__)
 _sanitize_text = sanitize_prompt_text
+
+
+@retry_with_backoff(max_retries=2, base_delay=1.0, exceptions=(Exception,))
+def _call_openai_ranking(client: OpenAI, prompt: str):
+    """Make an OpenAI API call for ranking with retry logic."""
+    return client.chat.completions.create(
+        model=OPENAI_MODEL,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=OPENAI_MAX_TOKENS_RANKING,
+        temperature=0,
+    )
 
 
 def rank_research(research: list[dict], api_key: str) -> dict:
@@ -50,12 +63,7 @@ Product Updates:
 Respond with ONLY the number (e.g., "1" or "3"). No explanation."""
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=10,
-            temperature=0,
-        )
+        response = _call_openai_ranking(client, prompt)
 
         content = response.choices[0].message.content
         if content:

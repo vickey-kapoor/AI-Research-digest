@@ -5,11 +5,12 @@ from urllib.parse import urlparse
 
 import requests
 
+from src.constants import TELEGRAM_API_URL, TELEGRAM_MAX_MESSAGE_LENGTH
 from src.logger import get_logger
+from src.utils.retry import retry_with_backoff
 
 logger = get_logger(__name__)
 
-TELEGRAM_API = "https://api.telegram.org/bot{token}/sendMessage"
 MARKDOWN_SPECIAL_CHARS = "\\_*[]()`"
 
 
@@ -55,6 +56,13 @@ def _truncate(text: str, max_len: int) -> str:
     return text[: max_len - 3].rsplit(" ", 1)[0] + "..."
 
 
+def _truncate_message(message: str) -> str:
+    """Truncate message to Telegram's maximum message length."""
+    if len(message) <= TELEGRAM_MAX_MESSAGE_LENGTH:
+        return message
+    return message[: TELEGRAM_MAX_MESSAGE_LENGTH - 3].rsplit("\n", 1)[0] + "..."
+
+
 def _escape_markdown(text: str) -> str:
     """Escape Telegram Markdown special characters in user-controlled text."""
     if not text:
@@ -96,6 +104,7 @@ _Lab: {source}_"""
     return message
 
 
+@retry_with_backoff(max_retries=2, base_delay=1.0, exceptions=(requests.RequestException,))
 def send_telegram_message(bot_token: str, chat_id: str, message: str) -> bool:
     """
     Send a message via Telegram Bot API.
@@ -108,7 +117,8 @@ def send_telegram_message(bot_token: str, chat_id: str, message: str) -> bool:
     Returns:
         True if message was sent successfully
     """
-    url = TELEGRAM_API.format(token=bot_token)
+    message = _truncate_message(message)
+    url = TELEGRAM_API_URL.format(token=bot_token)
     payload = {
         "chat_id": chat_id,
         "text": message,

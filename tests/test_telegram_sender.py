@@ -6,6 +6,7 @@ from unittest.mock import Mock, patch
 from src.telegram_sender import (
     _validate_url,
     _truncate,
+    _truncate_message,
     _escape_markdown,
     format_research_message,
     send_telegram_message,
@@ -70,6 +71,31 @@ class TestTruncate:
         text = "This is a test sentence"
         result = _truncate(text, 15)
         assert result == "This is a..."
+
+
+class TestTruncateMessage:
+    """Tests for Telegram message truncation."""
+
+    def test_short_message_unchanged(self):
+        message = "Hello world"
+        assert _truncate_message(message) == message
+
+    def test_long_message_truncated(self):
+        message = "Line\n" * 2000  # Way over 4096
+        result = _truncate_message(message)
+        assert len(result) <= 4096
+        assert result.endswith("...")
+
+    def test_exact_limit_unchanged(self):
+        message = "a" * 4096
+        assert _truncate_message(message) == message
+
+    def test_truncation_at_newline_boundary(self):
+        # Build a message just over the limit
+        message = "Short line\n" * 400  # 4400 chars
+        result = _truncate_message(message)
+        assert len(result) <= 4096
+        assert result.endswith("...")
 
 
 class TestEscapeMarkdown:
@@ -141,3 +167,18 @@ class TestSendTelegramMessage:
 
         with pytest.raises(Exception):
             send_telegram_message("test_token", "12345", "Test message")
+
+    @patch("src.telegram_sender.requests.post")
+    def test_send_message_truncates_long_message(self, mock_post):
+        mock_response = Mock()
+        mock_response.json.return_value = {"ok": True}
+        mock_response.raise_for_status = Mock()
+        mock_post.return_value = mock_response
+
+        long_message = "A" * 5000
+        send_telegram_message("test_token", "12345", long_message)
+
+        # Verify the message sent was truncated
+        call_args = mock_post.call_args
+        sent_message = call_args[1]["json"]["text"] if "json" in call_args[1] else call_args[0][1]["text"]
+        assert len(sent_message) <= 4096

@@ -5,7 +5,7 @@ from datetime import datetime
 from difflib import SequenceMatcher
 from typing import Callable
 
-from src.constants import DEDUP_SIMILARITY_THRESHOLD
+from src.constants import DEDUP_SIMILARITY_THRESHOLD, THREAD_POOL_WORKERS
 from src.fetchers.blog_fetcher import fetch_blog_posts
 from src.logger import get_logger
 
@@ -69,7 +69,7 @@ def fetch_ai_research(max_results: int = 5) -> list[dict]:
     all_research = []
 
     # Fetch from all sources in parallel
-    with ThreadPoolExecutor(max_workers=2) as executor:
+    with ThreadPoolExecutor(max_workers=THREAD_POOL_WORKERS) as executor:
         future_to_source = {
             executor.submit(fetcher, count): source
             for source, fetcher, count in fetchers
