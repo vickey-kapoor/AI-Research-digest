@@ -66,7 +66,7 @@ export default async function AnalyticsPage({
   // Calculate daily trends
   const dailyCounts: Record<string, number> = {};
   papers.forEach((p) => {
-    const date = p.fetched_at.split("T")[0];
+    const date = (p.fetched_at || "").split("T")[0];
     dailyCounts[date] = (dailyCounts[date] || 0) + 1;
   });
 
