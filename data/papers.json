@@ -1,6 +1,21 @@
 {
   "papers": [
     {
+      "id": "ec69f3c4-5569-5a4d-a370-f9adef35fe2f",
+      "title": "Powering product discovery in ChatGPT",
+      "description": "ChatGPT introduces richer, visually immersive shopping powered by the Agentic Commerce Protocol, enabling product discovery, side-by-side comparisons, and merchant integration.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/powering-product-discovery-in-chatgpt",
+      "published_at": "2026-03-24T09:00:00",
+      "fetched_at": "2026-03-24T17:07:35.274650Z",
+      "authors": "OpenAI",
+      "topics": [
+        "Model Release"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "863bb8fc-14ae-533d-9a07-3fee09e222df",
       "title": "Creating with Sora Safely",
       "description": "To address the novel safety challenges posed by a state-of-the-art video model as well as a new social creation platform, we’ve built Sora 2 and the Sora app with safety at the foundation. Our approach is anchored in concrete protections.",
