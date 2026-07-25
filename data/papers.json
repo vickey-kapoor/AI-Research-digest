@@ -1,6 +1,34 @@
 {
   "papers": [
     {
+      "id": "79d54e14-da74-5164-9f09-53e3012ac455",
+      "title": "ARC-AGI Leaderboard",
+      "summary": "158 points · 126 comments",
+      "source": "Hacker News",
+      "url": "https://arcprize.org/leaderboard",
+      "published_at": "2026-07-25T06:31:40+00:00",
+      "fetched_at": "2026-07-25T17:05:48.976731Z",
+      "type": "discussion",
+      "topics": [],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "1113ec27-809b-5dc3-92fb-0efc7393dadd",
+      "title": "The Long (Self-)Correction",
+      "summary": "I propose the Long Self-Correction[1] as an alternative name/idea/concept to AI Pause and Long Reflection.Problem with AI Pause: Pause until when, and for what purpose? Presumably to make AI (that we'll build later) safer, but the deeper problem is that humans aren't safe, and can't safely serve as builders, overseers, or alignment targets for powerful AIs.Problem with Long Reflection: It seems to imply that the main problem with humans is that we just haven't had enough time to think, that r...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/2iCmDWewnZWQxxwtt/the-long-self-correction-2",
+      "published_at": "2026-07-24T21:01:47",
+      "fetched_at": "2026-07-25T17:05:48.976731Z",
+      "type": "announcement",
+      "topics": [
+        "Alignment"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "9b3d5fb0-34ec-55db-bd0b-0ab7bf0d4288",
       "title": "Are we existentially threatened by the type of AI misalignment seen in the OpenAI Hugging Face attack?",
       "summary": "OpenAI models recently broke through a series of security boundaries and into Hugging Face servers in order to cheat on a cyber eval. A lot of people thought it was scary because it was a clear example of AI overreaching to do something strongly unwanted[1]. Others thought it not so scary: the models were mostly operating myopically on a singular task and not harboring an ambitious long-term agenda, and so would not take especially subtle or subversive actions.We think both camps are right in...",

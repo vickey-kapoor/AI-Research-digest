@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-07-25",
+      "top_paper_id": "79d54e14-da74-5164-9f09-53e3012ac455",
+      "papers_fetched": 2,
+      "pdf_path": "reports/25-Jul/ARC-AGI_Leaderboard.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "30166924479"
+    },
+    {
       "date": "2026-07-24",
       "top_paper_id": "",
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/22-Apr/Company-wise_memory_in_Amazon_Bedrock_with_Amazon.pdf",
       "telegram_sent": true,
       "workflow_run_id": "24791889710"
-    },
-    {
-      "date": "2026-04-21",
-      "top_paper_id": "e5e0ca08-d2e8-55ea-bfff-75cfd85558a6",
-      "papers_fetched": 10,
-      "pdf_path": "reports/21-Apr/Modernizing_the_Facebook_Groups_Search_to_Unlock_t.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "24735987957"
     }
   ]
 }
