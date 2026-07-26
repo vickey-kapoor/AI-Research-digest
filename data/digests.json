@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-07-26",
+      "top_paper_id": "1113ec27-809b-5dc3-92fb-0efc7393dadd",
+      "papers_fetched": 1,
+      "pdf_path": "reports/26-Jul/The_Long_Self-Correction.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "30211934039"
+    },
+    {
       "date": "2026-07-25",
       "top_paper_id": "79d54e14-da74-5164-9f09-53e3012ac455",
       "papers_fetched": 2,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/23-Apr/unsloth_v0137-beta_released.pdf",
       "telegram_sent": true,
       "workflow_run_id": "24849136377"
-    },
-    {
-      "date": "2026-04-22",
-      "top_paper_id": "d1ff40e3-96b2-5612-81dd-6d10a8fdbdac",
-      "papers_fetched": 10,
-      "pdf_path": "reports/22-Apr/Company-wise_memory_in_Amazon_Bedrock_with_Amazon.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "24791889710"
     }
   ]
 }
