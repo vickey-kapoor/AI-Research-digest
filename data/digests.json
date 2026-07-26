@@ -2,11 +2,11 @@
   "digests": [
     {
       "date": "2026-07-26",
-      "top_paper_id": "1113ec27-809b-5dc3-92fb-0efc7393dadd",
+      "top_paper_id": null,
       "papers_fetched": 1,
       "pdf_path": "reports/26-Jul/The_Long_Self-Correction.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "30211934039"
+      "telegram_sent": false,
+      "workflow_run_id": "30213683846"
     },
     {
       "date": "2026-07-25",
