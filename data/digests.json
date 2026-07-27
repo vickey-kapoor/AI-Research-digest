@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-07-27",
+      "top_paper_id": "1113ec27-809b-5dc3-92fb-0efc7393dadd",
+      "papers_fetched": 1,
+      "pdf_path": "reports/27-Jul/The_Long_Self-Correction.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "30290769228"
+    },
+    {
       "date": "2026-07-26",
       "top_paper_id": null,
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/24-Apr/I_Cancelled_Claude_Token_Issues_Declining_Qualit.pdf",
       "telegram_sent": true,
       "workflow_run_id": "24901891682"
-    },
-    {
-      "date": "2026-04-23",
-      "top_paper_id": "f2001f5f-3fb6-5514-adb5-df0d80ee9425",
-      "papers_fetched": 9,
-      "pdf_path": "reports/23-Apr/unsloth_v0137-beta_released.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "24849136377"
     }
   ]
 }
