@@ -1,6 +1,21 @@
 {
   "papers": [
     {
+      "id": "6dbc7c5c-9e00-552d-a3b7-1dcffd5eaea1",
+      "title": "Benchmarking Opus 5 on SlopCodeBench",
+      "summary": "378 points · 105 comments",
+      "source": "Hacker News",
+      "url": "https://github.com/humanlayer/advanced-context-engineering-for-coding-agents/blob/main/benchmarking-opus-5-on-slop-code-bench.md",
+      "published_at": "2026-07-27T22:37:52+00:00",
+      "fetched_at": "2026-07-28T17:39:35.577510Z",
+      "type": "discussion",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "79d54e14-da74-5164-9f09-53e3012ac455",
       "title": "ARC-AGI Leaderboard",
       "summary": "158 points · 126 comments",

@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-07-28",
+      "top_paper_id": "6dbc7c5c-9e00-552d-a3b7-1dcffd5eaea1",
+      "papers_fetched": 1,
+      "pdf_path": "reports/28-Jul/Benchmarking_Opus_5_on_SlopCodeBench.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "30383857476"
+    },
+    {
       "date": "2026-07-27",
       "top_paper_id": "1113ec27-809b-5dc3-92fb-0efc7393dadd",
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/25-Apr/Show_HN_A_Karpathy-style_LLM_wiki_your_agents_mai.pdf",
       "telegram_sent": true,
       "workflow_run_id": "24935816237"
-    },
-    {
-      "date": "2026-04-24",
-      "top_paper_id": "ffadc7e8-d070-58fe-8b78-1842db8ba60a",
-      "papers_fetched": 10,
-      "pdf_path": "reports/24-Apr/I_Cancelled_Claude_Token_Issues_Declining_Qualit.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "24901891682"
     }
   ]
 }
