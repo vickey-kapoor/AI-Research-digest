@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-07-29",
+      "top_paper_id": "47f4beeb-1170-5b18-ab61-8e756637076b",
+      "papers_fetched": 1,
+      "pdf_path": "reports/29-Jul/Value_Generalisation_3_Pre-aligned_AIs.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "30474831198"
+    },
+    {
       "date": "2026-07-28",
       "top_paper_id": "6dbc7c5c-9e00-552d-a3b7-1dcffd5eaea1",
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/26-Apr/Amateur_armed_with_ChatGPT_solves_an_Erds_problem.pdf",
       "telegram_sent": true,
       "workflow_run_id": "24962805978"
-    },
-    {
-      "date": "2026-04-25",
-      "top_paper_id": "f95dc3fe-bc63-5d48-92ab-510643818d68",
-      "papers_fetched": 10,
-      "pdf_path": "reports/25-Apr/Show_HN_A_Karpathy-style_LLM_wiki_your_agents_mai.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "24935816237"
     }
   ]
 }

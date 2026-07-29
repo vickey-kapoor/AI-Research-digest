@@ -1,6 +1,22 @@
 {
   "papers": [
     {
+      "id": "47f4beeb-1170-5b18-ab61-8e756637076b",
+      "title": "Value Generalisation 3: Pre-aligned AIs",
+      "summary": "When we get explicit strong generalisation to work (see the first post on the matter and the second) my dream would be to create pre-aligned generalising AIs.Think about the usual conflict between alignment and capabilities, between doing the right thing and doing the easy thing. The standard narrative puts the good people at a constant disadvantage: they have to carefully plan every AI advance, always on the lookout for potential dangers. While those who don’t care can just YOLO and let it r...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/uMKGaEKRDpoqnZyBh/value-generalisation-3-pre-aligned-ais",
+      "published_at": "2026-07-29T15:58:16",
+      "fetched_at": "2026-07-29T17:20:38.410191Z",
+      "type": "announcement",
+      "topics": [
+        "Alignment",
+        "Robustness"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "6dbc7c5c-9e00-552d-a3b7-1dcffd5eaea1",
       "title": "Benchmarking Opus 5 on SlopCodeBench",
       "summary": "378 points · 105 comments",
