@@ -1,6 +1,36 @@
 {
   "papers": [
     {
+      "id": "eaeef508-200f-5848-85c6-ecee50c5cddb",
+      "title": "Thousand-dimensional structure",
+      "summary": "Summary: One area we plan to explore at Resolution is personas and character training, operationalized as finding and controlling low-dimensional structure in models that emerges in pretraining and flows through post-training to superintelligence. The hope is to expand and systematize phenomena such as emergent misalignment, subliminal learning, and other empirical persona research, then intervene on this structure without accidentally hiding undesirable behavior elsewhere. If this approach r...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/sFhW3ZnPMJdnB4Dd6/thousand-dimensional-structure-1",
+      "published_at": "2026-07-30T14:04:05",
+      "fetched_at": "2026-07-30T17:41:13.213966Z",
+      "type": "announcement",
+      "topics": [
+        "Alignment"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "ee1fcb0f-3f3d-5ef5-b18b-cf28c78fb77f",
+      "title": "How enabling two settings tripled our scores on the ARC-AGI-3 benchmark",
+      "summary": "How two API settings improved GPT-5.6 performance on ARC-AGI-3, boosting scores and efficiency by retaining reasoning and enabling compaction.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/how-two-settings-tripled-our-arc-agi-3-scores",
+      "published_at": "2026-07-29T15:00:00",
+      "fetched_at": "2026-07-30T17:41:13.213966Z",
+      "type": "announcement",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "47f4beeb-1170-5b18-ab61-8e756637076b",
       "title": "Value Generalisation 3: Pre-aligned AIs",
       "summary": "When we get explicit strong generalisation to work (see the first post on the matter and the second) my dream would be to create pre-aligned generalising AIs.Think about the usual conflict between alignment and capabilities, between doing the right thing and doing the easy thing. The standard narrative puts the good people at a constant disadvantage: they have to carefully plan every AI advance, always on the lookout for potential dangers. While those who don’t care can just YOLO and let it r...",

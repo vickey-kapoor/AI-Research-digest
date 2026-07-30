@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-07-30",
+      "top_paper_id": "eaeef508-200f-5848-85c6-ecee50c5cddb",
+      "papers_fetched": 2,
+      "pdf_path": "reports/30-Jul/Thousand-dimensional_structure.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "30567020441"
+    },
+    {
       "date": "2026-07-29",
       "top_paper_id": "47f4beeb-1170-5b18-ab61-8e756637076b",
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/27-Apr/Build_Strands_Agents_with_SageMaker_AI_models_and.pdf",
       "telegram_sent": true,
       "workflow_run_id": "25009698132"
-    },
-    {
-      "date": "2026-04-26",
-      "top_paper_id": "9f89788e-2cb4-59b9-a06c-4ec402ba48b4",
-      "papers_fetched": 10,
-      "pdf_path": "reports/26-Apr/Amateur_armed_with_ChatGPT_solves_an_Erds_problem.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "24962805978"
     }
   ]
 }
