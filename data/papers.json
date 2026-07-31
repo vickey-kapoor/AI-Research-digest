@@ -1,6 +1,51 @@
 {
   "papers": [
     {
+      "id": "4b18302d-379f-539d-b266-bf5c5221ae29",
+      "title": "AGI Safety and Alignment at Google DeepMind: A Summary of Recent Work (July 2026)",
+      "summary": "Cross-posted from our new SubstackIt’s been nearly two years since our last major update here in August 2024 and we wanted to share another recap of our recent work with the AGI safety community. Things have changed a lot since then. We are now fully in the midgame, and focus more on landing things in production.Who are we?We are the AGI Safety and Alignment Team (ASAT), the main group at Google DeepMind working directly on technical approaches to existential risk from AI systems. Last year w...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/ZTdRtSWaw7JgqEtfa/agi-safety-and-alignment-at-google-deepmind-a-summary-of-1",
+      "published_at": "2026-07-31T15:57:59",
+      "fetched_at": "2026-07-31T17:45:10.281182Z",
+      "type": "announcement",
+      "topics": [
+        "Alignment"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "2e46b7ca-f417-531c-a3d4-30453c36c81c",
+      "title": "Situational Awareness down 67% in July in AI stock rout",
+      "summary": "114 points · 110 comments",
+      "source": "Hacker News",
+      "url": "https://www.wsj.com/finance/investing/situational-awareness-down-67-in-july-in-ai-stock-rout-cd19901f",
+      "published_at": "2026-07-31T13:37:36+00:00",
+      "fetched_at": "2026-07-31T17:45:10.281182Z",
+      "type": "discussion",
+      "topics": [
+        "Agentic Safety"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "07993700-7104-58de-9f4c-9fb2977e6c71",
+      "title": "Investigating three real-world incidents in our cybersecurity evaluations",
+      "summary": "203 points · 164 comments",
+      "source": "Hacker News",
+      "url": "https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals",
+      "published_at": "2026-07-30T23:00:51+00:00",
+      "fetched_at": "2026-07-31T17:45:10.281182Z",
+      "type": "discussion",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "eaeef508-200f-5848-85c6-ecee50c5cddb",
       "title": "Thousand-dimensional structure",
       "summary": "Summary: One area we plan to explore at Resolution is personas and character training, operationalized as finding and controlling low-dimensional structure in models that emerges in pretraining and flows through post-training to superintelligence. The hope is to expand and systematize phenomena such as emergent misalignment, subliminal learning, and other empirical persona research, then intervene on this structure without accidentally hiding undesirable behavior elsewhere. If this approach r...",

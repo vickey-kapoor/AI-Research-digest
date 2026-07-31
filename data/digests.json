@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-07-31",
+      "top_paper_id": "4b18302d-379f-539d-b266-bf5c5221ae29",
+      "papers_fetched": 3,
+      "pdf_path": "reports/31-Jul/AGI_Safety_and_Alignment_at_Google_DeepMind_A_Sum.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "30652362124"
+    },
+    {
       "date": "2026-07-30",
       "top_paper_id": "eaeef508-200f-5848-85c6-ecee50c5cddb",
       "papers_fetched": 2,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/28-Apr/Migrating_a_text_agent_to_a_voice_assistant_with_A.pdf",
       "telegram_sent": true,
       "workflow_run_id": "25068936244"
-    },
-    {
-      "date": "2026-04-27",
-      "top_paper_id": "b1103cbc-b054-5a88-8e16-1f5933dbf9fd",
-      "papers_fetched": 10,
-      "pdf_path": "reports/27-Apr/Build_Strands_Agents_with_SageMaker_AI_models_and.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25009698132"
     }
   ]
 }
