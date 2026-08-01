@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-01",
+      "top_paper_id": "a0193258-37e8-5ffa-bdb4-a3934ae62505",
+      "papers_fetched": 2,
+      "pdf_path": "reports/01-Aug/Ten_advances_in_mathematics_and_theoretical_comput.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "30709595329"
+    },
+    {
       "date": "2026-07-31",
       "top_paper_id": "4b18302d-379f-539d-b266-bf5c5221ae29",
       "papers_fetched": 3,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/29-Apr/Introducing_AutoSP.pdf",
       "telegram_sent": true,
       "workflow_run_id": "25124550131"
-    },
-    {
-      "date": "2026-04-28",
-      "top_paper_id": "a1eab60c-1295-528b-a810-ac0e1b9ce915",
-      "papers_fetched": 10,
-      "pdf_path": "reports/28-Apr/Migrating_a_text_agent_to_a_voice_assistant_with_A.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25068936244"
     }
   ]
 }
