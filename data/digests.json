@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-03",
+      "top_paper_id": "aced7e44-9028-54fe-b123-4268d6ab4283",
+      "papers_fetched": 4,
+      "pdf_path": "reports/03-Aug/Concrete_Evaluations_to_Investigate_the_OpenAI_Mod.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "30838960176"
+    },
+    {
       "date": "2026-08-02",
       "top_paper_id": null,
       "papers_fetched": 2,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/01-May/Research_Sabotage_in_ML_Codebases.pdf",
       "telegram_sent": true,
       "workflow_run_id": "25223976585"
-    },
-    {
-      "date": "2026-04-30",
-      "top_paper_id": "eaf7a7da-2785-5059-acd8-ea223ed091ea",
-      "papers_fetched": 7,
-      "pdf_path": "reports/30-Apr/AWS_Generative_AI_Model_Agility_Solution_A_compre.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25179595796"
     }
   ]
 }

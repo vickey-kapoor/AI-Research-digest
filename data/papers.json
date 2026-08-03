@@ -1,6 +1,52 @@
 {
   "papers": [
     {
+      "id": "aced7e44-9028-54fe-b123-4268d6ab4283",
+      "title": "Concrete Evaluations to Investigate the OpenAI Model That Hacked Hugging Face",
+      "summary": "[Tweet Thread]This post is written in our personal capacity.Three-Minute Executive SummaryAn OpenAI model/multi-agent system bypassed its sandbox and launched a cyberattack on Hugging Face in order to cheat on a cyber evaluation.In this post, we describe the ambitious, comprehensive alignment evaluation we would run on this model/system if we had unrestricted access to OpenAI.These experiments could also help us understand Claude’s behavior when it hacked external companies during cyber evals...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/aCdhjy7Rps3BEhiSj/concrete-evaluations-to-investigate-the-openai-model-that",
+      "published_at": "2026-08-03T09:23:01",
+      "fetched_at": "2026-08-03T17:56:27.628484Z",
+      "type": "announcement",
+      "topics": [
+        "Alignment",
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "0d3e56a7-6c47-5bb2-a598-87ea44f0d376",
+      "title": "Show HN: Isopolis – Isometric pixel map of SF",
+      "summary": "317 points · 71 comments",
+      "source": "Hacker News",
+      "url": "https://sf.isopolis.city/",
+      "published_at": "2026-08-03T00:46:38+00:00",
+      "fetched_at": "2026-08-03T17:56:27.628484Z",
+      "type": "discussion",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "30b127e8-9be8-5704-9631-375ab7602976",
+      "title": "My personal AI benchmark: “Generate an SVG of a frog with a Habsburg jaw”",
+      "summary": "149 points · 81 comments",
+      "source": "Hacker News",
+      "url": "https://frogs.vaguespac.es/",
+      "published_at": "2026-08-02T19:42:08+00:00",
+      "fetched_at": "2026-08-03T17:56:27.628484Z",
+      "type": "discussion",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "a0193258-37e8-5ffa-bdb4-a3934ae62505",
       "title": "Ten advances in mathematics and theoretical computer science",
       "summary": "OpenAI shares new results on long-standing open problems in mathematics and theoretical computer science, including advances in geometry, cryptography, and complexity.",
