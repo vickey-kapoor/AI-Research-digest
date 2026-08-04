@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-04",
+      "top_paper_id": "",
+      "papers_fetched": 1,
+      "pdf_path": "",
+      "telegram_sent": false,
+      "workflow_run_id": "30936012530"
+    },
+    {
       "date": "2026-08-03",
       "top_paper_id": "aced7e44-9028-54fe-b123-4268d6ab4283",
       "papers_fetched": 4,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/02-May/Risk_from_fitness-seeking_AIs_mechanisms_and_miti.pdf",
       "telegram_sent": true,
       "workflow_run_id": "25257010012"
-    },
-    {
-      "date": "2026-05-01",
-      "top_paper_id": "bf543878-ac4c-570e-959f-92ea16b2abb7",
-      "papers_fetched": 1,
-      "pdf_path": "reports/01-May/Research_Sabotage_in_ML_Codebases.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25223976585"
     }
   ]
 }
