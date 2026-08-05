@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-05",
+      "top_paper_id": "40ae0095-9074-5434-bd11-5a9a460f02b3",
+      "papers_fetched": 3,
+      "pdf_path": "reports/05-Aug/Returning_to_ARC.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "31031513991"
+    },
+    {
       "date": "2026-08-04",
       "top_paper_id": "",
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "25286194105"
-    },
-    {
-      "date": "2026-05-02",
-      "top_paper_id": "a258dfbf-e894-568c-b610-7f361ecb982b",
-      "papers_fetched": 3,
-      "pdf_path": "reports/02-May/Risk_from_fitness-seeking_AIs_mechanisms_and_miti.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25257010012"
     }
   ]
 }

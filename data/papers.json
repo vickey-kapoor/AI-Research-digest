@@ -1,6 +1,37 @@
 {
   "papers": [
     {
+      "id": "40ae0095-9074-5434-bd11-5a9a460f02b3",
+      "title": "Returning to ARC",
+      "summary": "I've returned to the Alignment Research Center (ARC) as executive director. My main focus for the next six months will be driving forward ARC's research agenda—building techniques to find mechanistic explanations for neural network behavior and then using those explanations to detect and address misalignment. I think this is an ambitious bet that attacks the core difficulties in alignment head-on and I'm excited about our chances. I'll still be spending some of my time advising governments[1]...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/vLFh8HP3hyNy9MCwe/returning-to-arc",
+      "published_at": "2026-08-04T22:27:40",
+      "fetched_at": "2026-08-05T17:46:10.744576Z",
+      "type": "announcement",
+      "topics": [
+        "Alignment",
+        "Interpretability"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "c898e3fd-b5ba-58ae-9374-5015af5176b3",
+      "title": "Third-party cyber evaluations involving OpenAI models",
+      "summary": "OpenAI explains recent third-party cybersecurity evaluation incidents and outlines new safeguards to strengthen AI model testing and evaluation.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/third-party-cyber-evaluations-involving-openai-models",
+      "published_at": "2026-08-04T19:00:00",
+      "fetched_at": "2026-08-05T17:46:10.744576Z",
+      "type": "announcement",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "aced7e44-9028-54fe-b123-4268d6ab4283",
       "title": "Concrete Evaluations to Investigate the OpenAI Model That Hacked Hugging Face",
       "summary": "[Tweet Thread]This post is written in our personal capacity.Three-Minute Executive SummaryAn OpenAI model/multi-agent system bypassed its sandbox and launched a cyberattack on Hugging Face in order to cheat on a cyber evaluation.In this post, we describe the ambitious, comprehensive alignment evaluation we would run on this model/system if we had unrestricted access to OpenAI.These experiments could also help us understand Claude’s behavior when it hacked external companies during cyber evals...",
