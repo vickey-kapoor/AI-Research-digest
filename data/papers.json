@@ -1,6 +1,36 @@
 {
   "papers": [
     {
+      "id": "cb6d6bcf-4512-509c-bb5d-42ab6760524d",
+      "title": "Responding to the next frontier of critical cyber capabilities",
+      "summary": "OpenAI is sharing preliminary cybersecurity evaluations for Astra and the steps we’re taking to strengthen safeguards and security controls.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/responding-next-frontier-critical-cyber-capabilities",
+      "published_at": "2026-08-07T15:20:00",
+      "fetched_at": "2026-08-07T16:58:08.105004Z",
+      "type": "announcement",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "262b8981-e5e6-51b4-9dc5-fef16474f067",
+      "title": "Why do models task game?",
+      "summary": "TL;DRHow can we study misalignment with today's models as proxies? They're clearly not paperclip maximizers, but they also often do things the user doesn't want. A strong contender for a real misaligned propensity is task gaming: taking actions that don't complete a task but superficially seem like they do, such as hardcoding tests or falsely claiming a task is fully complete. But maybe task gaming is just a crude heuristic, or the model mistakenly trying to achieve the user's intent? In this...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/HACauvWhEdC6QhdS4/why-do-models-task-game",
+      "published_at": "2026-08-06T22:16:54",
+      "fetched_at": "2026-08-07T16:58:08.105004Z",
+      "type": "announcement",
+      "topics": [
+        "Alignment"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "40ae0095-9074-5434-bd11-5a9a460f02b3",
       "title": "Returning to ARC",
       "summary": "I've returned to the Alignment Research Center (ARC) as executive director. My main focus for the next six months will be driving forward ARC's research agenda—building techniques to find mechanistic explanations for neural network behavior and then using those explanations to detect and address misalignment. I think this is an ambitious bet that attacks the core difficulties in alignment head-on and I'm excited about our chances. I'll still be spending some of my time advising governments[1]...",

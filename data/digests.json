@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-07",
+      "top_paper_id": "cb6d6bcf-4512-509c-bb5d-42ab6760524d",
+      "papers_fetched": 3,
+      "pdf_path": "reports/07-Aug/Responding_to_the_next_frontier_of_critical_cyber.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "31200045357"
+    },
+    {
       "date": "2026-08-05",
       "top_paper_id": "40ae0095-9074-5434-bd11-5a9a460f02b3",
       "papers_fetched": 3,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/04-May/Exploration_Hacking_Can_LLMs_Learn_to_Resist_RL_T.pdf",
       "telegram_sent": true,
       "workflow_run_id": "25334046046"
-    },
-    {
-      "date": "2026-05-03",
-      "top_paper_id": null,
-      "papers_fetched": 2,
-      "pdf_path": "",
-      "telegram_sent": false,
-      "workflow_run_id": "25286194105"
     }
   ]
 }
