@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-08",
+      "top_paper_id": "262b8981-e5e6-51b4-9dc5-fef16474f067",
+      "papers_fetched": 3,
+      "pdf_path": "reports/08-Aug/Why_do_models_task_game.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "31267480292"
+    },
+    {
       "date": "2026-08-07",
       "top_paper_id": "cb6d6bcf-4512-509c-bb5d-42ab6760524d",
       "papers_fetched": 3,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/05-May/GPT-55_Instant_System_Card.pdf",
       "telegram_sent": true,
       "workflow_run_id": "25392457910"
-    },
-    {
-      "date": "2026-05-04",
-      "top_paper_id": "84580914-7787-50a8-9c3b-94e76c186cf4",
-      "papers_fetched": 2,
-      "pdf_path": "reports/04-May/Exploration_Hacking_Can_LLMs_Learn_to_Resist_RL_T.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25334046046"
     }
   ]
 }

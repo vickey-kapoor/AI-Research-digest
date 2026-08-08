@@ -1,6 +1,21 @@
 {
   "papers": [
     {
+      "id": "2335a965-1e2f-5974-92dc-6f2469e09f9c",
+      "title": "User awareness in frontier models",
+      "summary": "Cross-posted on Transluce blog. This is a joint work of Ziqian Zhong, Aditi Raghunathan, Cassidy Laidlaw and Jacob Steinhardt.Modern AI assistants often know who they are talking to: agent scaffolds like Claude Code place the user's e-mail address directly in the model's context, and models can even identify some authors from writing style alone. We study this particular kind of situational awareness, which we call user awareness. When the inferred user is a specific, recognized AI researcher...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/kfunjXeaRTpkT5RAF/user-awareness-in-frontier-models",
+      "published_at": "2026-08-06T20:43:40",
+      "fetched_at": "2026-08-08T16:40:05.626905Z",
+      "type": "announcement",
+      "topics": [
+        "Agentic Safety"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "cb6d6bcf-4512-509c-bb5d-42ab6760524d",
       "title": "Responding to the next frontier of critical cyber capabilities",
       "summary": "OpenAI is sharing preliminary cybersecurity evaluations for Astra and the steps we’re taking to strengthen safeguards and security controls.",
