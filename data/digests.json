@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-09",
+      "top_paper_id": "2335a965-1e2f-5974-92dc-6f2469e09f9c",
+      "papers_fetched": 3,
+      "pdf_path": "reports/09-Aug/User_awareness_in_frontier_models.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "31324428637"
+    },
+    {
       "date": "2026-08-08",
       "top_paper_id": "262b8981-e5e6-51b4-9dc5-fef16474f067",
       "papers_fetched": 3,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/09-May/Running_Codex_safely_at_OpenAI.pdf",
       "telegram_sent": true,
       "workflow_run_id": "25606678822"
-    },
-    {
-      "date": "2026-05-05",
-      "top_paper_id": "e543f090-5551-520c-9de5-c189bfb3a9ac",
-      "papers_fetched": 2,
-      "pdf_path": "reports/05-May/GPT-55_Instant_System_Card.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25392457910"
     }
   ]
 }
