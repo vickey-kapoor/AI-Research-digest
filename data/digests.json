@@ -2,11 +2,11 @@
   "digests": [
     {
       "date": "2026-08-09",
-      "top_paper_id": "2335a965-1e2f-5974-92dc-6f2469e09f9c",
+      "top_paper_id": null,
       "papers_fetched": 3,
       "pdf_path": "reports/09-Aug/User_awareness_in_frontier_models.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "31324428637"
+      "telegram_sent": false,
+      "workflow_run_id": "31326357290"
     },
     {
       "date": "2026-08-08",
