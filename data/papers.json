@@ -1,6 +1,36 @@
 {
   "papers": [
     {
+      "id": "9cb29e96-c26c-57ac-a18d-b1c3edd18dbe",
+      "title": "Four LLM loss functions → four flavors of LLM misalignment",
+      "summary": "It seems to me that, for every loss function that we use to train LLMs, we get a very distinct flavor of LLM misalignment. Here’s the summary table, and then we’ll go through the rows separately.Training stageLoss functionFlavor of misalignment[1]Famous examplesPretraining & SFTImitative learning (next-token prediction)“Seven deadly sins” misalignmentBing-Sydney, “Emergent misalignment”RLHF & DPOHuman approval“Glazing” misalignmentGPT-4oRLVRAutomatic verifier“Literal genie” misalignmentHuggin...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/GRmvZsHXH4vaijPMv/four-llm-loss-functions-four-flavors-of-llm-misalignment",
+      "published_at": "2026-08-10T16:16:16",
+      "fetched_at": "2026-08-10T16:58:49.379757Z",
+      "type": "announcement",
+      "topics": [
+        "Alignment"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "bb201bd6-63fa-569d-bf99-cdcbe9ee9e93",
+      "title": "Parametron: 50s Japanese computer that uses neither transistors nor vacuum tubes",
+      "summary": "115 points · 33 comments",
+      "source": "Hacker News",
+      "url": "https://ethw.org/Milestones:Parametron,_1954",
+      "published_at": "2026-08-10T10:29:14+00:00",
+      "fetched_at": "2026-08-10T16:58:49.379757Z",
+      "type": "discussion",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "2335a965-1e2f-5974-92dc-6f2469e09f9c",
       "title": "User awareness in frontier models",
       "summary": "Cross-posted on Transluce blog. This is a joint work of Ziqian Zhong, Aditi Raghunathan, Cassidy Laidlaw and Jacob Steinhardt.Modern AI assistants often know who they are talking to: agent scaffolds like Claude Code place the user's e-mail address directly in the model's context, and models can even identify some authors from writing style alone. We study this particular kind of situational awareness, which we call user awareness. When the inferred user is a specific, recognized AI researcher...",

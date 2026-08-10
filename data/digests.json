@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-10",
+      "top_paper_id": "9cb29e96-c26c-57ac-a18d-b1c3edd18dbe",
+      "papers_fetched": 3,
+      "pdf_path": "reports/10-Aug/Four_LLM_loss_functions__four_flavors_of_LLM_misa.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "31411663372"
+    },
+    {
       "date": "2026-08-09",
       "top_paper_id": null,
       "papers_fetched": 3,
@@ -711,14 +719,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "25635511006"
-    },
-    {
-      "date": "2026-05-09",
-      "top_paper_id": "1c76caff-9fdc-59b7-880c-8f939f710938",
-      "papers_fetched": 1,
-      "pdf_path": "reports/09-May/Running_Codex_safely_at_OpenAI.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25606678822"
     }
   ]
 }
