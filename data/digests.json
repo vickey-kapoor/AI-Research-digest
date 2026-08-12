@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-12",
+      "top_paper_id": "9fb0ce44-760a-5b07-a44d-7d18bd40f528",
+      "papers_fetched": 1,
+      "pdf_path": "reports/12-Aug/AI_swarms_are_starting_to_pose_indirect_takeover_r.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "31620506563"
+    },
+    {
       "date": "2026-08-11",
       "top_paper_id": "",
       "papers_fetched": 2,
@@ -711,14 +719,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "25752898576"
-    },
-    {
-      "date": "2026-05-11",
-      "top_paper_id": "75e39aab-28e4-5304-a499-463d50b95afe",
-      "papers_fetched": 1,
-      "pdf_path": "reports/11-May/Empowerment_corrigibility_etc_are_simple_abstra.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25687811441"
     }
   ]
 }

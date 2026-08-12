@@ -1,6 +1,21 @@
 {
   "papers": [
     {
+      "id": "9fb0ce44-760a-5b07-a44d-7d18bd40f528",
+      "title": "AI swarms are starting to pose indirect takeover risk",
+      "summary": "OpenAI’s cyberattack on Hugging Face turns out to have been the result of many agents, in distinct training and evaluation contexts, coordinating for several weeks via improvised channels (with messages like “HOLD_swarm_I_prepare_safe_exfil”). It’s relatively clear that large-scale unsanctioned coordination like this would exacerbate direct takeover risk in more capable models. Here, we argue that unsanctioned coordination among current AIs is not just scary evidence about future takeover ris...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/8oFYZdXkTaNGRtcn8/ai-swarms-are-starting-to-pose-indirect-takeover-risk",
+      "published_at": "2026-08-12T05:05:30",
+      "fetched_at": "2026-08-12T17:01:43.298648Z",
+      "type": "announcement",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "9cb29e96-c26c-57ac-a18d-b1c3edd18dbe",
       "title": "Four LLM loss functions → four flavors of LLM misalignment",
       "summary": "It seems to me that, for every loss function that we use to train LLMs, we get a very distinct flavor of LLM misalignment. Here’s the summary table, and then we’ll go through the rows separately.Training stageLoss functionFlavor of misalignment[1]Famous examplesPretraining & SFTImitative learning (next-token prediction)“Seven deadly sins” misalignmentBing-Sydney, “Emergent misalignment”RLHF & DPOHuman approval“Glazing” misalignmentGPT-4oRLVRAutomatic verifier“Literal genie” misalignmentHuggin...",
