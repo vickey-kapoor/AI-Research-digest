@@ -1,6 +1,21 @@
 {
   "papers": [
     {
+      "id": "3e1e2c37-6e6c-5095-912f-418104b1424d",
+      "title": "Show HN: LuaCAD – Parametric CAD Scripted in Lua",
+      "summary": "100 points · 19 comments",
+      "source": "Hacker News",
+      "url": "https://luacad.ad-si.com",
+      "published_at": "2026-08-14T16:43:22+00:00",
+      "fetched_at": "2026-08-15T16:31:08.318415Z",
+      "type": "discussion",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "9fb0ce44-760a-5b07-a44d-7d18bd40f528",
       "title": "AI swarms are starting to pose indirect takeover risk",
       "summary": "OpenAI’s cyberattack on Hugging Face turns out to have been the result of many agents, in distinct training and evaluation contexts, coordinating for several weeks via improvised channels (with messages like “HOLD_swarm_I_prepare_safe_exfil”). It’s relatively clear that large-scale unsanctioned coordination like this would exacerbate direct takeover risk in more capable models. Here, we argue that unsanctioned coordination among current AIs is not just scary evidence about future takeover ris...",
