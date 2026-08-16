@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-16",
+      "top_paper_id": "",
+      "papers_fetched": 1,
+      "pdf_path": "",
+      "telegram_sent": false,
+      "workflow_run_id": "31958845031"
+    },
+    {
       "date": "2026-08-15",
       "top_paper_id": "3e1e2c37-6e6c-5095-912f-418104b1424d",
       "papers_fetched": 2,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/16-May/Risk_reports_need_to_address_deployment-time_sprea.pdf",
       "telegram_sent": true,
       "workflow_run_id": "25967832084"
-    },
-    {
-      "date": "2026-05-15",
-      "top_paper_id": "e3881ea7-9f5f-5a11-8a56-1a0657b0b1fd",
-      "papers_fetched": 2,
-      "pdf_path": "reports/15-May/Show_HN_Find_the_best_local_LLM_for_your_hardware.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "25932652713"
     }
   ]
 }
