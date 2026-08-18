@@ -1,6 +1,21 @@
 {
   "papers": [
     {
+      "id": "7ab9d96b-f086-5313-b749-cd188a45f260",
+      "title": "The Benchmarkpocalypse",
+      "summary": "156 points · 49 comments",
+      "source": "Hacker News",
+      "url": "https://danluu.com/benchpocalypse/",
+      "published_at": "2026-08-18T02:11:02+00:00",
+      "fetched_at": "2026-08-18T16:37:16.098000Z",
+      "type": "discussion",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "3e1e2c37-6e6c-5095-912f-418104b1424d",
       "title": "Show HN: LuaCAD – Parametric CAD Scripted in Lua",
       "summary": "100 points · 19 comments",
