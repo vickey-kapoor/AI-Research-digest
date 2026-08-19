@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-19",
+      "top_paper_id": "3445b5e2-1e0e-5c68-9afe-b35e59b2aafc",
+      "papers_fetched": 3,
+      "pdf_path": "reports/19-Aug/Geolocating_a_random_island_using_geometry_and_CUD.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "32276878287"
+    },
+    {
       "date": "2026-08-18",
       "top_paper_id": "7ab9d96b-f086-5313-b749-cd188a45f260",
       "papers_fetched": 2,
@@ -711,14 +719,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "26116093779"
-    },
-    {
-      "date": "2026-05-18",
-      "top_paper_id": "1e8bb8d4-3557-5645-9840-aca9198e847d",
-      "papers_fetched": 2,
-      "pdf_path": "reports/18-May/It_is_time_to_give_up_the_dualism_introduced_by_th.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "26051299435"
     }
   ]
 }

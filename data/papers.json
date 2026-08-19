@@ -1,6 +1,51 @@
 {
   "papers": [
     {
+      "id": "3445b5e2-1e0e-5c68-9afe-b35e59b2aafc",
+      "title": "Geolocating a random island using geometry and CUDA programming",
+      "summary": "228 points · 47 comments",
+      "source": "Hacker News",
+      "url": "https://yassa9.github.io/osint/gralhix-004/",
+      "published_at": "2026-08-19T12:19:52+00:00",
+      "fetched_at": "2026-08-19T16:37:02.628289Z",
+      "type": "discussion",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "7d6c11eb-4c15-5a4e-ab57-fa4a795c8e0a",
+      "title": "Debate Training Reduces Reward Hacking in RLAIF",
+      "summary": "Paper: Debate Training Reduces Reward Hacking in RLAIFLinkpost for GDM Alignment blogpostWork done by the GDM Amplified Oversight team (we're hiring).TL;DR: When you RL against an LLM judge, the judge gets hacked i.e. fooled into incorrectly giving high reward; adding a debate opponent reduces this.Many of the most impressive capabilities of current AI systems are produced by training on crisp tasks, like math and coding, where task success can be automatically verified. However, much of AI b...",
+      "source": "AI Alignment Forum",
+      "url": "https://www.alignmentforum.org/posts/BB8o7b8A4Aykeksvw/debate-training-reduces-reward-hacking-in-rlaif",
+      "published_at": "2026-08-19T12:17:57",
+      "fetched_at": "2026-08-19T16:37:02.628289Z",
+      "type": "announcement",
+      "topics": [
+        "Alignment"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "f8c69841-45d1-506a-90e1-8f075ab3148b",
+      "title": "GLM-5.3 Artificial Analysis Benchmarks",
+      "summary": "139 points · 52 comments",
+      "source": "Hacker News",
+      "url": "https://artificialanalysis.ai/models/glm-5-3",
+      "published_at": "2026-08-18T22:06:10+00:00",
+      "fetched_at": "2026-08-19T16:37:02.628289Z",
+      "type": "discussion",
+      "topics": [
+        "Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "7ab9d96b-f086-5313-b749-cd188a45f260",
       "title": "The Benchmarkpocalypse",
       "summary": "156 points · 49 comments",
