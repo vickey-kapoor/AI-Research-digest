@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-20",
+      "top_paper_id": "7d6c11eb-4c15-5a4e-ab57-fa4a795c8e0a",
+      "papers_fetched": 1,
+      "pdf_path": "reports/20-Aug/Debate_Training_Reduces_Reward_Hacking_in_RLAIF.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "32393229927"
+    },
+    {
       "date": "2026-08-19",
       "top_paper_id": "3445b5e2-1e0e-5c68-9afe-b35e59b2aafc",
       "papers_fetched": 3,
@@ -711,14 +719,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "26181719715"
-    },
-    {
-      "date": "2026-05-19",
-      "top_paper_id": "",
-      "papers_fetched": 1,
-      "pdf_path": "",
-      "telegram_sent": false,
-      "workflow_run_id": "26116093779"
     }
   ]
 }
