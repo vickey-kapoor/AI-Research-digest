@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-23",
+      "top_paper_id": "",
+      "papers_fetched": 1,
+      "pdf_path": "",
+      "telegram_sent": false,
+      "workflow_run_id": "32651915772"
+    },
+    {
       "date": "2026-08-22",
       "top_paper_id": "",
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/23-May/The_Case_for_Evaluating_Model_Behaviors.pdf",
       "telegram_sent": true,
       "workflow_run_id": "26338643962"
-    },
-    {
-      "date": "2026-05-22",
-      "top_paper_id": "322b1dbf-c35c-5434-83c0-f6b5e8dfd6a1",
-      "papers_fetched": 3,
-      "pdf_path": "reports/22-May/Antigravity_20_Tops_the_OpenSCAD_Architectural_3D.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "26303695094"
     }
   ]
 }
