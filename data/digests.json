@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-24",
+      "top_paper_id": "6af6bd28-e6e3-5f39-9e8c-dfe4c2d22b9a",
+      "papers_fetched": 2,
+      "pdf_path": "reports/24-Aug/FDA_clears_blood_test_to_aid_evaluation_for_Alzhei.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "32752525164"
+    },
+    {
       "date": "2026-08-23",
       "top_paper_id": null,
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "26368594110"
-    },
-    {
-      "date": "2026-05-23",
-      "top_paper_id": "b1218e49-5404-5eab-a0a5-5e855401c65a",
-      "papers_fetched": 2,
-      "pdf_path": "reports/23-May/The_Case_for_Evaluating_Model_Behaviors.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "26338643962"
     }
   ]
 }

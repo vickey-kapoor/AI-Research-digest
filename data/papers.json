@@ -1,6 +1,22 @@
 {
   "papers": [
     {
+      "id": "6af6bd28-e6e3-5f39-9e8c-dfe4c2d22b9a",
+      "title": "FDA clears blood test to aid evaluation for Alzheimer's disease",
+      "summary": "140 points · 65 comments",
+      "source": "Hacker News",
+      "url": "https://medicine.washu.edu/news/fda-clears-blood-test-to-aid-evaluation-for-alzheimers-disease/",
+      "published_at": "2026-08-24T06:30:07+00:00",
+      "fetched_at": "2026-08-24T16:44:33.209598Z",
+      "type": "discussion",
+      "topics": [
+        "Evals",
+        "Robustness"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "3445b5e2-1e0e-5c68-9afe-b35e59b2aafc",
       "title": "Geolocating a random island using geometry and CUDA programming",
       "summary": "228 points · 47 comments",
