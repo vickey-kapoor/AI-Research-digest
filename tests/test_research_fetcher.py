@@ -1,12 +1,26 @@
 """Unit tests for fetcher module (aggregation and deduplication)."""
 
+from datetime import datetime, timedelta, timezone
+
 import pytest
 from unittest.mock import patch, MagicMock
 
 from src.fetcher import (
     fetch_all,
     _deduplicate_by_url,
+    _filter_by_recency,
+    _parse_published,
 )
+
+
+def _hours_ago(hours: float) -> str:
+    """Timestamp N hours in the past, as the fetchers emit them.
+
+    These aggregation tests use relative timestamps so the recency filter
+    never drops their fixtures — a fixed date would silently rot the moment
+    it aged past DIGEST_MAX_AGE_HOURS.
+    """
+    return (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat()
 
 
 class TestDeduplicationByUrl:
@@ -54,8 +68,8 @@ class TestFetchAll:
     @patch("src.fetcher.fetch_blog_posts")
     def test_aggregates_blog_sources(self, mock_blogs, mock_gh, mock_hn):
         mock_blogs.return_value = [
-            {"title": "OpenAI Update", "url": "https://a.com", "published": "2024-07-18"},
-            {"title": "Anthropic Update", "url": "https://b.com", "published": "2024-07-17"},
+            {"title": "OpenAI Update", "url": "https://a.com", "published": _hours_ago(1)},
+            {"title": "Anthropic Update", "url": "https://b.com", "published": _hours_ago(2)},
         ]
         result = fetch_all(max_results=10)
         assert len(result) == 2
@@ -65,10 +79,10 @@ class TestFetchAll:
     @patch("src.fetcher.fetch_blog_posts")
     def test_aggregates_all_sources(self, mock_blogs, mock_gh, mock_hn):
         mock_blogs.return_value = [
-            {"title": "Blog Post", "url": "https://a.com", "published": "2024-07-18"},
+            {"title": "Blog Post", "url": "https://a.com", "published": _hours_ago(1)},
         ]
         mock_gh.return_value = [
-            {"title": "transformers v4.40", "url": "https://github.com/x", "published": "2024-07-18"},
+            {"title": "transformers v4.40", "url": "https://github.com/x", "published": _hours_ago(1)},
         ]
         result = fetch_all(max_results=10)
         assert len(result) == 2
@@ -86,8 +100,8 @@ class TestFetchAll:
     @patch("src.fetcher.fetch_blog_posts")
     def test_deduplicates_by_url(self, mock_blogs, mock_gh, mock_hn):
         mock_blogs.return_value = [
-            {"title": "Same URL A", "url": "https://same.com", "published": "2024-07-18"},
-            {"title": "Same URL B", "url": "https://same.com", "published": "2024-07-17"},
+            {"title": "Same URL A", "url": "https://same.com", "published": _hours_ago(1)},
+            {"title": "Same URL B", "url": "https://same.com", "published": _hours_ago(2)},
         ]
         result = fetch_all(max_results=10)
         assert len(result) == 1
@@ -97,7 +111,7 @@ class TestFetchAll:
     @patch("src.fetcher.fetch_blog_posts")
     def test_respects_max_results(self, mock_blogs, mock_gh, mock_hn):
         mock_blogs.return_value = [
-            {"title": f"Post {i}", "url": f"https://a.com/{i}", "published": f"2024-07-{18-i:02d}"}
+            {"title": f"Post {i}", "url": f"https://a.com/{i}", "published": _hours_ago(i + 1)}
             for i in range(10)
         ]
         result = fetch_all(max_results=3)
@@ -108,9 +122,87 @@ class TestFetchAll:
     @patch("src.fetcher.fetch_blog_posts")
     def test_sorts_by_date(self, mock_blogs, mock_gh, mock_hn):
         mock_blogs.return_value = [
-            {"title": "Old", "url": "https://a.com", "published": "2024-01-01"},
-            {"title": "New", "url": "https://b.com", "published": "2024-07-18"},
+            {"title": "Old", "url": "https://a.com", "published": _hours_ago(48)},
+            {"title": "New", "url": "https://b.com", "published": _hours_ago(1)},
         ]
         result = fetch_all(max_results=10)
         assert result[0]["title"] == "New"
         assert result[1]["title"] == "Old"
+
+
+class TestParsePublished:
+    """Tests for timestamp normalization across the four source formats."""
+
+    def test_parses_aware_offset(self):
+        result = _parse_published("2026-08-24T06:30:07+00:00")
+        assert result is not None and result.tzinfo is not None
+
+    def test_parses_z_suffix(self):
+        """GitHub and HF return trailing-Z timestamps."""
+        result = _parse_published("2026-08-24T06:30:07Z")
+        assert result is not None and result.tzinfo is not None
+
+    def test_naive_is_treated_as_utc(self):
+        """Blog feeds historically emitted naive strings; papers.json holds some."""
+        result = _parse_published("2026-08-19T12:17:57")
+        assert result is not None
+        assert result.tzinfo is not None
+        assert result.utcoffset().total_seconds() == 0
+
+    def test_unparseable_returns_none(self):
+        assert _parse_published("not-a-date") is None
+        assert _parse_published("") is None
+        assert _parse_published(None) is None
+
+
+class TestFilterByRecency:
+    """Tests for the cutoff that keeps the daily digest daily."""
+
+    def test_drops_items_older_than_window(self):
+        items = [
+            {"title": "recent", "published": _hours_ago(2)},
+            {"title": "stale", "published": _hours_ago(200)},
+        ]
+        kept = [i["title"] for i in _filter_by_recency(items, 72)]
+        assert kept == ["recent"]
+
+    def test_mixed_naive_and_aware_does_not_raise(self):
+        """The regression this guards: comparing naive to aware raises TypeError."""
+        now = datetime.now(timezone.utc)
+        items = [
+            {"title": "aware", "published": (now - timedelta(hours=2)).isoformat()},
+            {"title": "naive", "published": (now - timedelta(hours=2)).replace(tzinfo=None).isoformat()},
+            {"title": "naive old", "published": (now - timedelta(days=9)).replace(tzinfo=None).isoformat()},
+        ]
+        kept = [i["title"] for i in _filter_by_recency(items, 72)]
+        assert kept == ["aware", "naive"]
+
+    def test_unparseable_dates_are_kept(self):
+        """Fail open: a bad timestamp must not silently empty the digest."""
+        items = [
+            {"title": "garbage", "published": "not-a-date"},
+            {"title": "missing", "published": ""},
+            {"title": "absent"},
+        ]
+        kept = [i["title"] for i in _filter_by_recency(items, 72)]
+        assert kept == ["garbage", "missing", "absent"]
+
+    def test_boundary_item_just_inside_window_is_kept(self):
+        items = [{"title": "edge", "published": _hours_ago(71.5)}]
+        assert len(_filter_by_recency(items, 72)) == 1
+
+    def test_zero_disables_the_filter(self):
+        items = [{"title": "ancient", "published": _hours_ago(10_000)}]
+        assert len(_filter_by_recency(items, 0)) == 1
+
+    @patch("src.fetcher.fetch_hackernews_stories", return_value=[])
+    @patch("src.fetcher.fetch_github_releases", return_value=[])
+    @patch("src.fetcher.fetch_blog_posts")
+    def test_fetch_all_applies_the_cutoff(self, mock_blogs, mock_gh, mock_hn):
+        """A week-old blog post must not reach the daily pick."""
+        mock_blogs.return_value = [
+            {"title": "Today", "url": "https://a.com", "published": _hours_ago(3)},
+            {"title": "Last week", "url": "https://b.com", "published": _hours_ago(24 * 8)},
+        ]
+        result = fetch_all(max_results=10)
+        assert [r["title"] for r in result] == ["Today"]

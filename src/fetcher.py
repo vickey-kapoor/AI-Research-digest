@@ -1,8 +1,9 @@
 """Aggregate items from all fetcher sources (blogs, GitHub, Hacker News)."""
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timedelta, timezone
 
-from src.constants import THREAD_POOL_WORKERS
+from src.constants import DIGEST_MAX_AGE_HOURS, THREAD_POOL_WORKERS
 from src.fetchers.blog_fetcher import fetch_blog_posts
 from src.fetchers.github_fetcher import fetch_github_releases
 from src.fetchers.hackernews_fetcher import fetch_hackernews_stories
@@ -15,6 +16,58 @@ logger = get_logger(__name__)
 # Blog candidates pulled before ranking — kept above DIGEST_MAX_RESULTS so a
 # dozen lab feeds each get a real shot at the daily pick.
 BLOG_MAX_RESULTS = 25
+
+
+def _parse_published(value: str) -> datetime | None:
+    """Parse a published timestamp from any source into aware UTC.
+
+    The four fetchers emit slightly different shapes — trailing "Z", explicit
+    offsets, and (historically) naive strings already stored in papers.json.
+    A naive value is treated as UTC, which is what every source actually
+    produces. Returns None when the value cannot be parsed at all.
+    """
+    if not value or not isinstance(value, str):
+        return None
+    try:
+        parsed = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+    except (ValueError, TypeError):
+        return None
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _filter_by_recency(items: list[dict], max_age_hours: int) -> list[dict]:
+    """Drop items published longer than max_age_hours ago.
+
+    Blog feeds carry no cutoff of their own, so without this a quiet day can
+    surface a week-old post as today's development. Items with an unparseable
+    timestamp are kept: failing open costs a stale item, while failing closed
+    could silently empty the digest.
+    """
+    if max_age_hours <= 0:
+        return items
+
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=max_age_hours)
+    kept, stale, undated = [], 0, 0
+
+    for item in items:
+        published = _parse_published(item.get("published", ""))
+        if published is None:
+            undated += 1
+            kept.append(item)
+            continue
+        if published < cutoff:
+            stale += 1
+            continue
+        kept.append(item)
+
+    if stale:
+        logger.info("Dropped %d item(s) older than %dh", stale, max_age_hours)
+    if undated:
+        logger.warning("Kept %d item(s) with an unparseable published date", undated)
+
+    return kept
 
 
 def _deduplicate_by_url(items: list[dict]) -> list[dict]:
@@ -64,6 +117,12 @@ def fetch_all(max_results: int = 20, filter_keywords: list[str] | None = None) -
                 all_items.extend(results)
             except Exception:
                 logger.error("Failed to fetch from %s", source)
+
+    # Drop anything too old to be "today's" development. Applied centrally so
+    # every source gets the same treatment, not just the blogs that lack a
+    # cutoff — this also backstops a per-source cutoff regressing.
+    all_items = _filter_by_recency(all_items, DIGEST_MAX_AGE_HOURS)
+    logger.info("After recency filter: %d items within %dh", len(all_items), DIGEST_MAX_AGE_HOURS)
 
     # Deduplicate by URL
     unique = _deduplicate_by_url(all_items)

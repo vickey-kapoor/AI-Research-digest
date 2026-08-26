@@ -67,16 +67,22 @@ def _parse_blog_feed(url: str):
 
 
 def _parse_date(entry: dict) -> str:
-    """Parse publication date from feed entry."""
+    """Parse publication date from a feed entry as a timezone-aware UTC string.
+
+    feedparser normalizes its *_parsed tuples to UTC, so attaching UTC here is
+    correct rather than an assumption. Always returning an aware value keeps
+    this consistent with the other fetchers — a mix of naive and aware
+    timestamps makes downstream date comparisons raise TypeError.
+    """
     # Try common date fields
     for field in ["published", "updated", "created"]:
         date_str = entry.get(field, "")
         if date_str:
             try:
-                # feedparser provides parsed time tuples
+                # feedparser provides parsed time tuples, already in UTC
                 parsed = entry.get(f"{field}_parsed")
                 if parsed:
-                    return datetime(*parsed[:6]).isoformat()
+                    return datetime(*parsed[:6], tzinfo=timezone.utc).isoformat()
             except (TypeError, ValueError):
                 pass
     return datetime.now(timezone.utc).isoformat()
