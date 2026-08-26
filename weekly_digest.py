@@ -31,9 +31,9 @@ def _deduplicate(papers):
 def _format_weekly_message(papers):
     """Format the weekly digest Telegram message (Markdown)."""
     count = len(papers)
-    lines = [f"\U0001f5d3 *Week in AI Safety*\n"]
+    lines = [f"\U0001f5d3 *Week in AI Labs*\n"]
     lines.append(
-        f"Here are the {count} most important updates from this week\\.\n"
+        f"Here are the {count} most important lab developments from this week\\.\n"
     )
 
     for i, p in enumerate(papers, 1):
@@ -45,12 +45,12 @@ def _format_weekly_message(papers):
         topic = p.get("topic_id") or ""
         if topic:
             topic = f"#{_escape_markdown(topic)}"
-        rigor = p.get("rigor", "")
-        if rigor:
-            rigor = _escape_markdown(rigor)
-        # Prefer claim+safety_relevance for the one-liner; fall back to legacy fields
-        claim = _escape_markdown(p.get("claim", ""))
-        safety_rel = _escape_markdown(p.get("safety_relevance", ""))
+        release_type = p.get("release_type", "")
+        if release_type:
+            release_type = _escape_markdown(release_type)
+        # One-liner is what shipped, with why-it-matters as the italic kicker
+        what_shipped = _escape_markdown(p.get("what_shipped", ""))
+        why_it_matters = _escape_markdown(p.get("why_it_matters", ""))
         url = p.get("url", "")
 
         entry = f"{i}\\. *{title}*\n"
@@ -58,14 +58,14 @@ def _format_weekly_message(papers):
         meta = []
         if topic:
             meta.append(topic)
-        if rigor:
-            meta.append(rigor)
+        if release_type:
+            meta.append(release_type)
         if meta:
             entry += " \u00b7 ".join(meta) + "\n"
-        if claim:
-            entry += f"{claim}\n"
-        if safety_rel:
-            entry += f"_{safety_rel}_\n"
+        if what_shipped:
+            entry += f"{what_shipped}\n"
+        if why_it_matters:
+            entry += f"_{why_it_matters}_\n"
         if url:
             entry += f"{url}\n"
         lines.append(entry)

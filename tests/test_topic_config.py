@@ -30,19 +30,19 @@ class TestDefaults:
         assert len(ids) == len(set(ids))
 
     def test_eleven_topics_defined(self):
-        """All AI Safety topics are present."""
+        """All AI lab development topics are present."""
         assert len(DEFAULT_TOPICS) == 11
 
     def test_default_enabled_count(self):
-        """Six core safety topics are enabled by default — matches dashboard TS defaults."""
+        """Six core lab topics are enabled by default — matches dashboard TS defaults."""
         enabled = {t["id"] for t in DEFAULT_TOPICS if t["default_enabled"]}
         expected = {
-            "alignment",
-            "interpretability",
-            "evals",
-            "red_teaming",
-            "system_cards",
-            "agentic_safety",
+            "model_releases",
+            "product_api",
+            "lab_research",
+            "agents_tooling",
+            "benchmarks",
+            "safety_system_cards",
         }
         assert enabled == expected
 
@@ -53,26 +53,26 @@ class TestGetEnabledTopics:
     def test_returns_defaults_when_kv_is_none(self):
         topics = _get_enabled_topics(None)
         ids = {t["id"] for t in topics}
-        assert "alignment" in ids
-        assert "interpretability" in ids
-        assert "governance" not in ids
-        assert "robustness" not in ids
+        assert "model_releases" in ids
+        assert "product_api" in ids
+        assert "policy_regulation" not in ids
+        assert "infrastructure" not in ids
 
     def test_respects_kv_overrides(self):
         kv_config = {
-            "alignment": False,
-            "governance": True,
+            "model_releases": False,
+            "policy_regulation": True,
         }
         topics = _get_enabled_topics(kv_config)
         ids = {t["id"] for t in topics}
-        assert "alignment" not in ids
-        assert "governance" in ids
+        assert "model_releases" not in ids
+        assert "policy_regulation" in ids
 
     def test_unknown_keys_in_kv_ignored(self):
-        kv_config = {"unknown_topic": True, "alignment": True}
+        kv_config = {"unknown_topic": True, "model_releases": True}
         topics = _get_enabled_topics(kv_config)
         ids = {t["id"] for t in topics}
-        assert "alignment" in ids
+        assert "model_releases" in ids
         assert "unknown_topic" not in ids
 
 
@@ -84,20 +84,20 @@ class TestGetActiveKeywords:
         keywords = get_active_keywords()
         assert "RLHF" in keywords
         assert "jailbreak" in keywords
-        assert "mechanistic interpretability" in keywords
+        assert "frontier model" in keywords
 
     @patch("src.topic_config._fetch_kv_config", return_value=None)
     def test_defaults_exclude_disabled_topic_keywords(self, mock_kv):
         keywords = get_active_keywords()
-        # governance and catastrophic_risk are disabled by default
+        # policy_regulation and infrastructure are disabled by default
         assert "EU AI Act" not in keywords
-        assert "CBRN" not in keywords
+        assert "Blackwell" not in keywords
 
     @patch("src.topic_config._fetch_kv_config")
     def test_kv_config_changes_keywords(self, mock_kv):
-        """KV can enable governance topic, adding its keywords."""
+        """KV can enable the policy topic, adding its keywords."""
         mock_kv.return_value = {
-            "governance": True,
+            "policy_regulation": True,
         }
         keywords = get_active_keywords()
         assert "EU AI Act" in keywords
@@ -122,9 +122,9 @@ class TestFetchKvConfig:
     @patch("src.topic_config._fetch_kv_config", return_value=None)
     def test_graceful_fallback_when_no_kv(self, mock_kv):
         topics = get_active_topics()
-        assert len(topics) == 6  # Six core safety topics enabled by default
+        assert len(topics) == 6  # Six core lab topics enabled by default
         ids = {t["id"] for t in topics}
-        assert "alignment" in ids
+        assert "model_releases" in ids
         keywords = get_active_keywords()
         assert len(keywords) > 0
 
@@ -157,7 +157,7 @@ class TestCustomKeywords:
     def test_custom_keywords_merged(self, mock_config, mock_kv_get):
         def side_effect(key):
             if key == "topics:custom_keywords":
-                return {"alignment": ["my-custom-kw", "another-one"]}
+                return {"model_releases": ["my-custom-kw", "another-one"]}
             return None
         mock_kv_get.side_effect = side_effect
 

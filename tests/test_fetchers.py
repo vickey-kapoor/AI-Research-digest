@@ -5,6 +5,7 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 
+from src.constants import BLOG_FEEDS
 from src.fetchers.blog_fetcher import fetch_blog_posts, _fetch_single_feed, _is_dev_relevant
 
 
@@ -50,8 +51,8 @@ class TestBlogFetcher:
 
             posts = fetch_blog_posts(max_results=5)
 
-            # Should be called for each blog feed (8 active feeds)
-            assert mock_fetch.call_count == 8
+            # Should be called once per configured blog feed
+            assert mock_fetch.call_count == len(BLOG_FEEDS)
 
     def test_fetch_single_feed_parse_error(self):
         """Test single feed handles parse errors gracefully."""
@@ -80,21 +81,21 @@ class TestBlogFetcher:
 
 
 class TestDevRelevanceFilter:
-    """Tests for _is_dev_relevant filtering (now safety-relevance)."""
+    """Tests for _is_dev_relevant filtering (AI lab developments)."""
 
-    def test_is_dev_relevant_accepts_safety_post(self):
-        """Post with a safety keyword is accepted."""
-        post = {"title": "New mechanistic interpretability finding", "summary": "Sparse autoencoder reveals deception circuits"}
+    def test_is_dev_relevant_accepts_lab_release(self):
+        """Post announcing a lab model release is accepted."""
+        post = {"title": "Introducing our new frontier model", "summary": "A reasoning model now available in the developer api"}
         assert _is_dev_relevant(post) is True
 
-    def test_is_dev_relevant_rejects_partnership(self):
-        """Post about partnership is rejected."""
-        post = {"title": "We announce a partnership with Acme", "summary": "Exciting news"}
+    def test_is_dev_relevant_rejects_corporate_news(self):
+        """Post about hiring is rejected."""
+        post = {"title": "We are hiring across the company", "summary": "Open roles on every team"}
         assert _is_dev_relevant(post) is False
 
     def test_exclude_takes_precedence_over_include(self):
         """Post with both include and exclude keywords is rejected."""
-        post = {"title": "Alignment partnership announcement", "summary": "New alignment work via partnership"}
+        post = {"title": "New model release as the company raises a funding round", "summary": "Frontier model shipped alongside a series b"}
         assert _is_dev_relevant(post) is False
 
     def test_no_keyword_match_rejected(self):
@@ -124,3 +125,24 @@ class TestDevRelevanceFilter:
             # Should return unfiltered posts as fallback
             assert len(posts) == 1
             assert posts[0]["title"] == "Our company culture"
+
+    def test_no_fallback_with_explicit_keywords(self, mock_blog_feed):
+        """An explicit topic keyword list is respected strictly — no fallback."""
+        with patch("src.fetchers.blog_fetcher.feedparser.parse") as mock_parse:
+            mock_response = MagicMock()
+            mock_response.bozo = False
+            entry = MagicMock()
+            entry.get = lambda k, d="": {
+                "title": "Our company culture",
+                "summary": "",
+                "link": "https://test.com/post",
+            }.get(k, d)
+            entry.__contains__ = lambda self, k: k in ["title", "summary"]
+            mock_response.entries = [entry]
+            mock_parse.return_value = mock_response
+
+            posts = _fetch_single_feed(
+                "TestBlog", "https://test.com/rss", 5, filter_keywords=["frontier model"]
+            )
+
+            assert posts == []

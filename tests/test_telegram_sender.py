@@ -113,9 +113,11 @@ class TestFormatResearchMessage:
     def test_basic_formatting(self, sample_paper_with_summary):
         message = format_research_message(sample_paper_with_summary)
         assert sample_paper_with_summary["title"] in message
-        assert "Claim" in message
-        assert "Evidence" in message
-        assert "Safety relevance" in message
+        assert "What shipped" in message
+        assert "Capabilities" in message
+        assert "Availability" in message
+        assert "Why it matters" in message
+        assert "Caveats" in message
         assert sample_paper_with_summary["source"] in message
 
     def test_empty_research(self):
@@ -146,8 +148,8 @@ class TestFormatResearchMessage:
     def test_markdown_is_escaped_in_message(self, sample_paper):
         paper = sample_paper.copy()
         paper["title"] = "Paper_[v2]"
-        paper["claim"] = "Uses *special* syntax"
-        paper["evidence"] = "Technical details"
+        paper["what_shipped"] = "Uses *special* syntax"
+        paper["capabilities"] = "Technical details"
         message = format_research_message(paper)
         assert "*Paper\\_\\[v2\\]*" in message
         assert "Uses \\*special\\* syntax" in message

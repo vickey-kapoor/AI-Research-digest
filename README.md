@@ -1,16 +1,16 @@
 # Applied AI Dev Digest
 
-Daily digest of what's shipping in AI/ML — delivered to Telegram. Tracks blog announcements, GitHub releases, Hacker News discussions, and trending Hugging Face papers relevant to working ML/AI engineers.
+Daily digest of the latest developments from the frontier AI labs — delivered to Telegram. Tracks model releases, product and API launches, research reports, and capability results from OpenAI, Google DeepMind, Meta, Mistral, Qwen, NVIDIA and their peers.
 
 ## Features
 
-- Fetches from **8 AI lab/platform blogs** via RSS (OpenAI, Google DeepMind, Meta AI Engineering, Microsoft AI, AWS AI, Hugging Face, PyTorch, Google AI)
-- Tracks **10 key GitHub repos** for new releases (LangChain, LlamaIndex, vLLM, llama.cpp, Playwright, browser-use, etc.)
-- Monitors **Hacker News** for top AI/ML discussions (score > 100, last 24h)
-- Surfaces **Hugging Face Daily Papers** with high upvotes (10+, last 24h)
-- **11 configurable topics** (Core / Applied / Emerging) with toggle UI and custom keywords; only **Computer Use Agents** is enabled by default
-- Uses GPT-4o-mini to select the most impactful item, influenced by **user feedback weights**
-- Generates **structured dev summaries** (Why it matters / What it is / How to use it / Dev take)
+- Fetches from **12 AI lab and platform blogs** via RSS (OpenAI, Google DeepMind, Google AI, Google Research, Meta AI, Mistral AI, Qwen, Hugging Face, NVIDIA, Together AI, EleutherAI, AWS ML)
+- Tracks **7 GitHub repos** for releases that mark a shipped development (official model SDKs plus the serving stacks new models land in)
+- Monitors **Hacker News** for frontier lab discussions (score > 100, last 24h) — also the main channel for Anthropic, which publishes no RSS feed
+- Surfaces **Hugging Face Daily Papers** with high upvotes (20+, last 24h)
+- **11 configurable topics** (Core / Applied / Emerging) with toggle UI and custom keywords; the six Core topics are enabled by default
+- Uses GPT-4o-mini to select the most significant lab development, influenced by **user feedback weights**
+- Generates a **structured lab-release brief** (What shipped / Capabilities / Availability / Why it matters / Caveats)
 - Sends to Telegram via Bot API
 - Produces a PDF report and weekly digest roundup
 - Exports structured data to JSON (papers + digests)
@@ -27,7 +27,7 @@ Next.js app deployed on Vercel with top nav: **Topics · Preview · History · S
 
 | Page | Description |
 |------|-------------|
-| **Topics** | Toggle 11 dev-focused topics on/off, add custom keywords per topic |
+| **Topics** | Toggle 11 lab-development topics on/off, add custom keywords per topic |
 | **Preview** | Shows the last sent digest as a Telegram message mockup, re-send it |
 | **History** | Weekly list of sent items with feedback buttons |
 | **Stats** | Bar chart showing which topics win the daily ranking most often |
@@ -38,23 +38,26 @@ All state (topics, pause, feedback, stats) stored in **Vercel KV** (Upstash Redi
 ## Example Message
 
 ```
-#Announcement · OpenAI
+#ModelRelease · OpenAI · 🧠 model
 
 *Introducing GPT-4o mini*
 
+*What shipped*
+OpenAI released GPT-4o mini, a smaller GPT-4-class model, in the API.
+
+*Capabilities*
+128K context with function calling, JSON mode, and structured outputs.
+Reported close to GPT-4o on coding and reasoning benchmarks.
+
+*Availability*
+Generally available in the API today at $0.15/1M input tokens.
+
 *Why it matters*
-Cheapest GPT-4-class model yet — $0.15/1M input tokens with full tool support.
+Drops the price floor for GPT-4-class quality, making high-volume
+classification, extraction, and chat workloads viable.
 
-*What it is*
-GPT-4o mini is a smaller, faster version of GPT-4o with 128K context.
-Supports function calling, JSON mode, and structured outputs.
-Benchmarks close to GPT-4o on coding and reasoning tasks.
-
-*How to use it*
-pip install --upgrade openai; use model ID gpt-4o-mini in the API.
-
-*Dev take*
-Worth switching to immediately for classification, extraction, and high-volume chat.
+*Caveats*
+Benchmark numbers are self-reported; no independent evaluation yet.
 
 https://openai.com/index/gpt-4o-mini
 ```
@@ -67,37 +70,40 @@ https://openai.com/index/gpt-4o-mini
 
 | Source | Feed |
 |--------|------|
-| OpenAI | openai.com/blog/rss.xml |
+| OpenAI | openai.com/news/rss.xml |
 | Google DeepMind | deepmind.google/blog/rss.xml |
-| Meta AI Engineering | engineering.fb.com/category/ml-applications/feed/ |
-| Microsoft AI | blogs.microsoft.com/ai/feed/ |
-| AWS AI | aws.amazon.com/blogs/machine-learning/feed/ |
-| Hugging Face | huggingface.co/blog/feed.xml |
-| PyTorch | pytorch.org/blog/feed.xml |
 | Google AI | blog.google/technology/ai/rss/ |
+| Google Research | research.google/blog/rss/ |
+| Meta AI | engineering.fb.com/category/ml-applications/feed/ |
+| Mistral AI | mistral.ai/rss.xml |
+| Qwen | qwenlm.github.io/blog/index.xml |
+| Hugging Face | huggingface.co/blog/feed.xml |
+| NVIDIA | blogs.nvidia.com/feed/ |
+| Together AI | www.together.ai/blog/rss.xml |
+| EleutherAI | blog.eleuther.ai/index.xml |
+| AWS Machine Learning | aws.amazon.com/blogs/machine-learning/feed/ |
+
+**Anthropic has no public RSS feed** for its news, research, or engineering posts, so Anthropic announcements reach the digest through the Hacker News source (which filters on `Anthropic` and `Claude`) and Hugging Face Daily Papers.
 
 ### GitHub Releases
 
 | Repo | Why |
 |------|-----|
-| openai/openai-python | OpenAI SDK |
+| openai/openai-python | OpenAI SDK — new model IDs and API surfaces land here |
 | anthropics/anthropic-sdk-python | Anthropic SDK |
-| langchain-ai/langchain | Agent framework |
-| BerriAI/litellm | Multi-provider LLM proxy |
-| vllm-project/vllm | Inference engine |
-| ggerganov/llama.cpp | Local inference |
-| microsoft/playwright-python | Browser automation |
-| browser-use/browser-use | Browser-use agent |
-| run-llama/llama_index | RAG framework |
-| unslothai/unsloth | Fine-tuning |
+| googleapis/python-genai | Google Gemini SDK |
+| huggingface/transformers | New open-weight architectures land here first |
+| vllm-project/vllm | Serving support for new models |
+| ggml-org/llama.cpp | Local inference support for new models |
+| modelcontextprotocol/servers | MCP ecosystem |
 
 ### Hugging Face Daily Papers
 
-Trending papers from `huggingface.co/api/daily_papers`, filtered to 10+ upvotes, last 24 hours. Top 5 returned.
+Trending papers from `huggingface.co/api/daily_papers`, filtered to 20+ upvotes, last 24 hours. Top 5 returned.
 
 ### Hacker News
 
-Top 100 stories filtered by AI/ML keywords, score > 100, last 24 hours. Top 5 returned.
+Top 100 stories filtered by frontier-lab keywords, score > 100, last 24 hours. Top 5 returned.
 
 ### GitHub Release Filters
 
@@ -109,21 +115,25 @@ Releases are skipped if any of these apply:
 
 ## Topics
 
-Only `computer_use` is enabled by default; toggle the rest from the dashboard.
+The six **Core** topics are enabled by default; toggle the rest from the dashboard.
 
 | ID | Name | Category | Default | Keywords |
 |----|------|----------|---------|----------|
-| computer_use | Computer Use Agents | Core | on | computer use, browser use, WebArena, OSWorld, ScreenSpot, Mind2Web, Playwright, Puppeteer, Selenium, GUI agent, … |
-| models | New Model Releases | Core | off | GPT, Claude, Gemini, Llama, Mistral, model release |
-| apis | API & SDK Updates | Core | off | API, SDK, endpoint, breaking change, deprecation |
-| frameworks | Dev Frameworks | Core | off | LangChain, LlamaIndex, AutoGen, CrewAI, framework |
-| inference | Inference & Deployment | Applied | off | vLLM, Ollama, TensorRT, quantization, serving, deployment |
-| finetuning | Fine-tuning & Training | Applied | off | fine-tuning, LoRA, QLoRA, Unsloth, training, PEFT |
-| rag | RAG & Memory | Applied | off | RAG, retrieval, vector database, embedding, memory |
-| agents | AI Agents | Applied | off | agent, tool use, multi-agent, autonomous, agentic |
-| opensource | Open Source Releases | Applied | off | open source, open weights, Apache, MIT license |
-| safety | Safety & Alignment | Emerging | off | safety, alignment, jailbreak, red-teaming, guardrails |
-| hardware | Hardware & Efficiency | Emerging | off | GPU, TPU, chip, CUDA, inference cost, hardware |
+| model_releases | Model Releases | Core | on | model release, frontier model, reasoning model, GPT-, Claude, Gemini, Llama, Mistral, Qwen, DeepSeek, Grok, … |
+| product_api | Product & API | Core | on | developer api, api pricing, batch api, general availability, public beta, context window, SDK, … |
+| lab_research | Lab Research | Core | on | technical report, scaling law, pretraining, post-training, RLHF, mixture of experts, test-time compute, … |
+| agents_tooling | Agents & Tooling | Core | on | agentic, AI agent, tool use, function calling, computer use, model context protocol, coding agent, … |
+| benchmarks | Benchmarks & Evals | Core | on | benchmark, eval, SWE-bench, GPQA, ARC-AGI, AIME, FrontierMath, leaderboard, … |
+| safety_system_cards | Safety & System Cards | Core | on | system card, responsible scaling, preparedness framework, frontier safety, red-teaming, interpretability, … |
+| open_weights | Open Weights | Applied | off | open weights, open source model, weights release, Apache 2.0, OLMo, Gemma, … |
+| infrastructure | Compute & Infrastructure | Applied | off | inference, quantization, training run, gpu cluster, TPU, Blackwell, Trainium, serving, … |
+| multimodal | Multimodal & Generative Media | Emerging | off | multimodal, vision-language, image generation, video generation, speech model, world model, … |
+| enterprise_deployment | Enterprise Deployment | Emerging | off | enterprise, deployment, case study, on-premise, cloud partnership, customer adoption, … |
+| policy_regulation | Policy & Regulation | Emerging | off | EU AI Act, AI regulation, executive order, AI safety institute, export controls, compute governance, … |
+
+Topic definitions live in `src/topic_config.py` and are mirrored in `dashboard/src/lib/topics.ts` — keep the two in sync when editing.
+
+Keywords are matched as case-insensitive **substrings** against an item's title and summary, so avoid short tokens that hide inside common words (e.g. `api` matches "rapid"). Prefer multi-word identifiers.
 
 ## Setup
 
@@ -222,10 +232,10 @@ ai-research-digest/
 │   └── daily-news.yml            # GitHub Actions (daily + weekly)
 ├── src/
 │   ├── fetchers/
-│   │   ├── blog_fetcher.py       # RSS fetch from 8 AI lab/platform blogs
-│   │   ├── github_fetcher.py     # GitHub release tracking (10 repos)
-│   │   ├── hackernews_fetcher.py # HN top stories filtered to AI/ML
-│   │   └── huggingface_fetcher.py # HF Daily Papers (upvotes ≥ 10)
+│   │   ├── blog_fetcher.py       # RSS fetch from 12 AI lab/platform blogs
+│   │   ├── github_fetcher.py     # GitHub release tracking (7 repos)
+│   │   ├── hackernews_fetcher.py # HN top stories filtered to frontier labs
+│   │   └── huggingface_fetcher.py # HF Daily Papers (upvotes ≥ 20)
 │   ├── utils/
 │   │   └── retry.py              # Retry with exponential backoff
 │   ├── ai_text.py                # Prompt sanitization
@@ -235,7 +245,7 @@ ai-research-digest/
 │   ├── kv_client.py              # Vercel KV (Upstash Redis) client
 │   ├── logger.py                 # Centralized logging
 │   ├── news_ranker.py            # GPT-4o-mini ranking + feedback weights
-│   ├── news_summarizer.py        # Structured dev summary generation
+│   ├── news_summarizer.py        # Structured lab-release brief generation
 │   ├── pdf_generator.py          # PDF report generation
 │   ├── telegram_sender.py        # Telegram Bot API
 │   └── topic_config.py           # Dynamic topic config from KV

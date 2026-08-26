@@ -9,13 +9,15 @@ import { format, parseISO } from "date-fns";
 
 interface HistoryEntry {
   title: string;
-  authors: string;
-  institution?: string;
+  // The digest writes the publishing lab as `source`; `authors` is legacy.
+  source?: string;
+  authors?: string;
   topic_id?: string;
   url: string;
-  claim: string;
-  safety_relevance?: string;
-  rigor?: string;
+  type?: string;
+  what_shipped?: string;
+  why_it_matters?: string;
+  release_type?: string;
   date: string;
 }
 
@@ -173,24 +175,24 @@ export default function HistoryPage() {
                   </div>
                   <CardTitle className="text-base mt-2">{entry.title}</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    {entry.authors}
-                    {entry.institution && ` — ${entry.institution}`}
+                    {entry.source || entry.authors}
+                    {entry.type && ` — ${entry.type}`}
                   </p>
                 </CardHeader>
                 <CardContent>
-                  {entry.claim && (
+                  {entry.what_shipped && (
                     <p className="text-sm text-foreground mb-2">
-                      {entry.claim}
+                      {entry.what_shipped}
                     </p>
                   )}
-                  {entry.safety_relevance && (
+                  {entry.why_it_matters && (
                     <p className="text-sm text-muted-foreground italic mb-3">
-                      {entry.safety_relevance}
+                      {entry.why_it_matters}
                     </p>
                   )}
-                  {entry.rigor && (
+                  {entry.release_type && (
                     <p className="text-xs font-mono text-muted-foreground/70 mb-3">
-                      {entry.rigor}
+                      {entry.release_type}
                     </p>
                   )}
                   {entry.url && (

@@ -12,6 +12,10 @@ from src.topic_config import get_active_topics
 
 logger = get_logger(__name__)
 
+# Blog candidates pulled before ranking — kept above DIGEST_MAX_RESULTS so a
+# dozen lab feeds each get a real shot at the daily pick.
+BLOG_MAX_RESULTS = 25
+
 
 def _deduplicate_by_url(items: list[dict]) -> list[dict]:
     """Remove duplicate items based on URL."""
@@ -38,7 +42,7 @@ def fetch_all(max_results: int = 20, filter_keywords: list[str] | None = None) -
         Combined, deduplicated, keyword-filtered, and sorted list of items
     """
     fetchers = [
-        ("Blogs", lambda: fetch_blog_posts(max_results=10, filter_keywords=filter_keywords)),
+        ("Blogs", lambda: fetch_blog_posts(max_results=BLOG_MAX_RESULTS, filter_keywords=filter_keywords)),
         ("GitHub", fetch_github_releases),
         ("Hacker News", lambda: fetch_hackernews_stories(filter_keywords=filter_keywords)),
         ("HF Papers", lambda: fetch_huggingface_papers(filter_keywords=filter_keywords)),

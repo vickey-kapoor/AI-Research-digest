@@ -1,4 +1,4 @@
-"""Generate developer-focused PDF reports for AI product updates."""
+"""Generate PDF briefs for AI lab developments."""
 
 import os
 import re
@@ -38,7 +38,7 @@ def _sanitize_text_for_pdf(text: str) -> str:
 
 
 class ResearchPDF(FPDF):
-    """Custom PDF class for research digests."""
+    """Custom PDF class for lab-development briefs."""
 
     def __init__(self):
         super().__init__()
@@ -64,10 +64,10 @@ class ResearchPDF(FPDF):
 
 def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
     """
-    Generate a developer-focused PDF report for a product update.
+    Generate a PDF brief for an AI lab development.
 
     Args:
-        research: Update dictionary with title, source, description, summary, url
+        research: Item dictionary with title, source, description, summary, url
         output_dir: Base directory for saving reports
 
     Returns:
@@ -79,8 +79,8 @@ def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
     full_output_dir.mkdir(parents=True, exist_ok=True)
 
     # Sanitize all text inputs
-    title = _sanitize_text_for_pdf(research.get("title", "Today's AI Discovery"))
-    authors = _sanitize_text_for_pdf(research.get("source", "Unknown"))
+    title = _sanitize_text_for_pdf(research.get("title", "Today's AI Lab Development"))
+    lab = _sanitize_text_for_pdf(research.get("source", "Unknown"))
     source = _sanitize_text_for_pdf(research.get("source", "Unknown"))
     # Use detailed_summary for PDF if available, fallback to short summary
     summary = _sanitize_text_for_pdf(
@@ -99,10 +99,10 @@ def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
     pdf.multi_cell(0, 12, title, align="C")
     pdf.ln(5)
 
-    # Authors
+    # Publishing lab
     pdf.set_font("Helvetica", "I", 12)
     pdf.set_text_color(80, 80, 80)
-    pdf.cell(0, 8, f"By: {authors}", align="C", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 8, f"From: {lab}", align="C", new_x="LMARGIN", new_y="NEXT")
     pdf.ln(3)
 
     # Source badge
@@ -116,13 +116,13 @@ def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
     pdf.line(20, pdf.get_y(), 190, pdf.get_y())
     pdf.ln(10)
 
-    # "What's This About?" section - the main detailed explanation
+    # Main section - the structured lab-release brief
     pdf.set_font("Helvetica", "B", 14)
     pdf.set_text_color(50, 100, 50)
-    pdf.cell(0, 10, "What's New", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 10, "The Brief", new_x="LMARGIN", new_y="NEXT")
     pdf.ln(2)
 
-    # Detailed explanation (ELI5 summary) - use readable font size
+    # Structured brief body - use readable font size
     if summary:
         pdf.set_font("Helvetica", "", 11)
         pdf.set_text_color(40, 40, 40)
@@ -133,7 +133,7 @@ def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
     pdf.line(20, pdf.get_y(), 190, pdf.get_y())
     pdf.ln(10)
 
-    # "The Technical Bit" section (optional - original abstract) - smaller, for reference
+    # Original announcement text (optional) - smaller, for reference
     if description:
         pdf.set_font("Helvetica", "B", 11)
         pdf.set_text_color(100, 100, 100)
@@ -159,7 +159,7 @@ def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
     pdf.ln(5)
     pdf.set_font("Helvetica", "I", 11)
     pdf.set_text_color(100, 100, 100)
-    pdf.multi_cell(0, 7, "This digest tracks the latest developer-facing product features from top AI labs. Stay ahead by trying new APIs, models, and tools as they launch.")
+    pdf.multi_cell(0, 7, "This digest tracks the latest developments from the frontier AI labs - model releases, product and API launches, research reports, and capability results - as they ship.")
 
     # Generate filename
     safe_title = "".join(c if c.isalnum() or c in " -_" else "" for c in title[:50])

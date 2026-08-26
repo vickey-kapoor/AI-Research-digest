@@ -22,7 +22,7 @@ logger = get_logger(__name__)
 
 
 def main():
-    """Fetch AI/dev news, select the most important, and send to Telegram."""
+    """Fetch AI lab developments, select the most significant, and send to Telegram."""
     # Load environment variables
     load_dotenv()
 
@@ -54,7 +54,7 @@ def main():
     logger.info("Active topic keywords: %d", len(active_keywords))
 
     # Fetch items from all sources (blogs, GitHub releases, Hacker News)
-    logger.info("Fetching Applied AI dev digest items...")
+    logger.info("Fetching AI lab development items...")
     research_items = []
     try:
         research_items = fetch_all(max_results=DIGEST_MAX_RESULTS, filter_keywords=active_keywords)
@@ -108,8 +108,8 @@ def main():
         logger.info("Generating summaries...")
         try:
             top_research = summarize_research_bundle(top_research, openai_key)
-            if "claim" in top_research:
-                logger.info("Generated structured summary")
+            if "what_shipped" in top_research:
+                logger.info("Generated structured brief")
             if "detailed_summary" in top_research:
                 logger.info("Generated detailed summary for PDF")
         except Exception:
@@ -123,9 +123,9 @@ def main():
                 "topic_id": top_research.get("topic_id"),
                 "url": top_research.get("url", ""),
                 "type": top_research.get("type", ""),
-                "claim": top_research.get("claim", ""),
-                "safety_relevance": top_research.get("safety_relevance", ""),
-                "rigor": top_research.get("rigor", ""),
+                "what_shipped": top_research.get("what_shipped", ""),
+                "why_it_matters": top_research.get("why_it_matters", ""),
+                "release_type": top_research.get("release_type", ""),
                 "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             })
             logger.info("Appended top item to weekly KV list")
@@ -170,12 +170,12 @@ def main():
                 "type": top_research.get("type", ""),
                 "topic_id": top_research.get("topic_id", ""),
                 "summary": top_research.get("summary", ""),
-                "claim": top_research.get("claim", ""),
-                "evidence": top_research.get("evidence", ""),
-                "method": top_research.get("method", ""),
-                "limitations": top_research.get("limitations", ""),
-                "safety_relevance": top_research.get("safety_relevance", ""),
-                "rigor": top_research.get("rigor", ""),
+                "what_shipped": top_research.get("what_shipped", ""),
+                "capabilities": top_research.get("capabilities", ""),
+                "availability": top_research.get("availability", ""),
+                "why_it_matters": top_research.get("why_it_matters", ""),
+                "caveats": top_research.get("caveats", ""),
+                "release_type": top_research.get("release_type", ""),
                 "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             })
             logger.info("Stored last digest payload in KV")

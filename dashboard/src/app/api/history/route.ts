@@ -5,13 +5,15 @@ const KV_KEY = "digest:weekly";
 
 export interface HistoryEntry {
   title: string;
-  authors: string;
-  institution?: string;
+  // The digest writes the publishing lab as `source`; `authors` is legacy.
+  source?: string;
+  authors?: string;
   topic_id?: string;
   url: string;
-  claim: string;
-  safety_relevance?: string;
-  rigor?: string;
+  type?: string;
+  what_shipped?: string;
+  why_it_matters?: string;
+  release_type?: string;
   date: string;
 }
 

@@ -11,28 +11,31 @@ import {
   BookOpen,
 } from "lucide-react";
 
+// Mirrors BLOG_FEEDS in src/constants.py
 const BLOG_SOURCES = [
   "OpenAI",
-  "Anthropic",
   "Google DeepMind",
+  "Google AI",
+  "Google Research",
   "Meta AI",
-  "Mistral",
-  "Microsoft AI",
-  "AWS AI",
+  "Mistral AI",
+  "Qwen",
   "Hugging Face",
+  "NVIDIA",
+  "Together AI",
+  "EleutherAI",
+  "AWS Machine Learning",
 ];
 
+// Mirrors GITHUB_REPOS in src/constants.py
 const GITHUB_REPOS = [
-  "huggingface/transformers",
-  "langchain-ai/langchain",
-  "run-llama/llama_index",
-  "vllm-project/vllm",
-  "ollama/ollama",
   "openai/openai-python",
   "anthropics/anthropic-sdk-python",
-  "microsoft/autogen",
-  "unsloth/unsloth",
-  "ggerganov/llama.cpp",
+  "googleapis/python-genai",
+  "huggingface/transformers",
+  "vllm-project/vllm",
+  "ggml-org/llama.cpp",
+  "modelcontextprotocol/servers",
 ];
 
 export default function SettingsPage() {
@@ -114,7 +117,7 @@ export default function SettingsPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Min upvotes</span>
-                <span className="font-mono font-medium">10+</span>
+                <span className="font-mono font-medium">20+</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Max papers</span>
@@ -135,7 +138,7 @@ export default function SettingsPage() {
               <Newspaper className="h-5 w-5 text-orange-600 dark:text-orange-400" />
               Hacker News
             </CardTitle>
-            <CardDescription>AI/ML discussions from HN</CardDescription>
+            <CardDescription>Frontier lab discussions from HN</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">

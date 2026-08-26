@@ -1,4 +1,4 @@
-"""Generate structured dev-focused summaries for AI/dev news items."""
+"""Generate structured lab-release briefs for AI lab developments."""
 
 import json
 
@@ -32,8 +32,28 @@ def _call_openai(client: OpenAI, prompt: str) -> str:
     return response.choices[0].message.content.strip()
 
 
+# Structured fields produced by the model, in the order they read best.
+SUMMARY_FIELDS = (
+    "what_shipped",
+    "capabilities",
+    "availability",
+    "why_it_matters",
+    "caveats",
+    "release_type",
+)
+
+# Fields rendered into the long-form PDF body, with their display labels.
+DETAIL_SECTIONS = (
+    ("what_shipped", "What shipped"),
+    ("capabilities", "Capabilities"),
+    ("availability", "Availability"),
+    ("why_it_matters", "Why it matters"),
+    ("caveats", "Caveats"),
+)
+
+
 def summarize_research_bundle(research: dict, api_key: str) -> dict:
-    """Generate a structured dev-focused summary in a single model call.
+    """Generate a structured lab-release brief in a single model call.
 
     Returns the original item unchanged if the request fails.
     """
@@ -43,8 +63,9 @@ def summarize_research_bundle(research: dict, api_key: str) -> dict:
     client = OpenAI(api_key=api_key)
     title, source, description = _prepare_inputs(research)
 
-    prompt = f"""You are summarizing for a working AI Safety researcher.
-Be direct, empirical, and skeptical. No hype, no marketing language.
+    prompt = f"""You are briefing an engineer who tracks what the frontier AI labs ship.
+Be concrete and factual. No hype, no marketing language. Prefer specifics — model names, numbers, prices, dates — over adjectives.
+If the description does not state something, say so rather than inventing it.
 
 Item title: {title}
 Source: {source}
@@ -52,12 +73,12 @@ Description: {description}
 
 Return JSON (no markdown fences):
 {{
-  "claim": "One sentence — the central empirical or methodological claim being made",
-  "evidence": "2-3 sentences — what specifically supports the claim: experiments run, models tested, sample sizes, key numbers if reported",
-  "method": "1-2 sentences — how the work was done: technique used, eval setup, datasets, or analysis pipeline",
-  "limitations": "1-2 sentences — honest limitations: scope, model coverage, reproducibility gaps, confounds, or whether claims outrun the evidence",
-  "safety_relevance": "One sentence — what this updates about alignment, evaluation, threat models, or governance for frontier systems",
-  "rigor": "preprint, peer-reviewed, lab-blog, position, or system-card — tag the source type so the reader weights credibility"
+  "what_shipped": "One sentence — which lab shipped what: the model, product, API, paper, or result, named precisely",
+  "capabilities": "2-3 sentences — what it can do that matters: modalities, context length, benchmark numbers, speed or quality claims, with the figures given",
+  "availability": "1-2 sentences — how to get it: API, app, open weights, waitlist, preview or GA, regions, pricing and tiers if stated. Say 'not stated' if the description does not say",
+  "why_it_matters": "1-2 sentences — what this changes for people building on these models: new capability unlocked, cost shift, or competitive move",
+  "caveats": "1-2 sentences — the honest limits: unverified claims, benchmark caveats, limited access, missing detail, or where the announcement outruns the evidence",
+  "release_type": "model, product, api, research, open-weights, infrastructure, safety, or policy — tag what kind of development this is"
 }}"""
 
     try:
@@ -77,28 +98,22 @@ Return JSON (no markdown fences):
         research_with_summaries = research.copy()
 
         # Store structured fields
-        for key in ("claim", "evidence", "method", "limitations", "safety_relevance", "rigor"):
+        for key in SUMMARY_FIELDS:
             if parsed.get(key):
                 research_with_summaries[key] = parsed[key]
 
         # Build short summary for backward compat (Telegram fallback, KV, etc.)
         parts = []
-        if parsed.get("claim"):
-            parts.append(parsed["claim"])
-        if parsed.get("evidence"):
-            parts.append(parsed["evidence"])
+        if parsed.get("what_shipped"):
+            parts.append(parsed["what_shipped"])
+        if parsed.get("capabilities"):
+            parts.append(parsed["capabilities"])
         if parts:
             research_with_summaries["summary"] = " ".join(parts)
 
         # Build detailed summary for PDF
         detail_parts = []
-        for key, label in [
-            ("claim", "Claim"),
-            ("evidence", "Evidence"),
-            ("method", "Method"),
-            ("limitations", "Limitations"),
-            ("safety_relevance", "Safety relevance"),
-        ]:
+        for key, label in DETAIL_SECTIONS:
             if parsed.get(key):
                 detail_parts.append(f"**{label}**\n{parsed[key]}")
         if detail_parts:

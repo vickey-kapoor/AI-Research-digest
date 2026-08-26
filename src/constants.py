@@ -36,42 +36,52 @@ DIGEST_CAP_DAYS = 90
 # Thread pool settings
 THREAD_POOL_WORKERS = 2
 
-# Persona: AI Safety researcher.
-# Default keyword set — broad safety vocabulary used as a fallback when no
-# topic-config keywords are passed through. Topic-level filtering (in
+# Persona: engineer/researcher tracking what the frontier AI labs ship.
+# Default keyword set — broad lab-development vocabulary used as a fallback when
+# no topic-config keywords are passed through. Topic-level filtering (in
 # topic_config.DEFAULT_TOPICS) is the primary signal.
+#
+# Keywords are matched as case-insensitive substrings against title + summary,
+# so avoid short tokens that hide inside common words (e.g. "api" matches
+# "rapid"). Prefer multi-word identifiers.
 FILTER_KEYWORDS = [
-    # Alignment
-    "alignment", "rlhf", "rlaif", "dpo", "constitutional ai",
-    "scalable oversight", "weak-to-strong", "reward model", "reward hacking",
-    # Interpretability
-    "interpretability", "mechanistic", "sparse autoencoder", "sae",
-    "activation steering", "probing", "monosemanticity", "transformerlens",
-    # Evals
-    "benchmark", "eval", "capability eval", "dangerous capability",
-    "autonomy eval", "inspect_ai", "metr",
-    # Red-teaming
-    "red-teaming", "red teaming", "jailbreak", "prompt injection",
-    "adversarial prompt", "garak",
-    # System cards / RSP
-    "system card", "model card", "responsible scaling", "rsp",
-    "preparedness framework", "frontier safety",
-    # Agentic safety
-    "deception", "scheming", "sandbagging", "situational awareness",
-    "alignment faking", "sabotage",
-    # Governance
-    "ai safety institute", "aisi", "eu ai act", "compute governance",
-    # Catastrophic risk
-    "cbrn", "biorisk", "cyber uplift", "wmdp",
-    # Robustness / data
-    "adversarial robustness", "distribution shift", "data poisoning",
-    "watermarking", "memorization",
+    # Model releases
+    "model release", "new model", "frontier model", "flagship model",
+    "reasoning model", "model family", "we're releasing", "introducing claude",
+    "introducing gpt", "gemini", "claude", "llama", "mistral", "qwen",
+    "deepseek", "grok", "gemma", "phi-", "command r", "nova",
+    # Product / platform
+    "developer api", "api access", "api pricing", "batch api",
+    "fine-tuning api", "responses api", "assistants api", "public beta",
+    "general availability", "context window", "developer platform",
+    "now available", "rolling out",
+    # Research
+    "technical report", "research paper", "scaling law", "pretraining",
+    "post-training", "reinforcement learning", "distillation",
+    "mixture of experts", "chain of thought", "test-time compute",
+    "long context", "rlhf",
+    # Agents / tooling
+    "agentic", "agent", "tool use", "function calling", "computer use",
+    "model context protocol", "coding agent", "multi-agent",
+    # Benchmarks
+    "benchmark", "eval", "swe-bench", "gpqa", "arc-agi", "aime",
+    "state of the art", "leaderboard", "frontiermath",
+    # Safety / system cards
+    "system card", "model card", "red-teaming", "red teaming", "jailbreak",
+    "responsible scaling", "preparedness framework", "frontier safety",
+    "interpretability", "alignment",
+    # Open weights
+    "open weights", "open-weight", "open source model", "open model",
+    # Infrastructure
+    "inference", "quantization", "training run", "tpu", "blackwell",
+    "trainium", "gpu cluster", "serving",
+    # Multimodal
+    "multimodal", "vision-language", "image generation", "video generation",
+    "text-to-video", "speech model", "world model",
 ]
 
-# Keywords to exclude non-research content (lowercase)
+# Keywords to exclude non-technical corporate news (lowercase)
 EXCLUDE_KEYWORDS = [
-    "partnership",
-    "partners with",
     "hiring",
     "careers",
     "joins",
@@ -82,49 +92,66 @@ EXCLUDE_KEYWORDS = [
     "series a",
     "series b",
     "ipo",
+    "lawsuit",
+    "trademark",
 ]
 
-# Blog RSS feeds — AI Safety research orgs
+# Blog RSS feeds — frontier AI labs and the platforms they ship on.
+# Every URL here was verified to return a parseable feed. Anthropic publishes
+# no public RSS feed for its news/research/engineering posts, so Anthropic
+# coverage comes through Hacker News keywords and Hugging Face papers instead.
 BLOG_FEEDS = {
-    "Anthropic": "https://www.anthropic.com/news/rss.xml",
-    "OpenAI": "https://openai.com/blog/rss.xml",
+    "OpenAI": "https://openai.com/news/rss.xml",
     "Google DeepMind": "https://deepmind.google/blog/rss.xml",
-    "Apollo Research": "https://www.apolloresearch.ai/blog/rss.xml",
-    "METR": "https://metr.org/blog/feed.xml",
-    "Redwood Research": "https://redwoodresearch.substack.com/feed",
-    "AI Alignment Forum": "https://www.alignmentforum.org/feed.xml",
-    "Center for AI Safety": "https://safe.ai/blog/rss.xml",
+    "Google AI": "https://blog.google/technology/ai/rss/",
+    "Google Research": "https://research.google/blog/rss/",
+    "Meta AI": "https://engineering.fb.com/category/ml-applications/feed/",
+    "Mistral AI": "https://mistral.ai/rss.xml",
+    "Qwen": "https://qwenlm.github.io/blog/index.xml",
+    "Hugging Face": "https://huggingface.co/blog/feed.xml",
+    "NVIDIA": "https://blogs.nvidia.com/feed/",
+    "Together AI": "https://www.together.ai/blog/rss.xml",
+    "EleutherAI": "https://blog.eleuther.ai/index.xml",
+    "AWS Machine Learning": "https://aws.amazon.com/blogs/machine-learning/feed/",
 }
 
-# GitHub repos disabled in Phase 1 — none of the prior dev-toolchain repos
-# are safety-relevant. Phase 2 will enable a focused list (TransformerLens,
-# sae_lens, inspect_ai, garak, etc.).
-GITHUB_REPOS: list[str] = []
+# Minimum candidate posts pulled per blog feed before keyword filtering.
+# Without a floor, adding feeds shrinks each feed's share to a single post,
+# so a lab that posted a few consumer items ahead of its release loses it.
+# The feed is fetched in full either way, so this costs no extra requests.
+BLOG_MIN_PER_SOURCE = 5
 
-# Hacker News filter keywords — AI Safety topics
+# GitHub repos whose releases mark a shipped lab development — official model
+# SDKs plus the serving/runtime stacks new models land in first.
+GITHUB_REPOS: list[str] = [
+    "openai/openai-python",
+    "anthropics/anthropic-sdk-python",
+    "googleapis/python-genai",
+    "huggingface/transformers",
+    "vllm-project/vllm",
+    "ggml-org/llama.cpp",
+    "modelcontextprotocol/servers",
+]
+
+# Hacker News filter keywords — frontier lab launches and announcements.
+# This is the primary channel for Anthropic news, which has no RSS feed.
 HN_KEYWORDS = [
-    # Alignment / interp
-    "alignment", "rlhf", "constitutional ai", "interpretability",
-    "mechanistic interpretability", "sparse autoencoder",
-    # Evals / red-teaming
-    "evaluation", "benchmark", "jailbreak", "red-teaming", "prompt injection",
-    "dangerous capability",
-    # Model cards / RSP
-    "system card", "model card", "responsible scaling", "frontier safety",
-    "preparedness framework",
-    # Agentic safety
-    "scheming", "deception", "alignment faking", "sandbagging",
-    "situational awareness",
-    # Governance
-    "AI safety institute", "AISI", "EU AI Act",
-    # Catastrophic risk
-    "biorisk", "CBRN", "WMDP",
+    # Labs by name
+    "OpenAI", "Anthropic", "Claude", "GPT-", "DeepMind", "Gemini",
+    "Mistral", "Qwen", "DeepSeek", "Llama", "Grok", "xAI", "Gemma",
+    # Release language
+    "model release", "new model", "frontier model", "reasoning model",
+    "open weights", "open-weight", "system card", "technical report",
+    # Capability surfaces
+    "agentic", "computer use", "function calling", "model context protocol",
+    "long context", "multimodal", "benchmark", "SWE-bench", "ARC-AGI",
+    # Infra
+    "inference", "TPU", "Blackwell", "training run",
 ]
 HN_MIN_SCORE = 100
 HN_MAX_STORIES = 5
 
-# Hugging Face Daily Papers — bumped to 25+ for Phase 1 to favor signal.
-# Safety papers are rarely viral; if this is too restrictive in practice,
-# tune downward after a week of observation.
-HF_MIN_UPVOTES = 25
+# Hugging Face Daily Papers — lab research lands here first. Kept moderately
+# permissive so lab technical reports surface the day they drop.
+HF_MIN_UPVOTES = 20
 HF_MAX_PAPERS = 5

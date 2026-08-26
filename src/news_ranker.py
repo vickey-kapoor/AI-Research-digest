@@ -1,4 +1,4 @@
-"""Rank AI/dev news by relevance to computer use agent developers using OpenAI."""
+"""Rank AI lab developments by significance using OpenAI."""
 
 import json
 
@@ -27,14 +27,14 @@ def _call_openai_ranking(client: OpenAI, prompt: str):
 
 def rank_research(research: list[dict], api_key: str) -> dict:
     """
-    Use OpenAI to select the most important computer use agent update for developers.
+    Use OpenAI to select the most significant AI lab development of the day.
 
     Args:
-        research: List of product update dictionaries
+        research: List of candidate item dictionaries
         api_key: OpenAI API key
 
     Returns:
-        The most important computer use agent update
+        The most significant item
     """
     if not research:
         raise ValueError("No research to rank")
@@ -63,31 +63,33 @@ def rank_research(research: list[dict], api_key: str) -> dict:
         for i, r in enumerate(research)
     )
 
-    prompt = f"""You are a working AI Safety researcher. You read to update your model of how frontier systems behave, how to measure them, and how to align them.
-Your job is to pick the single most important item from today's list for an AI Safety researcher.
+    prompt = f"""You are tracking what the frontier AI labs ship — OpenAI, Anthropic, Google DeepMind, Meta, Mistral, xAI, Alibaba/Qwen, DeepSeek, NVIDIA and their peers.
+Your job is to pick the single most significant AI lab development from today's list.
 
-Rank by epistemic value to a safety researcher.
+Rank by how much the item changes what is actually available or known today.
 Prioritize:
-1. Empirical findings about model behavior — deception, scheming, sandbagging, alignment faking, situational awareness, reward hacking, with reproducible setups
-2. New evaluations or benchmarks measuring dangerous capability, autonomy, persuasion, CBRN uplift, or alignment properties
-3. Interpretability results — mechanistic findings, sparse autoencoder discoveries, circuits, activation steering with concrete claims
-4. Alignment techniques with measured outcomes — RLHF/RLAIF/DPO/Constitutional AI variants, scalable oversight, debate, weak-to-strong
-5. Red-teaming and jailbreak research — novel attacks, robust defenses, automated red-teaming methods
-6. Frontier-model system cards / RSPs / preparedness reports with safety-relevant detail
-7. Governance actions that materially constrain frontier development (AISIs, EU AI Act enforcement, compute thresholds)
-8. Open-weight releases when they shift the safety threat model (fine-tuning attack feasibility, removable safety, capability proliferation)
+1. New frontier model releases — a lab shipping a model, version, or checkpoint, with capability or pricing detail
+2. Product and API launches that change what developers can build — new endpoints, modalities, context limits, availability, pricing moves
+3. Lab research with concrete results — technical reports, scaling findings, training or post-training methods, with numbers
+4. Agentic capability milestones — tool use, computer use, long-horizon or coding agents shipped or measured
+5. Benchmark results that move the frontier — SWE-bench, ARC-AGI, GPQA, AIME and similar, especially with verified methodology
+6. System cards, safety frameworks and evaluation reports accompanying a frontier release
+7. Open-weight releases that shift what is freely runnable
+8. Compute and infrastructure news that changes training or serving economics at frontier scale
 
 Deprioritize:
-- Capability announcements with no safety eval, system card, or behavioral analysis
-- SDK / framework / inference / deployment news
-- Pure opinion or position pieces without data, methods, or measurements
-- Hiring, partnerships, funding rounds, leadership changes
-- Incremental benchmark improvements without methodological insight
+- Third-party commentary, opinion, or speculation about a lab rather than an announcement from one
+- Incremental SDK or library point releases with no capability change
+- Reposts, roundups, and coverage of an announcement already made days ago
+- Hiring, partnerships, funding rounds, leadership changes, legal disputes
+- Marketing posts with no model, number, or shipping date
+
+Prefer first-party lab announcements over coverage of them. When two items describe the same launch, pick the one closest to the source.
 
 Items:
 {research_text}
 
-Return the single most important item as JSON: {{"index": N, "reason": "one sentence why this matters to an AI Safety researcher"}}"""
+Return the single most important item as JSON: {{"index": N, "reason": "one sentence on why this is the most significant lab development today"}}"""
 
     try:
         response = _call_openai_ranking(client, prompt)
