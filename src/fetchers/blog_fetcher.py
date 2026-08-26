@@ -1,4 +1,4 @@
-"""Fetch developer product updates from major AI lab blogs."""
+"""Fetch development announcements from frontier AI lab blogs."""
 
 from datetime import datetime, timezone
 import html
@@ -7,7 +7,13 @@ import socket
 
 import feedparser
 
-from src.constants import BLOG_FEEDS, EXCLUDE_KEYWORDS, FILTER_KEYWORDS, REQUEST_TIMEOUT
+from src.constants import (
+    BLOG_FEEDS,
+    BLOG_MIN_PER_SOURCE,
+    EXCLUDE_KEYWORDS,
+    FILTER_KEYWORDS,
+    REQUEST_TIMEOUT,
+)
 from src.logger import get_logger
 from src.utils.retry import retry_with_backoff
 
@@ -29,7 +35,7 @@ class _HTMLTextExtractor(HTMLParser):
 
 
 def _is_dev_relevant(post: dict, filter_keywords: list[str] | None = None) -> bool:
-    """Check if a post is developer-relevant based on keyword matching."""
+    """Check if a post is a lab development based on keyword matching."""
     text = f"{post.get('title', '')} {post.get('summary', '')}".lower()
     if any(kw in text for kw in EXCLUDE_KEYWORDS):
         return False
@@ -109,7 +115,13 @@ def _fetch_single_feed(source: str, url: str, max_per_source: int, filter_keywor
                 break
 
         filtered = [p for p in posts if _is_dev_relevant(p, filter_keywords)]
-        return filtered if filtered else posts
+        if filtered:
+            return filtered
+        # With an explicit topic keyword list, an empty result is the right
+        # answer — fetch_all re-filters anyway, and returning off-topic posts
+        # here only crowds out on-topic ones from other feeds. The permissive
+        # fallback stays for the default-keyword path.
+        return [] if filter_keywords is not None else posts
 
     except socket.timeout:
         logger.error("%s blog request timed out", source)
@@ -121,7 +133,7 @@ def _fetch_single_feed(source: str, url: str, max_per_source: int, filter_keywor
 
 def fetch_blog_posts(max_results: int = 5, filter_keywords: list[str] | None = None) -> list[dict]:
     """
-    Fetch recent developer product updates from Tier 1 AI lab blogs.
+    Fetch recent development announcements from frontier AI lab blogs.
 
     Args:
         max_results: Maximum total number of posts to return
@@ -131,7 +143,7 @@ def fetch_blog_posts(max_results: int = 5, filter_keywords: list[str] | None = N
         List of normalized post dictionaries
     """
     all_posts = []
-    max_per_source = max(1, max_results // len(BLOG_FEEDS) + 1)
+    max_per_source = max(BLOG_MIN_PER_SOURCE, max_results // len(BLOG_FEEDS) + 1)
 
     for source, url in BLOG_FEEDS.items():
         posts = _fetch_single_feed(source, url, max_per_source, filter_keywords)

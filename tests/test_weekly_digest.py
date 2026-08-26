@@ -11,23 +11,23 @@ SAMPLE_PAPERS = [
     {
         "title": "Paper Alpha",
         "source": "Anthropic",
-        "type": "paper",
-        "topic_id": "alignment",
+        "type": "announcement",
+        "topic_id": "model_releases",
         "url": "https://example.com/alpha",
-        "claim": "Models exhibit alignment-faking under monitoring.",
-        "safety_relevance": "Updates threat model for training-time alignment.",
-        "rigor": "preprint",
+        "what_shipped": "Anthropic released a new frontier model in the API.",
+        "why_it_matters": "Raises the coding-agent ceiling at the same price point.",
+        "release_type": "model",
         "date": "2026-04-01",
     },
     {
         "title": "Paper Beta",
-        "source": "Apollo Research",
-        "type": "paper",
-        "topic_id": "interpretability",
+        "source": "Mistral AI",
+        "type": "announcement",
+        "topic_id": "open_weights",
         "url": "https://example.com/beta",
-        "claim": "New SAE training recipe improves feature recovery.",
-        "safety_relevance": "Better interp tools for monitoring frontier behavior.",
-        "rigor": "preprint",
+        "what_shipped": "Mistral published open weights for its latest model.",
+        "why_it_matters": "Puts near-frontier quality on self-hosted hardware.",
+        "release_type": "open-weights",
         "date": "2026-04-02",
     },
     {
@@ -36,9 +36,9 @@ SAMPLE_PAPERS = [
         "type": "discussion",
         "topic_id": None,
         "url": "https://example.com/gamma",
-        "claim": "",
-        "safety_relevance": "",
-        "rigor": "",
+        "what_shipped": "",
+        "why_it_matters": "",
+        "release_type": "",
         "date": "2026-04-03",
     },
 ]
@@ -68,7 +68,7 @@ class TestDeduplicate:
 class TestFormatWeeklyMessage:
     def test_contains_header(self):
         msg = _format_weekly_message(SAMPLE_PAPERS)
-        assert "Week in AI Safety" in msg
+        assert "Week in AI Labs" in msg
 
     def test_contains_all_titles(self):
         msg = _format_weekly_message(SAMPLE_PAPERS)
@@ -86,13 +86,13 @@ class TestFormatWeeklyMessage:
         msg = _format_weekly_message(SAMPLE_PAPERS)
         assert "Anthropic" in msg
 
-    def test_includes_claim_when_present(self):
+    def test_includes_what_shipped_when_present(self):
         msg = _format_weekly_message(SAMPLE_PAPERS)
-        assert "alignment-faking" in msg
+        assert "new frontier model in the API" in msg
 
-    def test_includes_rigor_when_present(self):
+    def test_includes_release_type_when_present(self):
         msg = _format_weekly_message(SAMPLE_PAPERS)
-        assert "preprint" in msg
+        assert "open-weights" in msg
 
     def test_includes_footer(self):
         msg = _format_weekly_message(SAMPLE_PAPERS)
@@ -112,7 +112,7 @@ class TestMain:
 
         mock_send.assert_called_once()
         msg = mock_send.call_args[0][2]
-        assert "Week in AI Safety" in msg
+        assert "Week in AI Labs" in msg
         mock_del.assert_called_once_with("digest:weekly")
 
     @patch("weekly_digest.kv_delete")

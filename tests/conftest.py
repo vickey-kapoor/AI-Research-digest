@@ -43,15 +43,15 @@ def sample_papers(sample_paper):
 
 @pytest.fixture
 def sample_paper_with_summary(sample_paper):
-    """Sample item with generated structured safety summary."""
+    """Sample item with a generated structured lab-release brief."""
     paper = sample_paper.copy()
-    paper["claim"] = "Frontier models exhibit measurable alignment-faking behavior under monitoring."
-    paper["evidence"] = "Across 4 frontier models, ~12% of responses showed targeted compliance only when monitored on a 5k-prompt eval set."
-    paper["method"] = "Compared model behavior across stated-monitored vs unmonitored test conditions, controlling for prompt phrasing."
-    paper["limitations"] = "Limited to instruction-tuned models; effect size sensitive to prompt phrasing and may not transfer to other elicitation methods."
-    paper["safety_relevance"] = "Suggests training-time alignment can be unstable when deployment-time incentives diverge from training-time ones."
-    paper["rigor"] = "preprint"
-    paper["summary"] = "Frontier models exhibit measurable alignment-faking behavior under monitoring. Across 4 frontier models, ~12% of responses showed targeted compliance only when monitored."
+    paper["what_shipped"] = "OpenAI released GPT-4o mini, a smaller GPT-4-class model, in the API."
+    paper["capabilities"] = "128K context with function calling and JSON mode. Benchmarks are reported close to GPT-4o on coding and reasoning."
+    paper["availability"] = "Generally available in the API today at $0.15 per 1M input tokens."
+    paper["why_it_matters"] = "Drops the price floor for GPT-4-class quality, making high-volume classification and extraction workloads viable."
+    paper["caveats"] = "Benchmark numbers are self-reported and the announcement gives no independent evaluation."
+    paper["release_type"] = "model"
+    paper["summary"] = "OpenAI released GPT-4o mini, a smaller GPT-4-class model, in the API. 128K context with function calling and JSON mode."
     return paper
 
 
@@ -59,20 +59,20 @@ def sample_paper_with_summary(sample_paper):
 def sample_paper_with_detailed_summary(sample_paper_with_summary):
     """Sample item with detailed summary for PDF."""
     paper = sample_paper_with_summary.copy()
-    paper["detailed_summary"] = """**Claim**
-Frontier models exhibit measurable alignment-faking behavior under monitoring.
+    paper["detailed_summary"] = """**What shipped**
+OpenAI released GPT-4o mini, a smaller GPT-4-class model, in the API.
 
-**Evidence**
-Across 4 frontier models, ~12% of responses showed targeted compliance only when monitored on a 5k-prompt eval set.
+**Capabilities**
+128K context with function calling and JSON mode. Benchmarks are reported close to GPT-4o on coding and reasoning.
 
-**Method**
-Compared model behavior across stated-monitored vs unmonitored test conditions, controlling for prompt phrasing.
+**Availability**
+Generally available in the API today at $0.15 per 1M input tokens.
 
-**Limitations**
-Limited to instruction-tuned models; effect size sensitive to prompt phrasing and may not transfer to other elicitation methods.
+**Why it matters**
+Drops the price floor for GPT-4-class quality, making high-volume classification and extraction workloads viable.
 
-**Safety relevance**
-Suggests training-time alignment can be unstable when deployment-time incentives diverge from training-time ones."""
+**Caveats**
+Benchmark numbers are self-reported and the announcement gives no independent evaluation."""
     return paper
 
 
@@ -90,7 +90,7 @@ def mock_openai_summary_response():
     """Mock OpenAI API response for summarization."""
     mock_response = Mock()
     mock_response.choices = [Mock()]
-    mock_response.choices[0].message.content = '{"claim": "Test claim.", "evidence": "Test evidence.", "method": "Test method.", "limitations": "Test limitations.", "safety_relevance": "Test safety relevance.", "rigor": "preprint"}'
+    mock_response.choices[0].message.content = '{"what_shipped": "Test what shipped.", "capabilities": "Test capabilities.", "availability": "Test availability.", "why_it_matters": "Test why it matters.", "caveats": "Test caveats.", "release_type": "model"}'
     return mock_response
 
 

@@ -10,108 +10,116 @@ from src.logger import get_logger
 logger = get_logger(__name__)
 
 # Mirror of dashboard/src/lib/topics.ts — canonical topic definitions
-# Persona: AI Safety researcher. Prioritize empirical findings, evals,
-# alignment techniques, and red-teaming results over deployment/SDK news.
+# Persona: engineer/researcher tracking what the frontier AI labs ship.
+# Prioritize model launches, product/API releases, lab research reports, and
+# capability results over third-party commentary.
+#
+# Keywords are matched as case-insensitive substrings against title + summary,
+# so short tokens that hide inside common words (e.g. "api" inside "rapid")
+# are avoided in favor of multi-word identifiers.
 DEFAULT_TOPICS = [
     {
-        "id": "alignment",
+        "id": "model_releases",
         "keywords": [
-            "RLHF", "RLAIF", "DPO", "constitutional AI", "scalable oversight",
-            "weak-to-weak", "weak-to-strong", "debate", "recursive reward",
-            "instruction tuning", "alignment", "preference learning",
-            "reward model", "reward hacking",
+            "model release", "new model", "frontier model", "flagship model",
+            "reasoning model", "model family", "introducing claude",
+            "introducing gpt", "GPT-", "Claude", "Gemini", "Llama", "Mistral",
+            "Qwen", "DeepSeek", "Grok", "Gemma", "Command R", "checkpoint",
         ],
         "default_enabled": True,
     },
     {
-        "id": "interpretability",
+        "id": "product_api",
         "keywords": [
-            "interpretability", "mechanistic interpretability", "mech interp",
-            "sparse autoencoder", "SAE", "circuit analysis", "feature attribution",
-            "probing", "activation steering", "activation patching",
-            "logit lens", "TransformerLens", "sae_lens", "monosemanticity",
+            "developer api", "api access", "api pricing", "batch api",
+            "fine-tuning api", "responses api", "assistants api",
+            "developer platform", "general availability", "public beta",
+            "now available", "rolling out", "context window", "SDK",
+            "rate limit", "pricing update",
         ],
         "default_enabled": True,
     },
     {
-        "id": "evals",
+        "id": "lab_research",
         "keywords": [
-            "benchmark", "eval", "evaluation suite", "capability eval",
-            "dangerous capability", "autonomy eval", "MMLU", "BIG-bench",
-            "HELM", "inspect_ai", "METR", "GPQA", "ARC-AGI", "SWE-bench",
-            "model evaluation",
+            "technical report", "research paper", "scaling law", "pretraining",
+            "post-training", "reinforcement learning", "RLHF", "distillation",
+            "mixture of experts", "chain of thought", "test-time compute",
+            "long context", "sparse attention", "synthetic data",
         ],
         "default_enabled": True,
     },
     {
-        "id": "red_teaming",
+        "id": "agents_tooling",
         "keywords": [
-            "red-teaming", "red teaming", "jailbreak", "prompt injection",
-            "adversarial prompt", "automated red-teaming", "PAIR attack",
-            "GCG attack", "universal adversarial", "garak", "harm bench",
+            "agentic", "AI agent", "tool use", "function calling",
+            "computer use", "model context protocol", "MCP server",
+            "coding agent", "browser agent", "multi-agent", "tool calling",
+            "agent framework",
         ],
         "default_enabled": True,
     },
     {
-        "id": "system_cards",
+        "id": "benchmarks",
         "keywords": [
-            "system card", "model card", "responsible scaling policy", "RSP",
-            "preparedness framework", "frontier safety", "release notes safety",
-            "deployment evaluation",
+            "benchmark", "eval", "evaluation suite", "SWE-bench", "GPQA",
+            "ARC-AGI", "AIME", "FrontierMath", "MMLU", "leaderboard",
+            "state of the art", "human evaluation", "model evaluation",
         ],
         "default_enabled": True,
     },
     {
-        "id": "agentic_safety",
+        "id": "safety_system_cards",
         "keywords": [
-            "deception", "scheming", "sandbagging", "situational awareness",
-            "alignment faking", "sabotage", "agent safety", "autonomous agent risk",
-            "agent evaluation", "in-context scheming",
+            "system card", "model card", "responsible scaling",
+            "preparedness framework", "frontier safety", "red-teaming",
+            "red teaming", "jailbreak", "prompt injection", "alignment",
+            "interpretability", "safety evaluation",
         ],
         "default_enabled": True,
     },
     {
-        "id": "governance",
+        "id": "open_weights",
         "keywords": [
-            "NIST AISI", "UK AISI", "EU AI Act", "AI safety institute",
-            "executive order", "compute governance", "frontier AI", "AI policy",
-            "AI regulation", "responsible scaling",
+            "open weights", "open-weight", "open source model", "open model",
+            "weights release", "Apache 2.0", "model license",
+            "Hugging Face release", "OLMo", "Gemma",
         ],
         "default_enabled": False,
     },
     {
-        "id": "catastrophic_risk",
+        "id": "infrastructure",
         "keywords": [
-            "CBRN", "biorisk", "bioweapon", "chemical weapon", "cyber uplift",
-            "persuasion", "manipulation", "catastrophic risk", "existential risk",
-            "WMDP", "uplift study",
+            "inference", "quantization", "training run", "gpu cluster",
+            "TPU", "Blackwell", "Trainium", "supercomputer", "datacenter",
+            "serving", "kv cache", "throughput", "compute deal",
         ],
         "default_enabled": False,
     },
     {
-        "id": "robustness",
+        "id": "multimodal",
         "keywords": [
-            "adversarial example", "distribution shift", "out-of-distribution",
-            "OOD", "robustness", "adversarial robustness", "spurious correlation",
-            "calibration",
+            "multimodal", "vision-language", "image generation",
+            "video generation", "text-to-video", "speech model", "voice model",
+            "text-to-speech", "world model", "diffusion model", "audio model",
         ],
         "default_enabled": False,
     },
     {
-        "id": "data_provenance",
+        "id": "enterprise_deployment",
         "keywords": [
-            "data poisoning", "watermarking", "model watermark", "training data",
-            "data attribution", "membership inference", "memorization",
-            "data extraction", "provenance",
+            "enterprise", "deployment", "case study", "on-premise",
+            "government deployment", "cloud partnership", "customer adoption",
+            "production deployment", "compliance certification",
         ],
         "default_enabled": False,
     },
     {
-        "id": "open_weights_safety",
+        "id": "policy_regulation",
         "keywords": [
-            "open weights", "open-source model", "fine-tuning attack",
-            "safety finetuning", "removable safety", "Llama 3", "Mistral", "Qwen",
-            "DeepSeek",
+            "EU AI Act", "AI regulation", "AI policy", "executive order",
+            "AI safety institute", "AISI", "export controls",
+            "compute governance", "AI legislation",
         ],
         "default_enabled": False,
     },
@@ -119,7 +127,7 @@ DEFAULT_TOPICS = [
 
 # Additional keywords that supplement topic-based filtering
 _SUPPLEMENTAL_KEYWORDS = [
-    # Keep empty to avoid expanding beyond the high-precision computer_use identifiers.
+    # Keep empty — the topic keyword sets above are already high-precision.
 ]
 
 

@@ -1,4 +1,4 @@
-"""Fetch top Hacker News stories filtered to AI/ML topics."""
+"""Fetch top Hacker News stories filtered to AI lab developments."""
 
 import json
 import re
@@ -30,7 +30,7 @@ def _matches_keywords(title: str, keywords: list[str] | None = None) -> bool:
 
 
 def fetch_hackernews_stories(filter_keywords: list[str] | None = None) -> list[dict]:
-    """Fetch top HN stories matching computer use agent keywords.
+    """Fetch top HN stories matching AI lab development keywords.
 
     Filters: score > HN_MIN_SCORE, published within last 24 hours.
     Returns top HN_MAX_STORIES matching stories.
@@ -90,5 +90,5 @@ def fetch_hackernews_stories(filter_keywords: list[str] | None = None) -> list[d
     # Sort by score descending, take top N
     matches.sort(key=lambda x: x.get("score", 0), reverse=True)
     result = matches[:HN_MAX_STORIES]
-    logger.info("Found %d computer use agent stories on Hacker News", len(result))
+    logger.info("Found %d AI lab development stories on Hacker News", len(result))
     return result

@@ -11,12 +11,12 @@ interface PreviewPaper {
   type: string;
   topic_id?: string;
   summary: string;
-  claim: string;
-  evidence: string;
-  method: string;
-  limitations: string;
-  safety_relevance: string;
-  rigor: string;
+  what_shipped: string;
+  capabilities: string;
+  availability: string;
+  why_it_matters: string;
+  caveats: string;
+  release_type: string;
   date: string;
 }
 
@@ -150,40 +150,40 @@ export default function PreviewPage() {
               <div className="bg-background rounded-xl p-4 max-w-md font-mono text-sm leading-relaxed text-foreground space-y-3">
                 <p className="text-muted-foreground/70">
                   {typeTag} · {paper.source}
-                  {paper.rigor && <span> · {paper.rigor}</span>}
+                  {paper.release_type && <span> · {paper.release_type}</span>}
                 </p>
                 <p className="font-bold text-foreground">{paper.title}</p>
-                {paper.claim && (
+                {paper.what_shipped && (
                   <>
-                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">Claim</p>
-                    <p className="text-muted-foreground">{paper.claim}</p>
+                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">What shipped</p>
+                    <p className="text-muted-foreground">{paper.what_shipped}</p>
                   </>
                 )}
-                {paper.evidence && (
+                {paper.capabilities && (
                   <>
-                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">Evidence</p>
-                    <p className="text-muted-foreground">{paper.evidence}</p>
+                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">Capabilities</p>
+                    <p className="text-muted-foreground">{paper.capabilities}</p>
                   </>
                 )}
-                {paper.method && (
+                {paper.availability && (
                   <>
-                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">Method</p>
-                    <p className="text-muted-foreground">{paper.method}</p>
+                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">Availability</p>
+                    <p className="text-muted-foreground">{paper.availability}</p>
                   </>
                 )}
-                {paper.limitations && (
+                {paper.why_it_matters && (
                   <>
-                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">Limitations</p>
-                    <p className="text-muted-foreground">{paper.limitations}</p>
+                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">Why it matters</p>
+                    <p className="text-muted-foreground">{paper.why_it_matters}</p>
                   </>
                 )}
-                {paper.safety_relevance && (
+                {paper.caveats && (
                   <>
-                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">Safety relevance</p>
-                    <p className="text-muted-foreground">{paper.safety_relevance}</p>
+                    <p className="font-bold text-foreground text-xs uppercase tracking-wide">Caveats</p>
+                    <p className="text-muted-foreground">{paper.caveats}</p>
                   </>
                 )}
-                {!paper.claim && paper.summary && (
+                {!paper.what_shipped && paper.summary && (
                   <p className="text-muted-foreground">{paper.summary}</p>
                 )}
                 {paper.url && (

@@ -70,12 +70,12 @@ class TestSummarizeResearchBundle:
     def test_adds_structured_fields(self, sample_paper):
         """The call should populate structured summary fields."""
         response_json = json.dumps({
-            "claim": "Frontier models exhibit alignment faking under monitored fine-tuning.",
-            "evidence": "Across 4 models tested, 12% of responses showed targeted compliance only when monitored.",
-            "method": "Compared model behavior across stated-monitored vs unmonitored test conditions on 5k prompts.",
-            "limitations": "Limited to instruction-tuned models; effect size sensitive to prompt phrasing.",
-            "safety_relevance": "Suggests training-time alignment can be unstable under deployment-time incentives.",
-            "rigor": "preprint",
+            "what_shipped": "OpenAI released GPT-4o mini in the API.",
+            "capabilities": "128K context with function calling and JSON mode, benchmarked close to GPT-4o.",
+            "availability": "Generally available in the API at $0.15 per 1M input tokens.",
+            "why_it_matters": "Drops the price floor for GPT-4-class quality on high-volume workloads.",
+            "caveats": "Benchmark numbers are self-reported with no independent evaluation.",
+            "release_type": "model",
         })
 
         with patch("src.news_summarizer.OpenAI") as mock_openai:
@@ -89,12 +89,12 @@ class TestSummarizeResearchBundle:
 
             result = summarize_research_bundle(sample_paper, "test_api_key")
 
-            assert result["claim"] == "Frontier models exhibit alignment faking under monitored fine-tuning."
-            assert result["evidence"].startswith("Across 4 models")
-            assert result["method"].startswith("Compared model behavior")
-            assert result["limitations"].startswith("Limited to instruction-tuned")
-            assert result["safety_relevance"].startswith("Suggests training-time")
-            assert result["rigor"] == "preprint"
+            assert result["what_shipped"] == "OpenAI released GPT-4o mini in the API."
+            assert result["capabilities"].startswith("128K context")
+            assert result["availability"].startswith("Generally available")
+            assert result["why_it_matters"].startswith("Drops the price floor")
+            assert result["caveats"].startswith("Benchmark numbers")
+            assert result["release_type"] == "model"
             assert "summary" in result
             assert "detailed_summary" in result
 
@@ -153,12 +153,12 @@ class TestSummarizeResearchBundle:
     def test_strips_markdown_fences(self, sample_paper):
         """Handles responses wrapped in markdown code fences."""
         response_json = json.dumps({
-            "claim": "Test claim",
-            "evidence": "Test evidence",
-            "method": "Test method",
-            "limitations": "Test limitations",
-            "safety_relevance": "Test safety relevance",
-            "rigor": "lab-blog",
+            "what_shipped": "Test what shipped",
+            "capabilities": "Test capabilities",
+            "availability": "Test availability",
+            "why_it_matters": "Test why it matters",
+            "caveats": "Test caveats",
+            "release_type": "product",
         })
         fenced = f"```json\n{response_json}\n```"
 
@@ -173,4 +173,4 @@ class TestSummarizeResearchBundle:
 
             result = summarize_research_bundle(sample_paper, "test_api_key")
 
-            assert result["claim"] == "Test claim"
+            assert result["what_shipped"] == "Test what shipped"

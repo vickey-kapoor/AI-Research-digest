@@ -74,18 +74,64 @@ def _escape_markdown(text: str) -> str:
     return escaped
 
 
+# Topic id -> Telegram hashtag, mirroring topic_config.DEFAULT_TOPICS.
+TOPIC_LABELS = {
+    "model_releases": "#ModelRelease",
+    "product_api": "#ProductAPI",
+    "lab_research": "#LabResearch",
+    "agents_tooling": "#Agents",
+    "benchmarks": "#Benchmarks",
+    "safety_system_cards": "#SafetySystemCards",
+    "open_weights": "#OpenWeights",
+    "infrastructure": "#Infrastructure",
+    "multimodal": "#Multimodal",
+    "enterprise_deployment": "#Enterprise",
+    "policy_regulation": "#Policy",
+}
+
+# Fallback tag when an item carries no topic_id.
+TYPE_TAGS = {
+    "announcement": "#Announcement",
+    "release": "#Release",
+    "discussion": "#Discussion",
+    "paper": "#Paper",
+}
+
+# release_type -> badge shown next to the source.
+RELEASE_TYPE_BADGES = {
+    "model": "🧠 model",
+    "product": "📦 product",
+    "api": "🔌 API",
+    "research": "📄 research",
+    "open-weights": "🔓 open weights",
+    "open weights": "🔓 open weights",
+    "infrastructure": "⚙️ infrastructure",
+    "safety": "🛡 safety",
+    "policy": "⚖️ policy",
+}
+
+# Structured brief sections rendered into the message, in order.
+MESSAGE_SECTIONS = (
+    ("what_shipped", "What shipped"),
+    ("capabilities", "Capabilities"),
+    ("availability", "Availability"),
+    ("why_it_matters", "Why it matters"),
+    ("caveats", "Caveats"),
+)
+
+
 def format_research_message(research: dict) -> str:
     """
-    Format item into a Telegram message using the safety-research digest format.
+    Format an item into a Telegram message using the AI-lab-brief format.
 
     Args:
-        research: Item dictionary with title, source, url, and structured summary fields
+        research: Item dictionary with title, source, url, and structured brief fields
 
     Returns:
         Formatted message string with Markdown
     """
     if not research:
-        return "*AI Safety Digest*\n\nNo updates found today."
+        return "*AI Dev Digest*\n\nNo updates found today."
 
     title = _escape_markdown(research.get("title", "Untitled"))
     source = _escape_markdown(research.get("source", "Unknown"))
@@ -93,67 +139,35 @@ def format_research_message(research: dict) -> str:
 
     # Build topic tag from topic_id (preferred) or item type fallback
     topic_id = research.get("topic_id", "")
-    topic_labels = {
-        "alignment": "#Alignment",
-        "interpretability": "#Interpretability",
-        "evals": "#Evals",
-        "red_teaming": "#RedTeaming",
-        "system_cards": "#SystemCards",
-        "agentic_safety": "#AgenticSafety",
-        "governance": "#Governance",
-        "catastrophic_risk": "#CatastrophicRisk",
-        "robustness": "#Robustness",
-        "data_provenance": "#DataProvenance",
-        "open_weights_safety": "#OpenWeightsSafety",
-    }
-    type_tags = {"announcement": "#Announcement", "release": "#Release", "discussion": "#Discussion", "paper": "#Paper"}
-    tag = topic_labels.get(topic_id) or type_tags.get(research.get("type", ""), "#Update")
+    tag = TOPIC_LABELS.get(topic_id) or TYPE_TAGS.get(research.get("type", ""), "#Update")
 
-    # Rigor indicator (replaces "effort")
-    rigor_map = {
-        "preprint": "📄 preprint",
-        "peer-reviewed": "🎓 peer-reviewed",
-        "peer reviewed": "🎓 peer-reviewed",
-        "lab-blog": "🏛 lab blog",
-        "lab blog": "🏛 lab blog",
-        "position": "💭 position",
-        "system-card": "📋 system card",
-        "system card": "📋 system card",
-    }
-    rigor = research.get("rigor", "").lower().strip()
-    rigor_str = f" · {rigor_map[rigor]}" if rigor in rigor_map else ""
+    # Release-type badge
+    release_type = research.get("release_type", "").lower().strip()
+    badge = RELEASE_TYPE_BADGES.get(release_type)
+    badge_str = f" · {badge}" if badge else ""
 
-    # Structured summary fields
-    claim = _escape_markdown(research.get("claim", ""))
-    evidence = _escape_markdown(research.get("evidence", ""))
-    method = _escape_markdown(research.get("method", ""))
-    limitations = _escape_markdown(research.get("limitations", ""))
-    safety_rel = _escape_markdown(research.get("safety_relevance", ""))
+    # Structured brief fields
+    sections = [
+        (label, _escape_markdown(research.get(key, "")))
+        for key, label in MESSAGE_SECTIONS
+    ]
 
-    # Fall back to flat summary if structured fields are missing
-    if not claim and not evidence:
+    # Fall back to flat summary if the structured brief is missing
+    if not any(text for _, text in sections):
         summary = _escape_markdown(research.get("summary", ""))
-        message = f"""{tag} · {source}{rigor_str}
+        return f"""{tag} · {source}{badge_str}
 
 *{title}*
 
 {summary}
 
 {url}"""
-        return message
 
-    lines = [f"{tag} · {source}{rigor_str}", "", f"*{title}*"]
+    lines = [f"{tag} · {source}{badge_str}", "", f"*{title}*"]
 
-    if claim:
-        lines += ["", "*Claim*", claim]
-    if evidence:
-        lines += ["", "*Evidence*", evidence]
-    if method:
-        lines += ["", "*Method*", method]
-    if limitations:
-        lines += ["", "*Limitations*", limitations]
-    if safety_rel:
-        lines += ["", "*Safety relevance*", safety_rel]
+    for label, text in sections:
+        if text:
+            lines += ["", f"*{label}*", text]
 
     if url:
         lines += ["", url]
