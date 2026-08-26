@@ -88,7 +88,11 @@ def _fetch_single_feed(source: str, url: str, max_per_source: int, filter_keywor
         feed = _parse_blog_feed(url)
 
         if feed.bozo and not feed.entries:
-            logger.warning("%s feed parse error", source)
+            logger.warning("%s feed parse error — no entries returned", source)
+            return []
+
+        if not feed.entries:
+            logger.warning("%s returned an empty feed", source)
             return []
 
         posts = []
@@ -115,6 +119,17 @@ def _fetch_single_feed(source: str, url: str, max_per_source: int, filter_keywor
                 break
 
         filtered = [p for p in posts if _is_dev_relevant(p, filter_keywords)]
+
+        # Per-feed counts make an empty or dead feed visible in the Actions log
+        # instead of it silently contributing nothing.
+        logger.info(
+            "%s: %d entries in feed, %d considered, %d kept after filtering",
+            source,
+            len(feed.entries),
+            len(posts),
+            len(filtered),
+        )
+
         if filtered:
             return filtered
         # With an explicit topic keyword list, an empty result is the right

@@ -10,6 +10,8 @@ from typing import Any
 
 from src.constants import PAPERS_CAP, DIGEST_CAP_DAYS
 from src.logger import get_logger
+from src.news_summarizer import SUMMARY_FIELDS
+from src.topic_config import DEFAULT_TOPICS
 
 logger = get_logger(__name__)
 
@@ -153,10 +155,18 @@ def export_papers(research_items: list[dict], ranked_paper: dict = None) -> str:
             "published_at": item.get("published", item.get("published_at", now.split("T")[0])),
             "fetched_at": now,
             "type": item.get("type", "announcement"),
+            "topic_id": item.get("topic_id", ""),
             "topics": extract_topics(item),
             "ranking_score": ranked_paper.get("ranking_score", 0) if is_top else 0,
             "status": "unread"
         }
+
+        # Carry the structured brief when the summarizer has run on this item.
+        # Only the top pick is summarized, so most items won't have these.
+        for field in SUMMARY_FIELDS:
+            value = item.get(field)
+            if value:
+                paper[field] = value
 
         data["papers"].append(paper)
         existing_by_identity[identity] = paper
@@ -175,28 +185,25 @@ def export_papers(research_items: list[dict], ranked_paper: dict = None) -> str:
 
 
 def extract_topics(item: dict) -> list[str]:
-    """Extract safety-research topic tags from an item."""
-    topics = []
+    """Tag an item with display names of the topics its text matches.
+
+    Reads DEFAULT_TOPICS so the tags can never drift from the configured
+    taxonomy. An item already tagged with a topic_id by the fetcher gets
+    that topic listed first.
+    """
     text = f"{item.get('title', '')} {item.get('summary', '')}".lower()
+    assigned_id = item.get("topic_id") or ""
 
-    topic_keywords = {
-        "Alignment": ["alignment", "rlhf", "rlaif", "dpo", "constitutional", "reward model", "reward hacking"],
-        "Interpretability": ["interpretability", "mechanistic", "sparse autoencoder", "sae", "activation steering", "probing"],
-        "Evals": ["benchmark", "eval", "capability eval", "dangerous capability", "inspect_ai", "metr"],
-        "Red-teaming": ["red-teaming", "red teaming", "jailbreak", "prompt injection", "adversarial prompt"],
-        "System Cards": ["system card", "model card", "responsible scaling", "rsp", "preparedness"],
-        "Agentic Safety": ["deception", "scheming", "sandbagging", "alignment faking", "situational awareness", "sabotage"],
-        "Governance": ["aisi", "ai safety institute", "eu ai act", "executive order", "compute governance"],
-        "Catastrophic Risk": ["cbrn", "biorisk", "bioweapon", "cyber uplift", "wmdp", "persuasion"],
-        "Robustness": ["adversarial robustness", "distribution shift", "ood", "calibration"],
-        "Data Provenance": ["data poisoning", "watermark", "data attribution", "memorization", "membership inference"],
-        "Open-Weights Safety": ["open weights", "open-source model", "fine-tuning attack", "removable safety"],
-    }
-
-    for topic, keywords in topic_keywords.items():
-        if any(kw in text for kw in keywords):
-            if topic not in topics:
-                topics.append(topic)
+    topics: list[str] = []
+    for topic in DEFAULT_TOPICS:
+        name = topic["name"]
+        if topic["id"] == assigned_id:
+            if name not in topics:
+                topics.insert(0, name)
+            continue
+        if any(kw.lower() in text for kw in topic["keywords"]):
+            if name not in topics:
+                topics.append(name)
 
     return topics[:5]
 

@@ -64,7 +64,21 @@ def main():
 
     # Check if we have any content
     if not research_items:
+        # Record the empty day rather than exiting silently — otherwise the
+        # commit step stages nothing and the day vanishes from digests.json
+        # with no way to tell it apart from a run that never fired.
         logger.info("No items found today")
+        try:
+            export_digest(
+                top_paper_id=None,
+                papers_fetched=0,
+                pdf_path=None,
+                telegram_sent=False,
+                workflow_run_id=os.getenv("GITHUB_RUN_ID", ""),
+            )
+            logger.info("Recorded empty digest in data/digests.json")
+        except Exception as e:
+            logger.warning("Could not record empty digest: %s", e)
         sys.exit(0)
 
     # Filter out papers already sent as top pick
@@ -97,14 +111,9 @@ def main():
         except Exception as e:
             logger.warning("Could not update topic stats: %s", e)
 
-        try:
-            top_paper_id = export_papers(research_items, top_research)
-            logger.info("Items exported to data/papers.json")
-        except Exception as e:
-            logger.warning("Could not export items to JSON: %s", e)
-
-        # Generate summaries in one model call (must run before weekly-KV append
-        # so the saved entry includes the structured fields)
+        # Generate summaries in one model call. This must run before both the
+        # papers.json export and the weekly-KV append so each saved entry
+        # includes the structured fields rather than the raw RSS description.
         logger.info("Generating summaries...")
         try:
             top_research = summarize_research_bundle(top_research, openai_key)
@@ -114,6 +123,19 @@ def main():
                 logger.info("Generated detailed summary for PDF")
         except Exception:
             logger.warning("Could not generate summaries")
+
+        # summarize_research_bundle returns a copy, so swap it back into the
+        # fetched list — otherwise papers.json stores the unsummarized original.
+        research_items = [
+            top_research if _paper_id_for_item(item) == _paper_id_for_item(top_research) else item
+            for item in research_items
+        ]
+
+        try:
+            top_paper_id = export_papers(research_items, top_research)
+            logger.info("Items exported to data/papers.json")
+        except Exception as e:
+            logger.warning("Could not export items to JSON: %s", e)
 
         # Append top item to weekly KV list for Sunday digest
         try:
