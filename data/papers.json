@@ -1,6 +1,177 @@
 {
   "papers": [
     {
+      "id": "0da123f0-a1a1-5e31-8b99-dfa200a2469f",
+      "title": "Preparing data for supervised fine-tuning Part 2: Advanced data strategies",
+      "summary": "AWS Machine Learning released the second part of a blog series on data preparation for supervised fine-tuning. The blog covers methods for evaluating data readiness with learning curves, selecting high-value data subsets, augmenting data with synthetic and distilled examples, and mixing data sources to prevent catastrophic forgetting. These strategies aim to enhance the effectiveness of supervised fine-tuning.",
+      "source": "AWS Machine Learning",
+      "url": "https://aws.amazon.com/blogs/machine-learning/preparing-data-for-supervised-fine-tuning-part-2-advanced-data-strategies/",
+      "published_at": "2026-08-26T16:24:05",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "announcement",
+      "topic_id": "benchmarks",
+      "topics": [
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "AWS Machine Learning released the second part of a blog series on data preparation for supervised fine-tuning.",
+      "capabilities": "The blog covers methods for evaluating data readiness with learning curves, selecting high-value data subsets, augmenting data with synthetic and distilled examples, and mixing data sources to prevent catastrophic forgetting. These strategies aim to enhance the effectiveness of supervised fine-tuning.",
+      "availability": "The content is available on the AWS Machine Learning blog and can be accessed online. No pricing or access tiers are mentioned.",
+      "why_it_matters": "This information provides practitioners with advanced strategies to improve model performance through better data preparation, potentially leading to more efficient and effective fine-tuning processes.",
+      "caveats": "The claims made in the blog are not verified by empirical data or benchmarks. Specific examples or case studies illustrating these advanced strategies are not provided.",
+      "release_type": "research"
+    },
+    {
+      "id": "5888dba3-d22f-5696-b05d-0bd527ee42a8",
+      "title": "Preparing data for supervised fine-tuning Part 1: Formatting and quality",
+      "summary": "Data preparation determines the ceiling of any supervised fine-tuning project. This first post in a two-part series covers the foundations of SFT data prep: quality checks, conversational (JSONL) formatting, reasoning and tool-calling schemas, and a representative train/evaluation split.",
+      "source": "AWS Machine Learning",
+      "url": "https://aws.amazon.com/blogs/machine-learning/preparing-data-for-supervised-fine-tuning-part-1-formatting-and-quality/",
+      "published_at": "2026-08-26T16:24:02",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "announcement",
+      "topic_id": "benchmarks",
+      "topics": [
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "08a79a9b-4afe-58c4-92fc-467af3d8ba4c",
+      "title": "transformers v5.16.1 released",
+      "summary": "# Release v5.16.1\r\n\r\nThis is a special release as we include GLM! (and a few small fixes)\r\n\r\n# GLM-5.3-Flash\r\n\r\n<img width=\"4239\" height=\"2643\" alt=\"image\" src=\"https://github.com/user-attachments/assets/17bc9c29-758b-44c8-8230-42f945ded209\" />\r\n\r\nGLM-5.3-Flash, the first **natively multimodal model** in the GLM-5 series. With 320B total parameters and just 18B active parameters, it outperforms GLM-5.2 across benchmarks and real-world workloads at one-tenth the price, while approaching Claude Op",
+      "source": "GitHub",
+      "url": "https://github.com/huggingface/transformers/releases/tag/v5.16.1",
+      "published_at": "2026-08-26T14:50:01Z",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "release",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Benchmarks & Evals",
+        "Multimodal & Generative Media"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "4b06d11f-ea7f-578c-9486-8e5316c0c0d1",
+      "title": "Qwen3.8-Flash-Next: A New Architecture, Towards Ultimate Cost-Efficiency",
+      "summary": "388 points · 116 comments",
+      "source": "Hacker News",
+      "url": "https://qwen.ai/blog?id=qwen3.8-flash-next",
+      "published_at": "2026-08-26T12:52:12+00:00",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "2719b560-37d0-51dc-9237-f9a234258ee1",
+      "title": "With Groq 3 LPX in Full Production, NVIDIA Extends Vera Rubin Inference for Agents",
+      "summary": "The next era of AI inference won’t be defined by a single breakthrough chip, network or system. It’ll be defined by how every layer of the AI factory works together. That’s why NVIDIA is extending Vera Rubin NVL72 with fast token generation for agentic systems. Announced today, the NVIDIA Vera Rubin rack-scale system NVIDIA Groq […]",
+      "source": "NVIDIA",
+      "url": "https://blogs.nvidia.com/blog/vera-rubin-lpx-spectrum-x-nvlink-fusion/",
+      "published_at": "2026-08-24T15:00:41",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "announcement",
+      "topic_id": "agents_tooling",
+      "topics": [
+        "Agents & Tooling",
+        "Compute & Infrastructure"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "ef7eaff0-8a4a-572b-9eaf-b36260a5f7d1",
+      "title": "Up to 30x More Work Per Watt: NVIDIA Vera Rubin NVL72 Sets a New Efficiency Standard for AI Agents",
+      "summary": "According to OpenRouter data, agentic AI workloads consume 15x more tokens than a simple chat request. Why? Consider what happens when an AI agent researches a company for an investment decision. The agent queries financial databases, searches news and filings, invokes a sub-agent to run peer comparisons and model valuations, then synthesizes everything into a […]",
+      "source": "NVIDIA",
+      "url": "https://blogs.nvidia.com/blog/vera-rubin-nvl72-efficiency-ai-agents/",
+      "published_at": "2026-08-24T15:00:19",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "announcement",
+      "topic_id": "agents_tooling",
+      "topics": [
+        "Agents & Tooling"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "e95a362f-8ef3-5d45-8f43-6dfebde47260",
+      "title": "Agentic Search. More accurate and efficient results from your AI systems.",
+      "summary": "The retrieval layer that helps AI systems navigate, read, and verify information inside even the most complex documents",
+      "source": "Mistral AI",
+      "url": "https://mistral.ai/news/agentic-search/",
+      "published_at": "2026-08-20T12:00:17",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "announcement",
+      "topic_id": "agents_tooling",
+      "topics": [
+        "Agents & Tooling",
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "4b54e905-feea-5fc6-85b4-f2a5c271700e",
+      "title": "From User Sequences to Scaling Laws: A Multi-Stage Architecture for Meta’s Ads Ranking",
+      "summary": "Every day, Meta’s recommendation platforms handle billions of user interactions, generating rich temporal signals that capture individual preferences and intent across products, ads, and content. In our 2024 post on sequence learning for ads recommendations, we showed how modeling the order and timing of user actions (rather than relying on static, manually engineered sparse features) [...] Read More... The post From User Sequences to Scaling Laws: A Multi-Stage Architecture for Meta’s Ads Ra...",
+      "source": "Meta AI",
+      "url": "https://engineering.fb.com/2026/08/05/ml-applications/from-user-sequences-to-scaling-laws-a-multi-stage-architecture-for-metas-ads-ranking/",
+      "published_at": "2026-08-05T19:20:20",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "announcement",
+      "topic_id": "lab_research",
+      "topics": [
+        "Lab Research"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "74ebfece-224c-5d85-8204-64797f6c4c4e",
+      "title": "Pretraining Data Filtering for Open-Weight AI Safety",
+      "summary": "Announcing Deep Ignorance: Filtering Pretraining Data Builds Tamper-Resistant Safeguards into Open-Weight LLMs",
+      "source": "EleutherAI",
+      "url": "https://blog.eleuther.ai/deep-ignorance/",
+      "published_at": "2025-08-12T20:00:00",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "announcement",
+      "topic_id": "lab_research",
+      "topics": [
+        "Lab Research",
+        "Open Weights"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "7adadc5c-e40c-5f2d-8ef4-41c325d12a88",
+      "title": "GSPO: Towards Scalable Reinforcement Learning for Language Models",
+      "summary": "PAPER DISCORD Introduction Reinforcement Learning (RL) has emerged as a pivotal paradigm for scaling language models and enhancing their deep reasoning and problem-solving capabilities. To scale RL, the foremost prerequisite is maintaining stable and robust training dynamics. However, we observe that existing RL algorithms (such as GRPO) exhibit severe instability issues during long training and lead to irreversible model collapse, hindering further performance improvements with increased com...",
+      "source": "Qwen",
+      "url": "https://qwenlm.github.io/blog/gspo/",
+      "published_at": "2025-07-27T07:00:00",
+      "fetched_at": "2026-08-26T16:51:24.007448Z",
+      "type": "announcement",
+      "topic_id": "lab_research",
+      "topics": [
+        "Lab Research"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "6af6bd28-e6e3-5f39-9e8c-dfe4c2d22b9a",
       "title": "FDA clears blood test to aid evaluation for Alzheimer's disease",
       "summary": "140 points · 65 comments",

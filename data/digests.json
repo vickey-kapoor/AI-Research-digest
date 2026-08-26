@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-26",
+      "top_paper_id": "0da123f0-a1a1-5e31-8b99-dfa200a2469f",
+      "papers_fetched": 10,
+      "pdf_path": "reports/26-Aug/Preparing_data_for_supervised_fine-tuning_Part_2.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "32990734861"
+    },
+    {
       "date": "2026-08-25",
       "top_paper_id": "",
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "26467446261"
-    },
-    {
-      "date": "2026-05-25",
-      "top_paper_id": "",
-      "papers_fetched": 2,
-      "pdf_path": "",
-      "telegram_sent": false,
-      "workflow_run_id": "26413065320"
     }
   ]
 }
