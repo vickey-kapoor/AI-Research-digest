@@ -135,3 +135,78 @@ class TestMain:
         mock_send_telegram_message.assert_called_once()
         # Digest still exported even on send failure
         mock_export_digest.assert_called_once()
+
+    @patch("main.export_digest")
+    @patch("main.get_active_keywords", return_value=["frontier model"])
+    @patch("main.fetch_all", return_value=[])
+    @patch("main.is_paused", return_value=False)
+    def test_empty_day_is_recorded(
+        self,
+        mock_paused,
+        mock_fetch_all,
+        mock_get_active_keywords,
+        mock_export_digest,
+        env_vars,
+        monkeypatch,
+    ):
+        """A day with no items writes a digest entry instead of exiting silently."""
+        monkeypatch.setenv("GITHUB_RUN_ID", "run-456")
+
+        with pytest.raises(SystemExit) as exc_info:
+            main.main()
+
+        assert exc_info.value.code == 0
+        mock_export_digest.assert_called_once()
+        kwargs = mock_export_digest.call_args.kwargs
+        assert kwargs["papers_fetched"] == 0
+        assert kwargs["top_paper_id"] is None
+        assert kwargs["telegram_sent"] is False
+        assert kwargs["workflow_run_id"] == "run-456"
+
+    @patch("main.export_digest")
+    @patch("main.send_telegram_message")
+    @patch("main.format_research_message", return_value="formatted")
+    @patch("main.generate_research_pdf", return_value="reports/x.pdf")
+    @patch("main.summarize_research_bundle")
+    @patch("main.export_papers", return_value="paper-1")
+    @patch("main.rank_research")
+    @patch("main.fetch_all")
+    @patch("main.increment_topic_stat")
+    @patch("main.get_active_keywords", return_value=["frontier model"])
+    @patch("main.is_paused", return_value=False)
+    def test_summarized_item_is_what_gets_exported(
+        self,
+        mock_paused,
+        mock_get_active_keywords,
+        mock_increment_stat,
+        mock_fetch_all,
+        mock_rank_research,
+        mock_export_papers,
+        mock_summarize_research_bundle,
+        mock_generate_research_pdf,
+        mock_format_research_message,
+        mock_send_telegram_message,
+        mock_export_digest,
+        env_vars,
+    ):
+        """papers.json must receive the summarized item, not the raw original."""
+        paper = {
+            "title": "Test Paper",
+            "summary": "Raw RSS description",
+            "url": "https://openai.com/blog/test",
+            "source": "OpenAI",
+            "published": "2024-07-18T00:00:00",
+            "type": "announcement",
+        }
+        enriched = {**paper, "summary": "Generated summary", "what_shipped": "OpenAI shipped X."}
+
+        mock_fetch_all.return_value = [paper]
+        mock_rank_research.return_value = paper
+        mock_summarize_research_bundle.return_value = enriched
+
+        main.main()
+
+        exported_items, exported_top = mock_export_papers.call_args[0]
+        assert exported_items == [enriched]
+        assert exported_top is enriched
+        assert exported_items[0]["what_shipped"] == "OpenAI shipped X."

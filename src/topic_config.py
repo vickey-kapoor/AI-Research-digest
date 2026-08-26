@@ -9,7 +9,10 @@ from src.logger import get_logger
 
 logger = get_logger(__name__)
 
-# Mirror of dashboard/src/lib/topics.ts — canonical topic definitions
+# Mirror of dashboard/src/lib/topics.ts — canonical topic definitions.
+# This is the single source of truth for topic ids, display names, and
+# keywords on the Python side; json_exporter.extract_topics reads from it
+# rather than keeping its own copy.
 # Persona: engineer/researcher tracking what the frontier AI labs ship.
 # Prioritize model launches, product/API releases, lab research reports, and
 # capability results over third-party commentary.
@@ -20,6 +23,7 @@ logger = get_logger(__name__)
 DEFAULT_TOPICS = [
     {
         "id": "model_releases",
+        "name": "Model Releases",
         "keywords": [
             "model release", "new model", "frontier model", "flagship model",
             "reasoning model", "model family", "introducing claude",
@@ -30,6 +34,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "product_api",
+        "name": "Product & API",
         "keywords": [
             "developer api", "api access", "api pricing", "batch api",
             "fine-tuning api", "responses api", "assistants api",
@@ -41,6 +46,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "lab_research",
+        "name": "Lab Research",
         "keywords": [
             "technical report", "research paper", "scaling law", "pretraining",
             "post-training", "reinforcement learning", "RLHF", "distillation",
@@ -51,6 +57,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "agents_tooling",
+        "name": "Agents & Tooling",
         "keywords": [
             "agentic", "AI agent", "tool use", "function calling",
             "computer use", "model context protocol", "MCP server",
@@ -61,6 +68,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "benchmarks",
+        "name": "Benchmarks & Evals",
         "keywords": [
             "benchmark", "eval", "evaluation suite", "SWE-bench", "GPQA",
             "ARC-AGI", "AIME", "FrontierMath", "MMLU", "leaderboard",
@@ -70,6 +78,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "safety_system_cards",
+        "name": "Safety & System Cards",
         "keywords": [
             "system card", "model card", "responsible scaling",
             "preparedness framework", "frontier safety", "red-teaming",
@@ -80,6 +89,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "open_weights",
+        "name": "Open Weights",
         "keywords": [
             "open weights", "open-weight", "open source model", "open model",
             "weights release", "Apache 2.0", "model license",
@@ -89,6 +99,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "infrastructure",
+        "name": "Compute & Infrastructure",
         "keywords": [
             "inference", "quantization", "training run", "gpu cluster",
             "TPU", "Blackwell", "Trainium", "supercomputer", "datacenter",
@@ -98,6 +109,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "multimodal",
+        "name": "Multimodal & Generative Media",
         "keywords": [
             "multimodal", "vision-language", "image generation",
             "video generation", "text-to-video", "speech model", "voice model",
@@ -107,6 +119,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "enterprise_deployment",
+        "name": "Enterprise Deployment",
         "keywords": [
             "enterprise", "deployment", "case study", "on-premise",
             "government deployment", "cloud partnership", "customer adoption",
@@ -116,6 +129,7 @@ DEFAULT_TOPICS = [
     },
     {
         "id": "policy_regulation",
+        "name": "Policy & Regulation",
         "keywords": [
             "EU AI Act", "AI regulation", "AI policy", "executive order",
             "AI safety institute", "AISI", "export controls",

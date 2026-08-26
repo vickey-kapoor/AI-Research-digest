@@ -146,3 +146,80 @@ class TestExportDigest:
         assert len(data["digests"]) == 1
         assert data["digests"][0]["top_paper_id"] == "paper-1"
         assert data["digests"][0]["telegram_sent"] is True
+
+
+class TestExtractTopics:
+    """Tests for topic tagging, which reads the configured taxonomy."""
+
+    def test_uses_configured_topic_names(self):
+        """Tags come from DEFAULT_TOPICS, not a private copy that can drift."""
+        from src.topic_config import DEFAULT_TOPICS
+
+        valid_names = {t["name"] for t in DEFAULT_TOPICS}
+        topics = json_exporter.extract_topics({
+            "title": "Introducing our new frontier model",
+            "summary": "Tops SWE-bench and ships in the developer api today",
+        })
+
+        assert topics
+        assert set(topics).issubset(valid_names)
+
+    def test_assigned_topic_id_is_listed_first(self):
+        """An item already tagged by the fetcher leads with that topic."""
+        topics = json_exporter.extract_topics({
+            "title": "Tops SWE-bench",
+            "summary": "benchmark results",
+            "topic_id": "model_releases",
+        })
+
+        assert topics[0] == "Model Releases"
+
+    def test_no_match_returns_empty(self):
+        topics = json_exporter.extract_topics({
+            "title": "Nothing relevant here",
+            "summary": "just words",
+        })
+
+        assert topics == []
+
+    def test_caps_at_five(self):
+        """Tag list stays bounded even when an item matches many topics."""
+        topics = json_exporter.extract_topics({
+            "title": "New frontier model with open weights and a system card",
+            "summary": (
+                "agentic tool use, multimodal vision-language, benchmark results, "
+                "developer api pricing, inference on gpu cluster, EU AI Act compliance, "
+                "enterprise deployment, technical report on post-training"
+            ),
+        })
+
+        assert len(topics) <= 5
+
+
+class TestStructuredBriefPersistence:
+    """The structured brief must survive into papers.json."""
+
+    def test_summary_fields_are_persisted(self, data_dir, sample_paper_with_summary):
+        json_exporter.export_papers(
+            [sample_paper_with_summary], ranked_paper=sample_paper_with_summary
+        )
+
+        data = json.loads((data_dir / "papers.json").read_text(encoding="utf-8"))
+        paper = data["papers"][0]
+
+        assert paper["what_shipped"] == sample_paper_with_summary["what_shipped"]
+        assert paper["capabilities"] == sample_paper_with_summary["capabilities"]
+        assert paper["availability"] == sample_paper_with_summary["availability"]
+        assert paper["why_it_matters"] == sample_paper_with_summary["why_it_matters"]
+        assert paper["caveats"] == sample_paper_with_summary["caveats"]
+        assert paper["release_type"] == sample_paper_with_summary["release_type"]
+
+    def test_unsummarized_items_omit_brief_fields(self, data_dir, sample_paper):
+        """Items the summarizer never touched carry no empty brief keys."""
+        json_exporter.export_papers([sample_paper])
+
+        data = json.loads((data_dir / "papers.json").read_text(encoding="utf-8"))
+        paper = data["papers"][0]
+
+        assert "what_shipped" not in paper
+        assert "release_type" not in paper
