@@ -1,0 +1,76 @@
+name: CI
+
+# Runs the test suite and static checks on every pull request and on master.
+# The daily digest workflow lives in daily-news.yml and is unaffected by this.
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+# Read-only: unlike daily-news.yml, nothing here commits back to the repo.
+permissions:
+  contents: read
+
+# A new push supersedes an in-flight run for the same ref.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.6.0
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # The suite mocks every network and OpenAI call, so no secrets are needed.
+      - name: Run tests
+        run: pytest
+
+  dashboard:
+    name: Dashboard typecheck and lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    defaults:
+      run:
+        working-directory: dashboard
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+
+      # Floating major, unlike the pinned actions above: this is the first use
+      # of setup-node in the repo and no existing pin to match. Pin to a patch
+      # version once a known-good one has run here.
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
