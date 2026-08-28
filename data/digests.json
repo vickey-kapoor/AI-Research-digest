@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-28",
+      "top_paper_id": "42556744-0b5b-5670-a77d-0b597dc59493",
+      "papers_fetched": 10,
+      "pdf_path": "reports/28-Aug/Build_agentic_creative_workflows_with_Amazon_Quick.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "33130879098"
+    },
+    {
       "date": "2026-08-26",
       "top_paper_id": "0da123f0-a1a1-5e31-8b99-dfa200a2469f",
       "papers_fetched": 10,
@@ -711,14 +719,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "26530710173"
-    },
-    {
-      "date": "2026-05-26",
-      "top_paper_id": "",
-      "papers_fetched": 2,
-      "pdf_path": "",
-      "telegram_sent": false,
-      "workflow_run_id": "26467446261"
     }
   ]
 }

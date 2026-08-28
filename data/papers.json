@@ -1,6 +1,143 @@
 {
   "papers": [
     {
+      "id": "42556744-0b5b-5670-a77d-0b597dc59493",
+      "title": "Build agentic creative workflows with Amazon Quick and fal",
+      "summary": "Amazon Quick and fal, a product designed to streamline creative workflows. The product enables the creation of reusable agentic workflows and supports two hands-on workflows: an eight-panel storyboard and a music-video concept prototype. It integrates with the Model Context Protocol (MCP) for improved context transfer.",
+      "source": "AWS Machine Learning",
+      "url": "https://aws.amazon.com/blogs/machine-learning/build-agentic-creative-workflows-with-amazon-quick-and-fal/",
+      "published_at": "2026-08-27T23:04:22",
+      "fetched_at": "2026-08-28T00:49:05.510793Z",
+      "type": "announcement",
+      "topic_id": "agents_tooling",
+      "topics": [
+        "Agents & Tooling"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "Amazon Quick and fal, a product designed to streamline creative workflows.",
+      "capabilities": "The product enables the creation of reusable agentic workflows and supports two hands-on workflows: an eight-panel storyboard and a music-video concept prototype. It integrates with the Model Context Protocol (MCP) for improved context transfer.",
+      "availability": "Not stated.",
+      "why_it_matters": "This product aims to reduce production time for creative teams by minimizing fragmentation in tools and manual context transfer, potentially increasing productivity in asset creation.",
+      "caveats": "The description does not provide specific performance metrics or user feedback, and details on availability or pricing are not included.",
+      "release_type": "product"
+    },
+    {
+      "id": "c2f9a27e-9f54-5b26-8e41-29f9af9567f9",
+      "title": "anthropic-sdk-python v1.2.0 released",
+      "summary": "## 1.2.0 (2026-08-27)\n\nFull Changelog: [v1.1.0...v1.2.0](https://github.com/anthropics/anthropic-sdk-python/compare/v1.1.0...v1.2.0)\n\n### Features\n\n* **api:** beta files/skills namespaces use GA shapes; drop dated beta header pins ([9df4565](https://github.com/anthropics/anthropic-sdk-python/commit/9df4565fdfe4eec941809a0a3d1615ee11e16b68))\n\n\n### Bug Fixes\n\n* **aws,bedrock:** sign raw request bytes so binary file uploads work ([#531](https://github.com/anthropics/anthropic-sdk-python/issues/531)",
+      "source": "GitHub",
+      "url": "https://github.com/anthropics/anthropic-sdk-python/releases/tag/v1.2.0",
+      "published_at": "2026-08-27T20:28:58Z",
+      "fetched_at": "2026-08-28T00:49:05.510793Z",
+      "type": "release",
+      "topic_id": "product_api",
+      "topics": [
+        "Product & API"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "5139ccf2-65a2-5aaf-8765-fc6d2ee246bd",
+      "title": "Gemini-3.5-Transcribe",
+      "summary": "135 points · 33 comments",
+      "source": "Hacker News",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/",
+      "published_at": "2026-08-27T18:03:42+00:00",
+      "fetched_at": "2026-08-28T00:49:05.510793Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "1fa952c0-439c-5ac0-b251-81a65e9b2ee1",
+      "title": "Gemini Omni 1.1 Flash",
+      "summary": "180 points · 133 comments",
+      "source": "Hacker News",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-omni-1-1-flash/",
+      "published_at": "2026-08-27T17:06:32+00:00",
+      "fetched_at": "2026-08-28T00:49:05.510793Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "07c0095b-0429-572e-b86e-5d59fcc59427",
+      "title": "Piloting the world's first double-blind AI evaluations",
+      "summary": "Piloting the world's first double-blind AI evaluations",
+      "source": "Google DeepMind",
+      "url": "https://deepmind.google/blog/piloting-the-worlds-first-double-blind-ai-evaluations/",
+      "published_at": "2026-08-27T12:59:16",
+      "fetched_at": "2026-08-28T00:49:05.510793Z",
+      "type": "announcement",
+      "topic_id": "benchmarks",
+      "topics": [
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "3fc1e274-b931-5243-bbfb-ce6c6d1c53bd",
+      "title": "Show HN: The load-bearing vocabulary of Claude",
+      "summary": "331 points · 158 comments",
+      "source": "Hacker News",
+      "url": "https://louisabraham.github.io/load-bearing/",
+      "published_at": "2026-08-27T08:59:49+00:00",
+      "fetched_at": "2026-08-28T00:49:05.510793Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "cb3da9b0-6bf8-558f-8dd5-7fda49e735b1",
+      "title": "Evaluate any agent framework with Amazon Bedrock AgentCore Evaluations",
+      "summary": "Amazon Bedrock AgentCore Evaluations decouples agent evaluation from the framework you build on. As long as your agent emits OpenTelemetry telemetry, the service can score it, whether you use LangGraph, LlamaIndex, the OpenAI Agents SDK, Google ADK, the Claude Agent SDK, or Strands Agents. This post explains how the framework-agnostic contract works.",
+      "source": "AWS Machine Learning",
+      "url": "https://aws.amazon.com/blogs/machine-learning/evaluate-any-agent-framework-with-amazon-bedrock-agentcore-evaluations/",
+      "published_at": "2026-08-26T19:13:35",
+      "fetched_at": "2026-08-28T00:49:05.510793Z",
+      "type": "announcement",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Product & API",
+        "Agents & Tooling",
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "2406f820-59eb-5d59-b21b-69db722d2b6b",
+      "title": "The Hugging Face incident and the road ahead",
+      "summary": "OpenAI shares findings from the Hugging Face security incident and the steps we’re taking to strengthen AI model security, monitoring, and alignment.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/hugging-face-incident-and-the-road-ahead",
+      "published_at": "2026-08-26T00:00:00",
+      "fetched_at": "2026-08-28T00:49:05.510793Z",
+      "type": "announcement",
+      "topic_id": "safety_system_cards",
+      "topics": [
+        "Safety & System Cards"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "0da123f0-a1a1-5e31-8b99-dfa200a2469f",
       "title": "Preparing data for supervised fine-tuning Part 2: Advanced data strategies",
       "summary": "AWS Machine Learning released the second part of a blog series on data preparation for supervised fine-tuning. The blog covers methods for evaluating data readiness with learning curves, selecting high-value data subsets, augmenting data with synthetic and distilled examples, and mixing data sources to prevent catastrophic forgetting. These strategies aim to enhance the effectiveness of supervised fine-tuning.",
