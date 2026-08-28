@@ -6,7 +6,12 @@ from unittest.mock import patch, MagicMock
 import pytest
 
 from src.constants import BLOG_FEEDS
-from src.fetchers.blog_fetcher import fetch_blog_posts, _fetch_single_feed, _is_dev_relevant
+from src.fetchers.blog_fetcher import (
+    fetch_blog_posts,
+    _fetch_single_feed,
+    _is_dev_relevant,
+    _is_tutorial,
+)
 
 
 class TestBlogFetcher:
@@ -146,3 +151,34 @@ class TestDevRelevanceFilter:
             )
 
             assert posts == []
+
+
+class TestTutorialFilter:
+    """Tests for excluding vendor how-tos from the candidate pool."""
+
+    def test_blocks_the_real_winners(self):
+        """Both items that actually won the daily pick were tutorials."""
+        assert _is_tutorial("Preparing data for supervised fine-tuning Part 2: Advanced data strategies")
+        assert _is_tutorial("Build agentic creative workflows with Amazon Quick and fal")
+
+    @pytest.mark.parametrize("title", [
+        "Gemini-3.5-Transcribe",
+        "Gemini Omni 1.1 Flash",
+        "Piloting the world's first double-blind AI evaluations",
+        "The Hugging Face incident and the road ahead",
+        "Qwen3.8-Flash-Next: A New Architecture, Towards Ultimate Cost Efficiency",
+        "GSPO: Towards Scalable Reinforcement Learning for Language Models",
+        "Introducing GPT-5.6 in the API",
+        "anthropic-sdk-python v1.2.0 released",
+    ])
+    def test_real_lab_news_survives(self, title):
+        """False positives here would silently drop genuine launches."""
+        assert not _is_tutorial(title)
+
+    def test_matches_title_only_not_summary(self):
+        """A launch post whose body says 'how to' must not be dropped."""
+        post = {
+            "title": "Introducing our new frontier model",
+            "summary": "We show how to call the new developer api endpoint.",
+        }
+        assert _is_dev_relevant(post) is True

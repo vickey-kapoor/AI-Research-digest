@@ -10,6 +10,7 @@ from src.fetcher import (
     _deduplicate_by_url,
     _filter_by_recency,
     _parse_published,
+    _cap_per_source,
 )
 
 
@@ -111,7 +112,14 @@ class TestFetchAll:
     @patch("src.fetcher.fetch_blog_posts")
     def test_respects_max_results(self, mock_blogs, mock_gh, mock_hn):
         mock_blogs.return_value = [
-            {"title": f"Post {i}", "url": f"https://a.com/{i}", "published": _hours_ago(i + 1)}
+            # Distinct sources: this test covers max_results, not the
+            # per-source cap, which would otherwise trim a single-source batch.
+            {
+                "title": f"Post {i}",
+                "url": f"https://a.com/{i}",
+                "source": f"Lab {i}",
+                "published": _hours_ago(i + 1),
+            }
             for i in range(10)
         ]
         result = fetch_all(max_results=3)
@@ -206,3 +214,46 @@ class TestFilterByRecency:
         ]
         result = fetch_all(max_results=10)
         assert [r["title"] for r in result] == ["Today"]
+
+
+class TestCapPerSource:
+    """Tests for the per-source cap that stops one feed crowding the pool."""
+
+    def test_caps_each_source(self):
+        items = [{"source": "Vendor", "title": f"p{i}"} for i in range(5)]
+        assert len(_cap_per_source(items, 2)) == 2
+
+    def test_other_sources_unaffected(self):
+        items = [
+            {"source": "Vendor", "title": "a"},
+            {"source": "Vendor", "title": "b"},
+            {"source": "Vendor", "title": "c"},
+            {"source": "OpenAI", "title": "launch"},
+        ]
+        kept = _cap_per_source(items, 2)
+        assert [i["title"] for i in kept] == ["a", "b", "launch"]
+
+    def test_keeps_freshest_per_source(self):
+        """Input is sorted newest-first, so the cap must keep the leading items."""
+        items = [
+            {"source": "Vendor", "title": "newest"},
+            {"source": "Vendor", "title": "middle"},
+            {"source": "Vendor", "title": "oldest"},
+        ]
+        assert [i["title"] for i in _cap_per_source(items, 2)] == ["newest", "middle"]
+
+    def test_zero_disables_the_cap(self):
+        items = [{"source": "Vendor", "title": f"p{i}"} for i in range(5)]
+        assert len(_cap_per_source(items, 0)) == 5
+
+    def test_real_28_aug_pool_frees_slots_for_labs(self):
+        """Regression: one vendor blog held 4 of 10 slots and won the pick."""
+        pool = (
+            [{"source": "AWS Machine Learning", "title": f"aws{i}"} for i in range(4)]
+            + [{"source": "Google DeepMind", "title": "evals"}]
+            + [{"source": "OpenAI", "title": "incident"}]
+        )
+        kept = _cap_per_source(pool, 2)
+        aws = [i for i in kept if i["source"] == "AWS Machine Learning"]
+        assert len(aws) == 2
+        assert {"evals", "incident"}.issubset({i["title"] for i in kept})

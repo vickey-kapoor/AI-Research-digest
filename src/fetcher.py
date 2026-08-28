@@ -3,7 +3,11 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 
-from src.constants import DIGEST_MAX_AGE_HOURS, THREAD_POOL_WORKERS
+from src.constants import (
+    DIGEST_MAX_AGE_HOURS,
+    MAX_ITEMS_PER_SOURCE,
+    THREAD_POOL_WORKERS,
+)
 from src.fetchers.blog_fetcher import fetch_blog_posts
 from src.fetchers.github_fetcher import fetch_github_releases
 from src.fetchers.hackernews_fetcher import fetch_hackernews_stories
@@ -66,6 +70,34 @@ def _filter_by_recency(items: list[dict], max_age_hours: int) -> list[dict]:
         logger.info("Dropped %d item(s) older than %dh", stale, max_age_hours)
     if undated:
         logger.warning("Kept %d item(s) with an unparseable published date", undated)
+
+    return kept
+
+
+def _cap_per_source(items: list[dict], max_per_source: int) -> list[dict]:
+    """Limit how many slots any one source can occupy.
+
+    Items must already be sorted newest-first: each source keeps its most
+    recent entries. Without this a high-volume vendor blog crowds out the
+    frontier labs — one held 4 of 10 slots on 28-Aug and won the daily pick.
+    """
+    if max_per_source <= 0:
+        return items
+
+    counts: dict[str, int] = {}
+    kept, dropped = [], 0
+
+    for item in items:
+        source = item.get("source", "")
+        seen = counts.get(source, 0)
+        if seen >= max_per_source:
+            dropped += 1
+            continue
+        counts[source] = seen + 1
+        kept.append(item)
+
+    if dropped:
+        logger.info("Dropped %d item(s) over the %d-per-source cap", dropped, max_per_source)
 
     return kept
 
@@ -150,5 +182,9 @@ def fetch_all(max_results: int = 20, filter_keywords: list[str] | None = None) -
 
     # Sort by published date (most recent first)
     unique.sort(key=lambda x: x.get("published", ""), reverse=True)
+
+    # Cap per source after sorting so each source keeps its freshest items
+    unique = _cap_per_source(unique, MAX_ITEMS_PER_SOURCE)
+    logger.info("After per-source cap: %d items", len(unique))
 
     return unique[:max_results]
