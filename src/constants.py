@@ -17,6 +17,14 @@ DEDUP_SIMILARITY_THRESHOLD = float(os.getenv("DEDUP_SIMILARITY_THRESHOLD", "0.85
 # Digest settings
 DIGEST_MAX_RESULTS = int(os.getenv("DIGEST_MAX_RESULTS", "10"))
 
+# Maximum age of an item eligible for the daily pick. Blog feeds carry no
+# recency cutoff of their own (HN, HF and GitHub each cut at 24h), so without
+# this a quiet day could surface a week-old post as "today's" development.
+# 72h rather than 24h because labs post far less often than HN churns — a
+# Friday launch should still be eligible on Monday. Repeats are not a risk:
+# get_sent_top_paper_ids() filters anything already sent as a top pick.
+DIGEST_MAX_AGE_HOURS = int(os.getenv("DIGEST_MAX_AGE_HOURS", "72"))
+
 # OpenAI model settings
 OPENAI_MODEL = "gpt-4o-mini"
 OPENAI_TEMPERATURE = 0.7
@@ -96,6 +104,24 @@ EXCLUDE_KEYWORDS = [
     "trademark",
 ]
 
+# Tutorial and how-to shapes, matched against the TITLE ONLY.
+# Deliberately not folded into EXCLUDE_KEYWORDS: that list is checked against
+# title + summary, and phrases like "how to" appear legitimately in the body of
+# real release posts ("we show how to call the new endpoint"). Restricting
+# these to the title keeps vendor walkthroughs out without dropping launches.
+EXCLUDE_TITLE_PATTERNS = [
+    "part 1", "part 2", "part 3", "part one", "part two",
+    "how to", "how we built", "getting started", "step-by-step",
+    "step by step", "walkthrough", "tutorial", "a guide to",
+    "best practices", "tips and tricks", "deep dive into",
+    "build a ", "building a ", "build agentic", "create a ",
+]
+
+# No single source may take more than this many slots in the candidate pool.
+# A high-volume vendor blog otherwise crowds out the frontier labs: on 28-Aug
+# one such feed held 4 of 10 slots and won the daily pick with a how-to post.
+MAX_ITEMS_PER_SOURCE = int(os.getenv("MAX_ITEMS_PER_SOURCE", "2"))
+
 # Blog RSS feeds — frontier AI labs and the platforms they ship on.
 # Every URL here was verified to return a parseable feed. Anthropic publishes
 # no public RSS feed for its news/research/engineering posts, so Anthropic
@@ -112,7 +138,6 @@ BLOG_FEEDS = {
     "NVIDIA": "https://blogs.nvidia.com/feed/",
     "Together AI": "https://www.together.ai/blog/rss.xml",
     "EleutherAI": "https://blog.eleuther.ai/index.xml",
-    "AWS Machine Learning": "https://aws.amazon.com/blogs/machine-learning/feed/",
 }
 
 # Minimum candidate posts pulled per blog feed before keyword filtering.

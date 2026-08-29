@@ -11,6 +11,7 @@ from src.constants import (
     BLOG_FEEDS,
     BLOG_MIN_PER_SOURCE,
     EXCLUDE_KEYWORDS,
+    EXCLUDE_TITLE_PATTERNS,
     FILTER_KEYWORDS,
     REQUEST_TIMEOUT,
 )
@@ -34,8 +35,20 @@ class _HTMLTextExtractor(HTMLParser):
         return " ".join("".join(self._parts).split())
 
 
+def _is_tutorial(title: str) -> bool:
+    """Check whether a title reads as a tutorial or how-to rather than news.
+
+    Title-only by design: "how to" and friends appear legitimately inside the
+    body of real release posts, so matching the summary would drop launches.
+    """
+    lowered = (title or "").lower()
+    return any(pattern in lowered for pattern in EXCLUDE_TITLE_PATTERNS)
+
+
 def _is_dev_relevant(post: dict, filter_keywords: list[str] | None = None) -> bool:
     """Check if a post is a lab development based on keyword matching."""
+    if _is_tutorial(post.get("title", "")):
+        return False
     text = f"{post.get('title', '')} {post.get('summary', '')}".lower()
     if any(kw in text for kw in EXCLUDE_KEYWORDS):
         return False
@@ -67,16 +80,22 @@ def _parse_blog_feed(url: str):
 
 
 def _parse_date(entry: dict) -> str:
-    """Parse publication date from feed entry."""
+    """Parse publication date from a feed entry as a timezone-aware UTC string.
+
+    feedparser normalizes its *_parsed tuples to UTC, so attaching UTC here is
+    correct rather than an assumption. Always returning an aware value keeps
+    this consistent with the other fetchers — a mix of naive and aware
+    timestamps makes downstream date comparisons raise TypeError.
+    """
     # Try common date fields
     for field in ["published", "updated", "created"]:
         date_str = entry.get(field, "")
         if date_str:
             try:
-                # feedparser provides parsed time tuples
+                # feedparser provides parsed time tuples, already in UTC
                 parsed = entry.get(f"{field}_parsed")
                 if parsed:
-                    return datetime(*parsed[:6]).isoformat()
+                    return datetime(*parsed[:6], tzinfo=timezone.utc).isoformat()
             except (TypeError, ValueError):
                 pass
     return datetime.now(timezone.utc).isoformat()
