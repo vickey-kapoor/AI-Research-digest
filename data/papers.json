@@ -1,6 +1,46 @@
 {
   "papers": [
     {
+      "id": "4c501bfe-e601-5206-adaa-1e033f7446da",
+      "title": "The Open ASR Leaderboard Adds Its First Global South Language",
+      "summary": "Hugging Face released the first global South language ASR model, focusing on the Tamil language. The model is designed for automatic speech recognition (ASR) and can handle Tamil speech input. Specific performance metrics and benchmarks are not provided in the description.",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/blog/open-asr-leaderboard-global-south",
+      "published_at": "2026-08-28T00:00:00",
+      "fetched_at": "2026-08-29T00:30:05.587000Z",
+      "type": "announcement",
+      "topic_id": "benchmarks",
+      "topics": [
+        "Benchmarks & Evals",
+        "Open Weights"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "Hugging Face released the first global South language ASR model, focusing on the Tamil language.",
+      "capabilities": "The model is designed for automatic speech recognition (ASR) and can handle Tamil speech input. Specific performance metrics and benchmarks are not provided in the description.",
+      "availability": "The model is available on Hugging Face's platform with open weights for developers to use; specific pricing and tier details are not stated.",
+      "why_it_matters": "This development increases the accessibility of ASR technology for Tamil speakers, expanding the range of languages supported in the ASR space and potentially enabling more inclusive technology applications.",
+      "caveats": "Details regarding the model's performance, such as accuracy rates or comparison with existing ASR models, have not been provided, leaving claims unverified.",
+      "release_type": "model"
+    },
+    {
+      "id": "9371c349-5ada-5c88-b3ba-daa357099375",
+      "title": "Qwen-MT: Where Speed Meets Smart Translation",
+      "summary": "DEMO API DISCORD Introduction Here we introduce the latest update of Qwen-MT (qwen-mt-turbo) via Qwen API. This update builds upon the powerful Qwen3, leveraging trillions multilingual and translation tokens to comprehensively enhance the model’s multilingual understanding and translation capabilities. By integrating reinforcement learning techniques, the model achieves significant improvements in translation accuracy and linguistic fluency. Key Features: Multilingual Support for 92 Languages...",
+      "source": "Qwen",
+      "url": "https://qwenlm.github.io/blog/qwen-mt/",
+      "published_at": "2025-07-24T14:00:00",
+      "fetched_at": "2026-08-29T00:30:05.587000Z",
+      "type": "announcement",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Lab Research"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "42556744-0b5b-5670-a77d-0b597dc59493",
       "title": "Build agentic creative workflows with Amazon Quick and fal",
       "summary": "Amazon Quick and fal, a product designed to streamline creative workflows. The product enables the creation of reusable agentic workflows and supports two hands-on workflows: an eight-panel storyboard and a music-video concept prototype. It integrates with the Model Context Protocol (MCP) for improved context transfer.",
