@@ -1,6 +1,28 @@
 {
   "papers": [
     {
+      "id": "50254e2b-fd42-5e2f-ac4c-d4f2b3b5497a",
+      "title": "Claude Session URL appended to commit messages and PR descriptions by default",
+      "summary": "Claude Session URL feature appended to commit messages and PR descriptions by default by Anthropic. This feature allows developers to directly link their code commits and pull requests to specific sessions in the Claude AI, facilitating easier tracking and referencing of AI interactions related to code changes. It aims to streamline collaboration and enhance the utility of AI in software development.",
+      "source": "Hacker News",
+      "url": "https://github.com/anthropics/claude-code/issues/66504",
+      "published_at": "2026-08-30T12:50:54+00:00",
+      "fetched_at": "2026-08-30T19:13:58.002801Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "Claude Session URL feature appended to commit messages and PR descriptions by default by Anthropic.",
+      "capabilities": "This feature allows developers to directly link their code commits and pull requests to specific sessions in the Claude AI, facilitating easier tracking and referencing of AI interactions related to code changes. It aims to streamline collaboration and enhance the utility of AI in software development.",
+      "availability": "Not stated.",
+      "why_it_matters": "This integration enhances the workflow for developers using Claude, making it easier to leverage AI insights in the context of their code, potentially improving productivity and collaboration.",
+      "caveats": "The announcement does not provide detailed information on how this feature will be implemented or its impact on existing workflows, leaving some uncertainty about its practical use.",
+      "release_type": "product"
+    },
+    {
       "id": "4c501bfe-e601-5206-adaa-1e033f7446da",
       "title": "The Open ASR Leaderboard Adds Its First Global South Language",
       "summary": "Hugging Face released the first global South language ASR model, focusing on the Tamil language. The model is designed for automatic speech recognition (ASR) and can handle Tamil speech input. Specific performance metrics and benchmarks are not provided in the description.",
