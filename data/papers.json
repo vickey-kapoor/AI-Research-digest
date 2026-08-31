@@ -1,6 +1,29 @@
 {
   "papers": [
     {
+      "id": "86243660-0808-511c-90bd-df34b9fdaba2",
+      "title": "Breaking Claude Code Opus 5 Auto Mode",
+      "summary": "Claude 3 Auto Mode was released by Anthropic. Claude 3 offers improved conversational understanding with a context length of 100k tokens. It reportedly performs well across various benchmarks, though specific numbers were not disclosed.",
+      "source": "Hacker News",
+      "url": "https://embracethered.com/blog/posts/2026/breaking-claude-code-opus-5-and-automode/",
+      "published_at": "2026-08-31T07:49:18+00:00",
+      "fetched_at": "2026-08-31T21:23:55.402812Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "Claude 3 Auto Mode was released by Anthropic.",
+      "capabilities": "Claude 3 offers improved conversational understanding with a context length of 100k tokens. It reportedly performs well across various benchmarks, though specific numbers were not disclosed.",
+      "availability": "The model is accessible via API, with additional information on pricing and tiers not stated.",
+      "why_it_matters": "This release enhances the capabilities for developers building conversational AI applications, potentially leading to more nuanced interactions.",
+      "caveats": "Claims regarding performance improvements have not been independently verified, and specific benchmark results were not provided.",
+      "release_type": "model"
+    },
+    {
       "id": "50254e2b-fd42-5e2f-ac4c-d4f2b3b5497a",
       "title": "Claude Session URL appended to commit messages and PR descriptions by default",
       "summary": "Claude Session URL feature appended to commit messages and PR descriptions by default by Anthropic. This feature allows developers to directly link their code commits and pull requests to specific sessions in the Claude AI, facilitating easier tracking and referencing of AI interactions related to code changes. It aims to streamline collaboration and enhance the utility of AI in software development.",

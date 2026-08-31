@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-08-31",
+      "top_paper_id": "86243660-0808-511c-90bd-df34b9fdaba2",
+      "papers_fetched": 1,
+      "pdf_path": "reports/31-Aug/Breaking_Claude_Code_Opus_5_Auto_Mode.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "33441084012"
+    },
+    {
       "date": "2026-08-30",
       "top_paper_id": "4c501bfe-e601-5206-adaa-1e033f7446da",
       "papers_fetched": 2,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/30-May/Testing_Gemini_models_for_scheming_tendencies.pdf",
       "telegram_sent": true,
       "workflow_run_id": "26690021087"
-    },
-    {
-      "date": "2026-05-29",
-      "top_paper_id": "",
-      "papers_fetched": 1,
-      "pdf_path": "",
-      "telegram_sent": false,
-      "workflow_run_id": "26655401853"
     }
   ]
 }
