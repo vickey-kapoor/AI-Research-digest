@@ -223,3 +223,42 @@ class TestStructuredBriefPersistence:
 
         assert "what_shipped" not in paper
         assert "release_type" not in paper
+
+
+class TestDigestRunTimestamp:
+    """The digest record must show when a run actually happened.
+
+    GitHub's scheduler has delivered this workflow up to 9 hours late, which
+    pushes a run past midnight onto the next date. Without a timestamp that
+    looks like a missing day plus a duplicate one.
+    """
+
+    def test_new_entry_records_run_at(self, data_dir):
+        json_exporter.export_digest(top_paper_id="p1", papers_fetched=5)
+
+        data = json.loads((data_dir / "digests.json").read_text(encoding="utf-8"))
+        entry = data["digests"][0]
+
+        assert entry["run_at"].endswith("Z")
+        assert entry["run_at"].startswith(entry["date"])
+
+    def test_second_run_same_date_preserves_the_first_timestamp(self, data_dir):
+        """Two runs on one UTC date must not silently overwrite each other."""
+        json_exporter.export_digest(top_paper_id="first", papers_fetched=3)
+        first = json.loads((data_dir / "digests.json").read_text(encoding="utf-8"))
+        first_run_at = first["digests"][0]["run_at"]
+
+        json_exporter.export_digest(top_paper_id="second", papers_fetched=7)
+        data = json.loads((data_dir / "digests.json").read_text(encoding="utf-8"))
+
+        assert len(data["digests"]) == 1
+        entry = data["digests"][0]
+        assert entry["top_paper_id"] == "second"
+        assert entry["papers_fetched"] == 7
+        assert entry["previous_run_at"] == first_run_at
+
+    def test_single_run_has_no_previous_marker(self, data_dir):
+        json_exporter.export_digest(top_paper_id="p1", papers_fetched=5)
+
+        data = json.loads((data_dir / "digests.json").read_text(encoding="utf-8"))
+        assert "previous_run_at" not in data["digests"][0]
