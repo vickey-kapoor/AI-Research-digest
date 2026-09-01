@@ -1,6 +1,14 @@
 {
   "digests": [
     {
+      "date": "2026-09-01",
+      "top_paper_id": "0185b40d-73ce-5ffd-a81f-33d89193d9b0",
+      "papers_fetched": 3,
+      "pdf_path": "reports/01-Sep/Introducing_agentic_video_understanding_with_Gemin.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "33548721165"
+    },
+    {
       "date": "2026-08-31",
       "top_paper_id": "86243660-0808-511c-90bd-df34b9fdaba2",
       "papers_fetched": 1,
@@ -711,14 +719,6 @@
       "pdf_path": "reports/31-May/A_pictorial_introduction_to_differential_geometry.pdf",
       "telegram_sent": false,
       "workflow_run_id": "26720130562"
-    },
-    {
-      "date": "2026-05-30",
-      "top_paper_id": "39f18075-4c9e-547c-852b-3ada7ecc0332",
-      "papers_fetched": 1,
-      "pdf_path": "reports/30-May/Testing_Gemini_models_for_scheming_tendencies.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "26690021087"
     }
   ]
 }

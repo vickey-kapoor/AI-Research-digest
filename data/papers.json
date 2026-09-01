@@ -1,6 +1,62 @@
 {
   "papers": [
     {
+      "id": "3bea5165-e44a-5832-b465-74e598964ec4",
+      "title": "Claude Fable 5.1 and Claude Mythos 5.1",
+      "summary": "393 points · 332 comments",
+      "source": "Hacker News",
+      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1",
+      "published_at": "2026-09-01T17:53:53+00:00",
+      "fetched_at": "2026-09-01T19:18:58.447938Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "89864e43-b1d1-5992-857f-954eadd59a87",
+      "title": "anthropic-sdk-python v1.3.0 released",
+      "summary": "## 1.3.0 (2026-09-01)\n\nFull Changelog: [v1.2.0...v1.3.0](https://github.com/anthropics/anthropic-sdk-python/compare/v1.2.0...v1.3.0)\n\n### Features\n\n* **api:** beta user profiles: add external_user_onboarded_at, remove relationship in favor of access_type ([74080c3](https://github.com/anthropics/anthropic-sdk-python/commit/74080c35d6e4f3e5e7fd47454ecce2350cbfdd2b))\n* **api:** manual updates ([1dc3ce0](https://github.com/anthropics/anthropic-sdk-python/commit/1dc3ce0709a9bca146b045dfb0787971e747b1",
+      "source": "GitHub",
+      "url": "https://github.com/anthropics/anthropic-sdk-python/releases/tag/v1.3.0",
+      "published_at": "2026-09-01T17:36:55Z",
+      "fetched_at": "2026-09-01T19:18:58.447938Z",
+      "type": "release",
+      "topic_id": "product_api",
+      "topics": [
+        "Product & API"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "0185b40d-73ce-5ffd-a81f-33d89193d9b0",
+      "title": "Introducing agentic video understanding with Gemini",
+      "summary": "Google DeepMind shipped the Gemini model for agentic video understanding. Gemini can analyze video content with an emphasis on context understanding and interaction. It is designed to handle multiple modalities including visual and audio data, although specific benchmarks and performance metrics were not provided.",
+      "source": "Google DeepMind",
+      "url": "https://deepmind.google/blog/introducing-agentic-video-in-gemini/",
+      "published_at": "2026-09-01T17:08:51+00:00",
+      "fetched_at": "2026-09-01T19:18:58.447938Z",
+      "type": "announcement",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Agents & Tooling",
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "Google DeepMind shipped the Gemini model for agentic video understanding.",
+      "capabilities": "Gemini can analyze video content with an emphasis on context understanding and interaction. It is designed to handle multiple modalities including visual and audio data, although specific benchmarks and performance metrics were not provided.",
+      "availability": "The availability details are not stated in the description.",
+      "why_it_matters": "This development enables new use cases in video analysis and interaction, potentially enhancing applications in content creation, surveillance, and education.",
+      "caveats": "The announcement lacks specific benchmark numbers and performance claims, making it difficult to assess the model's effectiveness and reliability.",
+      "release_type": "model"
+    },
+    {
       "id": "86243660-0808-511c-90bd-df34b9fdaba2",
       "title": "Breaking Claude Code Opus 5 Auto Mode",
       "summary": "Claude 3 Auto Mode was released by Anthropic. Claude 3 offers improved conversational understanding with a context length of 100k tokens. It reportedly performs well across various benchmarks, though specific numbers were not disclosed.",
