@@ -1,6 +1,111 @@
 {
   "papers": [
     {
+      "id": "05548a5d-929b-534f-8800-19217446408e",
+      "title": "python-genai v2.22.0 released",
+      "summary": "Google shipped the Gemini 3.8 Flash model in version 2.22.0 of the python-genai SDK. The Gemini 3.8 Flash model is designed for enhanced performance, though specific metrics regarding modalities, context length, or benchmark numbers are not provided. The update includes improved descriptions for Flash models.",
+      "source": "GitHub",
+      "url": "https://github.com/googleapis/python-genai/releases/tag/v2.22.0",
+      "published_at": "2026-09-02T17:47:57Z",
+      "fetched_at": "2026-09-02T19:24:31.248824Z",
+      "type": "release",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Product & API",
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "Google shipped the Gemini 3.8 Flash model in version 2.22.0 of the python-genai SDK.",
+      "capabilities": "The Gemini 3.8 Flash model is designed for enhanced performance, though specific metrics regarding modalities, context length, or benchmark numbers are not provided. The update includes improved descriptions for Flash models.",
+      "availability": "The update is available through the python-genai SDK on GitHub. Details on pricing or specific access tiers are not stated.",
+      "why_it_matters": "This release introduces the Gemini 3.8 Flash model, which may provide developers with enhanced capabilities for AI applications, potentially improving performance and functionality in their projects.",
+      "caveats": "The announcement lacks detailed performance metrics and claims regarding the model's capabilities, making it difficult to assess its impact fully.",
+      "release_type": "product"
+    },
+    {
+      "id": "12e621d2-81ea-5cca-bfce-171c553aa2a4",
+      "title": "Gemini 3.8 Flash and 3.8 Flash Cyber",
+      "summary": "573 points · 356 comments",
+      "source": "Hacker News",
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/",
+      "published_at": "2026-09-02T15:12:40+00:00",
+      "fetched_at": "2026-09-02T19:24:31.248824Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "5b5807a9-a8b9-5aa2-8cb2-d1194e94d40a",
+      "title": "Mistral now trains on user input by default, except on enterprise tier",
+      "summary": "296 points · 126 comments",
+      "source": "Hacker News",
+      "url": "https://help.mistral.ai/en/articles/455207-can-i-opt-out-of-my-input-or-output-data-being-used-for-training",
+      "published_at": "2026-09-02T12:30:39+00:00",
+      "fetched_at": "2026-09-02T19:24:31.248824Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Enterprise Deployment"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "d9fc0b4d-89ab-5c25-b194-72b9ee2ff729",
+      "title": "BenchMIRT: What are LLM benchmarks actually measuring?",
+      "summary": "",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/blog/allenai/benchmirt",
+      "published_at": "2026-09-01T21:39:07+00:00",
+      "fetched_at": "2026-09-02T19:24:31.248824Z",
+      "type": "announcement",
+      "topic_id": "benchmarks",
+      "topics": [
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "1940dc26-9bb7-5a4b-ac73-5cbfcef05f57",
+      "title": "NVIDIA and CrowdStrike Strengthen Agentic Cybersecurity Frontier",
+      "summary": "“We’re at an inflection point in cybersecurity,” Jensen Huang told a sold-out crowd at CrowdStrike’s Fal.Con 2026 in Las Vegas Tuesday. Attacks are now automated. Defense has to be, too. The NVIDIA founder and CEO joined CrowdStrike CEO and founder George Kurtz to announce CrowdStrike SafeMind, its agentic cybersecurity system developed by the CrowdStrike Cyber […]",
+      "source": "NVIDIA",
+      "url": "https://blogs.nvidia.com/blog/nvidia-crowdstrike-fal-con-2026/",
+      "published_at": "2026-09-01T21:19:20+00:00",
+      "fetched_at": "2026-09-02T19:24:31.248824Z",
+      "type": "announcement",
+      "topic_id": "agents_tooling",
+      "topics": [
+        "Agents & Tooling"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "ee403a63-cc53-57b6-a48d-df0505db258c",
+      "title": "Path to Astra: critical capabilities and frontier safeguards",
+      "summary": "Astra is the first OpenAI model to meet the Critical cybersecurity capability threshold under the Preparedness Framework, with stronger safeguards for release.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/path-to-astra",
+      "published_at": "2026-09-01T13:00:00+00:00",
+      "fetched_at": "2026-09-02T19:24:31.248824Z",
+      "type": "announcement",
+      "topic_id": "safety_system_cards",
+      "topics": [
+        "Safety & System Cards"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "3bea5165-e44a-5832-b465-74e598964ec4",
       "title": "Claude Fable 5.1 and Claude Mythos 5.1",
       "summary": "393 points · 332 comments",

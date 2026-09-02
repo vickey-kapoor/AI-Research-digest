@@ -1,6 +1,15 @@
 {
   "digests": [
     {
+      "date": "2026-09-02",
+      "run_at": "2026-09-02T19:24:32.059110Z",
+      "top_paper_id": "05548a5d-929b-534f-8800-19217446408e",
+      "papers_fetched": 7,
+      "pdf_path": "reports/02-Sep/python-genai_v2220_released.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "33673070365"
+    },
+    {
       "date": "2026-09-01",
       "top_paper_id": "0185b40d-73ce-5ffd-a81f-33d89193d9b0",
       "papers_fetched": 3,
@@ -711,14 +720,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "26779687782"
-    },
-    {
-      "date": "2026-05-31",
-      "top_paper_id": null,
-      "papers_fetched": 2,
-      "pdf_path": "reports/31-May/A_pictorial_introduction_to_differential_geometry.pdf",
-      "telegram_sent": false,
-      "workflow_run_id": "26720130562"
     }
   ]
 }
