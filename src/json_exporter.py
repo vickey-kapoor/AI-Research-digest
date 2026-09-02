@@ -224,22 +224,40 @@ def export_digest(
         pdf_path: Path to generated PDF report
         telegram_sent: Whether Telegram message was sent
         workflow_run_id: GitHub Actions run ID (optional)
+
+    The entry records run_at (full UTC timestamp) alongside the date. GitHub's
+    scheduler has delivered this workflow up to 9 hours late, which pushes a
+    run past midnight onto the next date; run_at makes that visible rather than
+    leaving an unexplained gap in the record.
     """
     data = load_json("digests.json")
     if "digests" not in data:
         data["digests"] = []
 
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    now = datetime.now(timezone.utc)
+    today = now.strftime("%Y-%m-%d")
+    run_at = now.isoformat().replace("+00:00", "Z")
 
     # Check if digest for today already exists
     for digest in data["digests"]:
         if digest.get("date") == today:
-            # Update existing entry
+            # Update existing entry. Two runs can land on one UTC date when
+            # GitHub's scheduler delivers late — record run_at so the drift is
+            # visible instead of the second run silently overwriting the first.
+            previous_run_at = digest.get("run_at")
             digest["top_paper_id"] = top_paper_id
             digest["papers_fetched"] = papers_fetched
             if pdf_path:
                 digest["pdf_path"] = pdf_path
             digest["telegram_sent"] = telegram_sent
+            digest["run_at"] = run_at
+            if previous_run_at:
+                digest["previous_run_at"] = previous_run_at
+                logger.warning(
+                    "Second run for %s (previous at %s) — scheduler drift crossed a date boundary",
+                    today,
+                    previous_run_at,
+                )
             if workflow_run_id:
                 digest["workflow_run_id"] = workflow_run_id
             save_json("digests.json", data)
@@ -249,6 +267,7 @@ def export_digest(
     # Create new entry
     digest = {
         "date": today,
+        "run_at": run_at,
         "top_paper_id": top_paper_id or "",
         "papers_fetched": papers_fetched,
         "pdf_path": pdf_path or "",
