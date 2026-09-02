@@ -74,3 +74,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      # Added once dashboard test files existed. Excluded when this workflow
+      # was introduced because vitest exits 1 with no tests to run, which
+      # would have made CI permanently red.
+      - name: Test
+        run: npm test

@@ -5,11 +5,16 @@ import os
 # Application info
 APP_NAME = "AI Dev Digest"
 APP_VERSION = "2.0.0"
-USER_AGENT = f"{APP_NAME}/{APP_VERSION} (https://github.com/vickey-kapoor/ai-research-digest)"
+# Sent by every fetcher so feed and API operators can identify the client.
+# The repo slug was wrong here (ai-research-digest) while nothing used the
+# value; corrected now that it is actually on the wire.
+USER_AGENT = f"{APP_NAME}/{APP_VERSION} (+https://github.com/vickey-kapoor/Applied-AI-Dev-Digest)"
 
 # Network settings
 REQUEST_TIMEOUT = 30  # seconds
-MAX_RETRIES = 3
+# MAX_RETRIES removed: it claimed 3 while every one of the eight call sites
+# passed max_retries=2, so the constant documented behaviour the code did not
+# have. retry_with_backoff carries its own default for callers that omit it.
 
 # Deduplication settings
 DEDUP_SIMILARITY_THRESHOLD = float(os.getenv("DEDUP_SIMILARITY_THRESHOLD", "0.85"))
@@ -29,8 +34,8 @@ DIGEST_MAX_AGE_HOURS = int(os.getenv("DIGEST_MAX_AGE_HOURS", "72"))
 OPENAI_MODEL = "gpt-4o-mini"
 OPENAI_TEMPERATURE = 0.7
 OPENAI_MAX_TOKENS_RANKING = 150
-OPENAI_MAX_TOKENS_SUMMARY = 500
-OPENAI_MAX_TOKENS_DETAILED = 1500
+# OPENAI_MAX_TOKENS_SUMMARY and _DETAILED removed: superseded when the
+# summarizer moved to a single bundled call using _BUNDLE below.
 OPENAI_MAX_TOKENS_BUNDLE = 1800
 
 # Telegram settings
