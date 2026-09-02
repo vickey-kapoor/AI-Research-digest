@@ -11,6 +11,8 @@ from src.fetcher import (
     _filter_by_recency,
     _parse_published,
     _cap_per_source,
+    _deduplicate_by_similarity,
+    _is_same_story,
 )
 
 
@@ -257,3 +259,79 @@ class TestCapPerSource:
         aws = [i for i in kept if i["source"] == "AWS Machine Learning"]
         assert len(aws) == 2
         assert {"evals", "incident"}.issubset({i["title"] for i in kept})
+
+
+def _item(source: str, title: str) -> dict:
+    return {"source": source, "title": title, "url": f"https://example.com/{abs(hash(title))}"}
+
+
+class TestSimilarityDeduplication:
+    """One launch arriving from several sources should compete once, not thrice.
+
+    Every case below is drawn from titles actually observed in papers.json.
+    The false positives matter more than the true one: a wrong merge silently
+    drops a real launch, and the highest-scoring real pair (0.97) is a pair of
+    *distinct* SDK releases.
+    """
+
+    THRESHOLD = 0.85
+
+    @pytest.mark.parametrize("a,b,why", [
+        (_item("GitHub", "anthropic-sdk-python v1.3.0 released"),
+         _item("GitHub", "anthropic-sdk-python v1.2.0 released"),
+         "distinct SDK releases scoring 0.97"),
+        (_item("Hacker News", "GLM-5.3 Artificial Analysis Benchmarks"),
+         _item("Hacker News", "GLM 5.2 Performance Benchmarks"),
+         "distinct models"),
+        (_item("OpenAI", "Introducing GeneBench-Pro"),
+         _item("PyTorch", "Introducing AutoSP"),
+         "unrelated, sharing only a common prefix"),
+        (_item("Hacker News", "Claude Opus 5.1 released"),
+         _item("Anthropic", "Claude Opus 5.2 released"),
+         "cross-source but different versions"),
+    ])
+    def test_does_not_merge_distinct_items(self, a, b, why):
+        assert _is_same_story(a, b, self.THRESHOLD) is False, why
+
+    def test_merges_same_story_across_sources(self):
+        a = _item("AI Alignment Forum", "Predicting LLM Safety Before Release by Simulating Deployment")
+        b = _item("OpenAI", "Predicting model behavior before release by simulating deployment")
+        assert _is_same_story(a, b, self.THRESHOLD) is True
+
+    def test_never_merges_within_one_source(self):
+        """Same-source pairs are where every observed false positive lived."""
+        a = _item("OpenAI", "Introducing our new frontier model")
+        b = _item("OpenAI", "Introducing our new frontier model")
+        assert _is_same_story(a, b, self.THRESHOLD) is False
+
+    def test_keeps_the_labs_own_post_over_coverage(self):
+        title = "Predicting model behavior before release by simulating deployment"
+        kept = _deduplicate_by_similarity(
+            [_item("Hacker News", title), _item("OpenAI", title)], self.THRESHOLD
+        )
+        assert len(kept) == 1
+        assert kept[0]["source"] == "OpenAI"
+
+    def test_keeps_the_labs_own_post_regardless_of_order(self):
+        title = "Predicting model behavior before release by simulating deployment"
+        kept = _deduplicate_by_similarity(
+            [_item("OpenAI", title), _item("Hacker News", title)], self.THRESHOLD
+        )
+        assert len(kept) == 1
+        assert kept[0]["source"] == "OpenAI"
+
+    def test_zero_threshold_disables_merging(self):
+        title = "Predicting model behavior before release by simulating deployment"
+        items = [_item("Hacker News", title), _item("OpenAI", title)]
+        assert len(_deduplicate_by_similarity(items, 0)) == 2
+
+    def test_empty_titles_are_never_merged(self):
+        assert _is_same_story(_item("A", ""), _item("B", ""), self.THRESHOLD) is False
+
+    def test_unrelated_items_all_survive(self):
+        items = [
+            _item("Hacker News", "Gemini-3.5-Transcribe"),
+            _item("Google DeepMind", "Piloting double-blind AI evaluations"),
+            _item("OpenAI", "The Hugging Face incident and the road ahead"),
+        ]
+        assert len(_deduplicate_by_similarity(items, self.THRESHOLD)) == 3
