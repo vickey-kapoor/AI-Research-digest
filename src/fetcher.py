@@ -1,9 +1,12 @@
 """Aggregate items from all fetcher sources (blogs, GitHub, Hacker News)."""
 
+import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
+from difflib import SequenceMatcher
 
 from src.constants import (
+    DEDUP_SIMILARITY_THRESHOLD,
     DIGEST_MAX_AGE_HOURS,
     MAX_ITEMS_PER_SOURCE,
     THREAD_POOL_WORKERS,
@@ -116,6 +119,98 @@ def _deduplicate_by_url(items: list[dict]) -> list[dict]:
     return unique
 
 
+# Sources that report on other people's launches rather than making them.
+# A lab's own post is preferred over coverage of it when the two collapse.
+AGGREGATOR_SOURCES = {"Hacker News", "Hugging Face", "AI Alignment Forum"}
+
+# Version-like tokens: v1.2.0, 5.3, 3.5-turbo, GPT-4o. Two titles carrying
+# different ones describe different releases however similar they read.
+_VERSION_TOKEN = re.compile(r"\bv?\d+(?:[.\-]\d+)+\b|\bv\d+\b")
+
+
+def _normalize_title(title: str) -> str:
+    """Lowercase, strip punctuation, collapse whitespace."""
+    return " ".join(re.sub(r"[^a-z0-9 ]", " ", (title or "").lower()).split())
+
+
+def _version_tokens(title: str) -> set[str]:
+    """Extract version-like tokens from a title."""
+    return set(_VERSION_TOKEN.findall((title or "").lower()))
+
+
+def _is_same_story(a: dict, b: dict, threshold: float) -> bool:
+    """Decide whether two items describe the same announcement.
+
+    Only ever true across different sources. Every false positive observed in
+    real data was same-source — "anthropic-sdk-python v1.3.0" and "v1.2.0"
+    score 0.97 but are distinct releases, as do "GLM-5.3" and "GLM 5.2".
+    Coverage of one launch, by contrast, shows up under different sources.
+    Differing version tokens veto a match outright.
+    """
+    if a.get("source", "") == b.get("source", ""):
+        return False
+
+    title_a, title_b = _normalize_title(a.get("title", "")), _normalize_title(b.get("title", ""))
+    if not title_a or not title_b:
+        return False
+
+    if _version_tokens(a.get("title", "")) != _version_tokens(b.get("title", "")):
+        return False
+
+    return SequenceMatcher(None, title_a, title_b).ratio() >= threshold
+
+
+def _preferred_of(a: dict, b: dict) -> tuple[dict, dict]:
+    """Return (keep, drop) — the lab's own post beats coverage of it."""
+    a_is_coverage = a.get("source", "") in AGGREGATOR_SOURCES
+    b_is_coverage = b.get("source", "") in AGGREGATOR_SOURCES
+    if a_is_coverage and not b_is_coverage:
+        return b, a
+    return a, b
+
+
+def _deduplicate_by_similarity(items: list[dict], threshold: float) -> list[dict]:
+    """Collapse cross-source coverage of the same announcement.
+
+    Runs after URL deduplication, which handles the exact-match case. This
+    catches the same launch arriving as a lab blog post, a Hacker News thread
+    and a Hugging Face paper under three different URLs, where all three would
+    otherwise compete against each other for the daily pick.
+    """
+    if threshold <= 0:
+        return items
+
+    kept: list[dict] = []
+    merged = 0
+
+    for item in items:
+        duplicate_index = None
+        for index, existing in enumerate(kept):
+            if _is_same_story(item, existing, threshold):
+                duplicate_index = index
+                break
+
+        if duplicate_index is None:
+            kept.append(item)
+            continue
+
+        keep, drop = _preferred_of(kept[duplicate_index], item)
+        kept[duplicate_index] = keep
+        merged += 1
+        logger.info(
+            "Merged duplicate: kept [%s] %r over [%s] %r",
+            keep.get("source", ""),
+            (keep.get("title", "") or "")[:60],
+            drop.get("source", ""),
+            (drop.get("title", "") or "")[:60],
+        )
+
+    if merged:
+        logger.info("Merged %d cross-source duplicate(s)", merged)
+
+    return kept
+
+
 def fetch_all(max_results: int = 20, filter_keywords: list[str] | None = None) -> list[dict]:
     """Fetch items from all sources in parallel, deduplicate, and sort by date.
 
@@ -158,7 +253,11 @@ def fetch_all(max_results: int = 20, filter_keywords: list[str] | None = None) -
 
     # Deduplicate by URL
     unique = _deduplicate_by_url(all_items)
-    logger.info("After deduplication: %d unique items", len(unique))
+    logger.info("After URL deduplication: %d unique items", len(unique))
+
+    # Then collapse cross-source coverage of the same launch
+    unique = _deduplicate_by_similarity(unique, DEDUP_SIMILARITY_THRESHOLD)
+    logger.info("After similarity deduplication: %d unique items", len(unique))
 
     # Final keyword filter — drop anything that doesn't mention a topic keyword
     # Also assign topic_id to each item based on first matching topic
