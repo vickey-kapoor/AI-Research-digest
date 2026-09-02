@@ -4,7 +4,7 @@ import json
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
-from src.constants import HF_MAX_PAPERS, HF_MIN_UPVOTES, REQUEST_TIMEOUT
+from src.constants import HF_MAX_PAPERS, HF_MIN_UPVOTES, REQUEST_TIMEOUT, USER_AGENT
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -24,7 +24,7 @@ def fetch_huggingface_papers(filter_keywords: list[str] | None = None) -> list[d
     url = f"{HF_DAILY_PAPERS_URL}?date={today}"
 
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "AI-Dev-Digest"})
+        req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
         with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
             data = json.loads(resp.read())
     except Exception:

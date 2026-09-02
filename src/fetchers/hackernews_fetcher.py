@@ -3,21 +3,45 @@
 import json
 import re
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 
-from src.constants import HN_KEYWORDS, HN_MAX_STORIES, HN_MIN_SCORE, REQUEST_TIMEOUT
+from src.constants import (
+    HN_KEYWORDS,
+    HN_MAX_STORIES,
+    HN_MIN_SCORE,
+    REQUEST_TIMEOUT,
+    USER_AGENT,
+)
 from src.logger import get_logger
 
 logger = get_logger(__name__)
 
 HN_API_BASE = "https://hacker-news.firebaseio.com/v0"
 
+# Stories to inspect from the top list, and how many to fetch at once.
+# Each story is a separate HTTP request, so fetching them one at a time made
+# this the slowest step in the pipeline by a wide margin (~13s of a ~20s run).
+HN_STORIES_TO_SCAN = 100
+HN_FETCH_WORKERS = 10
+
 
 def _fetch_json(url: str):
     """Fetch and parse JSON from a URL."""
-    req = urllib.request.Request(url, headers={"User-Agent": "AI-Dev-Digest"})
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
         return json.loads(resp.read())
+
+
+def _fetch_story(story_id: int) -> dict | None:
+    """Fetch a single story, returning None rather than raising.
+
+    A failure here should cost one story, not the whole batch.
+    """
+    try:
+        return _fetch_json(f"{HN_API_BASE}/item/{story_id}.json")
+    except Exception:
+        return None
 
 
 def _matches_keywords(title: str, keywords: list[str] | None = None) -> bool:
@@ -44,12 +68,12 @@ def fetch_hackernews_stories(filter_keywords: list[str] | None = None) -> list[d
     cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
     matches = []
 
-    for story_id in story_ids[:100]:
-        try:
-            item = _fetch_json(f"{HN_API_BASE}/item/{story_id}.json")
-        except Exception:
-            continue
+    # Fetched concurrently: these are independent single-item reads against a
+    # public read-only API, and doing them in sequence dominated the runtime.
+    with ThreadPoolExecutor(max_workers=HN_FETCH_WORKERS) as executor:
+        items = list(executor.map(_fetch_story, story_ids[:HN_STORIES_TO_SCAN]))
 
+    for item in items:
         if not item or item.get("type") != "story":
             continue
 
@@ -75,7 +99,9 @@ def fetch_hackernews_stories(filter_keywords: list[str] | None = None) -> list[d
             continue
 
         comments = item.get("descendants", 0)
-        url = item.get("url", "") or f"https://news.ycombinator.com/item?id={story_id}"
+        # The id comes from the item now that stories are fetched in parallel
+        # rather than iterated by id.
+        url = item.get("url", "") or f"https://news.ycombinator.com/item?id={item.get('id', '')}"
 
         matches.append({
             "title": title,

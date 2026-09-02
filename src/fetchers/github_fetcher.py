@@ -6,7 +6,7 @@ import re
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
-from src.constants import GITHUB_REPOS, REQUEST_TIMEOUT
+from src.constants import GITHUB_REPOS, REQUEST_TIMEOUT, USER_AGENT
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -75,7 +75,7 @@ def fetch_github_releases() -> list[dict]:
     Uses GITHUB_TOKEN env var for authentication (increases rate limit).
     """
     token = os.getenv("GITHUB_TOKEN", "")
-    headers = {"Accept": "application/vnd.github+json", "User-Agent": "AI-Dev-Digest"}
+    headers = {"Accept": "application/vnd.github+json", "User-Agent": USER_AGENT}
     if token:
         headers["Authorization"] = f"Bearer {token}"
 
