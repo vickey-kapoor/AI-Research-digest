@@ -1,6 +1,15 @@
 {
   "digests": [
     {
+      "date": "2026-09-03",
+      "run_at": "2026-09-03T19:19:18.111548Z",
+      "top_paper_id": "ec89200d-923f-58ea-a79d-dff3a808c6c2",
+      "papers_fetched": 6,
+      "pdf_path": "reports/03-Sep/Qwen_38_27B_available_on_Cerebras_at_1500_tokens.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "33795669937"
+    },
+    {
       "date": "2026-09-02",
       "run_at": "2026-09-02T19:24:32.059110Z",
       "top_paper_id": "05548a5d-929b-534f-8800-19217446408e",
@@ -712,14 +721,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "26843960514"
-    },
-    {
-      "date": "2026-06-01",
-      "top_paper_id": "",
-      "papers_fetched": 1,
-      "pdf_path": "",
-      "telegram_sent": false,
-      "workflow_run_id": "26779687782"
     }
   ]
 }

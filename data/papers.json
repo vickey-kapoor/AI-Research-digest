@@ -1,6 +1,62 @@
 {
   "papers": [
     {
+      "id": "ec89200d-923f-58ea-a79d-dff3a808c6c2",
+      "title": "Qwen 3.8 27B available on Cerebras at 1500 tokens/s",
+      "summary": "Qwen 3.8 27B model is available on Cerebras. The model has a processing speed of 1500 tokens per second. Specifics on modalities, context length, or benchmark results are not stated.",
+      "source": "Hacker News",
+      "url": "https://inference-docs.cerebras.ai/models/overview",
+      "published_at": "2026-09-03T18:32:13+00:00",
+      "fetched_at": "2026-09-03T19:19:17.038409Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "Qwen 3.8 27B model is available on Cerebras.",
+      "capabilities": "The model has a processing speed of 1500 tokens per second. Specifics on modalities, context length, or benchmark results are not stated.",
+      "availability": "The model can be accessed on the Cerebras platform. Pricing and tier details are not stated.",
+      "why_it_matters": "This release may offer enhanced processing speed for applications using the Qwen model, potentially benefiting developers looking for efficient AI solutions.",
+      "caveats": "Details on performance benchmarks, such as real-world effectiveness or comparison to existing models, are not provided. Claims regarding speed have not been independently verified.",
+      "release_type": "model"
+    },
+    {
+      "id": "865534d5-3e57-5ef8-8c3f-e5e245a59ccb",
+      "title": "OpenAI begins rolling out GPT-6 Astra",
+      "summary": "131 points · 89 comments",
+      "source": "Hacker News",
+      "url": "https://www.cnbc.com/2026/09/03/open-ai-astra-gpt-6-cyber.html",
+      "published_at": "2026-09-03T18:18:22+00:00",
+      "fetched_at": "2026-09-03T19:19:17.038409Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Product & API"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "83e47d9a-6d06-5c57-87ad-d340366dd3b5",
+      "title": "Give Your Coding Agents a Memory You Own",
+      "summary": "",
+      "source": "Hugging Face",
+      "url": "https://huggingface.co/blog/funes",
+      "published_at": "2026-09-03T00:00:00+00:00",
+      "fetched_at": "2026-09-03T19:19:17.038409Z",
+      "type": "announcement",
+      "topic_id": "agents_tooling",
+      "topics": [
+        "Agents & Tooling"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "05548a5d-929b-534f-8800-19217446408e",
       "title": "python-genai v2.22.0 released",
       "summary": "Google shipped the Gemini 3.8 Flash model in version 2.22.0 of the python-genai SDK. The Gemini 3.8 Flash model is designed for enhanced performance, though specific metrics regarding modalities, context length, or benchmark numbers are not provided. The update includes improved descriptions for Flash models.",
