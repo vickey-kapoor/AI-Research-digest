@@ -1,6 +1,78 @@
 {
   "papers": [
     {
+      "id": "415e66da-59f3-513c-9241-49285b9617ef",
+      "title": "Discovery of a new OpenAI agent message board",
+      "summary": "Not stated Not stated",
+      "source": "Hacker News",
+      "url": "https://collusion.wiki/",
+      "published_at": "2026-09-04T11:54:53+00:00",
+      "fetched_at": "2026-09-04T19:00:37.729568Z",
+      "type": "discussion",
+      "topic_id": "agents_tooling",
+      "topics": [
+        "Agents & Tooling"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "Not stated",
+      "capabilities": "Not stated",
+      "availability": "Not stated",
+      "why_it_matters": "Not stated",
+      "caveats": "Not stated",
+      "release_type": "Not stated"
+    },
+    {
+      "id": "88c96ffa-99ac-5afc-ac11-9219ff4e766f",
+      "title": "Which tools do Claude, Codex and Cursor choose? We measured 17k runs to find out",
+      "summary": "285 points · 139 comments",
+      "source": "Hacker News",
+      "url": "https://armature.tech/blog/which-tools-coding-agents-install",
+      "published_at": "2026-09-03T21:20:34+00:00",
+      "fetched_at": "2026-09-04T19:00:37.729568Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "4050a6d2-9ca1-5fee-910d-9e457e7a3ddc",
+      "title": "openai-python v3.8.0 released",
+      "summary": "## [3.8.0](https://github.com/openai/openai-python/compare/v3.7.0...v3.8.0) (2026-09-03)\n\n\n### Features\n\n* **api:** add gpt-6-astra and related features ([#3791](https://github.com/openai/openai-python/issues/3791)) ([09f446f](https://github.com/openai/openai-python/commit/09f446f5f8623d79464568dc91b9dc258e74bcae))\n\n\n### Documentation\n\n* add canonical SDK security model ([#3778](https://github.com/openai/openai-python/issues/3778)) ([2a097b9](https://github.com/openai/openai-python/commit/2a097b",
+      "source": "GitHub",
+      "url": "https://github.com/openai/openai-python/releases/tag/v3.8.0",
+      "published_at": "2026-09-03T19:50:24Z",
+      "fetched_at": "2026-09-04T19:00:37.729568Z",
+      "type": "release",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Product & API"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "bda56c00-607e-5032-aafd-28435ab78632",
+      "title": "Safety overview: GPT-6 Astra",
+      "summary": "GPT-6 Astra is our most capable broadly deployed model and our first to reach the Critical level of cybersecurity capability under our Preparedness Framework.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/safety-overview-gpt-6-astra",
+      "published_at": "2026-09-03T00:00:00+00:00",
+      "fetched_at": "2026-09-04T19:00:37.729568Z",
+      "type": "announcement",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Safety & System Cards"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "ec89200d-923f-58ea-a79d-dff3a808c6c2",
       "title": "Qwen 3.8 27B available on Cerebras at 1500 tokens/s",
       "summary": "Qwen 3.8 27B model is available on Cerebras. The model has a processing speed of 1500 tokens per second. Specifics on modalities, context length, or benchmark results are not stated.",

@@ -1,6 +1,15 @@
 {
   "digests": [
     {
+      "date": "2026-09-04",
+      "run_at": "2026-09-04T19:00:38.797622Z",
+      "top_paper_id": "415e66da-59f3-513c-9241-49285b9617ef",
+      "papers_fetched": 6,
+      "pdf_path": "reports/04-Sep/Discovery_of_a_new_OpenAI_agent_message_board.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "33908841545"
+    },
+    {
       "date": "2026-09-03",
       "run_at": "2026-09-03T19:19:18.111548Z",
       "top_paper_id": "ec89200d-923f-58ea-a79d-dff3a808c6c2",
@@ -713,14 +722,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "26909218662"
-    },
-    {
-      "date": "2026-06-02",
-      "top_paper_id": "",
-      "papers_fetched": 1,
-      "pdf_path": "",
-      "telegram_sent": false,
-      "workflow_run_id": "26843960514"
     }
   ]
 }
