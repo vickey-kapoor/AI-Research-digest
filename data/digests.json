@@ -1,6 +1,15 @@
 {
   "digests": [
     {
+      "date": "2026-09-05",
+      "run_at": "2026-09-05T18:46:57.855457Z",
+      "top_paper_id": "278d852e-9df1-5e79-b55c-1a45781f55f5",
+      "papers_fetched": 7,
+      "pdf_path": "reports/05-Sep/Portal_by_Spotify_cut_my_Claude_Code_token_usage_b.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "33985100120"
+    },
+    {
       "date": "2026-09-04",
       "run_at": "2026-09-04T19:00:38.797622Z",
       "top_paper_id": "415e66da-59f3-513c-9241-49285b9617ef",
@@ -714,14 +723,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "26971200556"
-    },
-    {
-      "date": "2026-06-03",
-      "top_paper_id": "",
-      "papers_fetched": 1,
-      "pdf_path": "",
-      "telegram_sent": false,
-      "workflow_run_id": "26909218662"
     }
   ]
 }

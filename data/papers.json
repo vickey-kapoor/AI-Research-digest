@@ -1,6 +1,95 @@
 {
   "papers": [
     {
+      "id": "278d852e-9df1-5e79-b55c-1a45781f55f5",
+      "title": "Portal by Spotify cut my Claude Code token usage by 90%",
+      "summary": "Portal by Spotify, a tool that reduces Claude Code token usage. The tool claims to cut token usage by 90%, which could significantly reduce costs for users relying on Claude Code for their applications. Specific benchmarks or performance metrics beyond the token reduction are not provided.",
+      "source": "Hacker News",
+      "url": "https://engineering.atspotify.com/2026/9/portal-by-spotify-cut-my-claude-code-token-usage-by-90",
+      "published_at": "2026-09-04T23:38:50+00:00",
+      "fetched_at": "2026-09-05T18:46:56.810814Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "Portal by Spotify, a tool that reduces Claude Code token usage.",
+      "capabilities": "The tool claims to cut token usage by 90%, which could significantly reduce costs for users relying on Claude Code for their applications. Specific benchmarks or performance metrics beyond the token reduction are not provided.",
+      "availability": "Not stated.",
+      "why_it_matters": "This development could lower operational costs for developers using Claude Code, making it more accessible and economical to integrate AI capabilities into applications.",
+      "caveats": "The claim of a 90% reduction in token usage is unverified, and there are no details on the specific mechanisms or conditions under which this reduction applies.",
+      "release_type": "product"
+    },
+    {
+      "id": "32bb0721-71ca-58f3-b115-17554d54a23d",
+      "title": "anthropic-sdk-python v1.4.0 released",
+      "summary": "## 1.4.0 (2026-09-04)\n\nFull Changelog: [v1.3.0...v1.4.0](https://github.com/anthropics/anthropic-sdk-python/compare/v1.3.0...v1.4.0)\n\n### Features\n\n* **api:** add Claude Tag category and user breakdowns to usage reports ([9fce1e4](https://github.com/anthropics/anthropic-sdk-python/commit/9fce1e4994e113c35f4a7116d0c5eb90367b9c66))\n* **api:** add named types for organization compliance settings state ([1de1957](https://github.com/anthropics/anthropic-sdk-python/commit/1de1957334e7491979ddb21a1d673",
+      "source": "GitHub",
+      "url": "https://github.com/anthropics/anthropic-sdk-python/releases/tag/v1.4.0",
+      "published_at": "2026-09-04T22:20:20Z",
+      "fetched_at": "2026-09-05T18:46:56.810814Z",
+      "type": "release",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Product & API"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "5665a802-2a10-519e-baa2-d525cbe9d656",
+      "title": "GPT-6 Astra on OpenRouter",
+      "summary": "283 points · 209 comments",
+      "source": "Hacker News",
+      "url": "https://openrouter.ai/openai/gpt-6-astra",
+      "published_at": "2026-09-04T21:39:19+00:00",
+      "fetched_at": "2026-09-05T18:46:56.810814Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "354e5f1b-7c36-51c1-8beb-da934e9cfdb4",
+      "title": "llama.cpp v0.4.0 released",
+      "summary": "## Overview\r\n\r\nllama.cpp 0.4.0 adds initial Qwen3.8-Flash-Next and Nemotron-3-Puzzle support, on-demand tensor reading, per-slot server context limits, video input options, and a ggml update to 0.23.0 with major sparse flash attention and RDMA work.\r\n\r\n### API changes\r\n\r\n- Added `llama_lazy_mode` and `lazy_mode` ([#27794](https://github.com/ggml-org/llama.cpp/pull/27794)).\r\n- Added `max_buf_size` to quantize params ([#27795](https://github.com/ggml-org/llama.cpp/pull/27795)).\r\n- Bumped session/s",
+      "source": "GitHub",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/tag/v0.4.0",
+      "published_at": "2026-09-04T19:56:47Z",
+      "fetched_at": "2026-09-05T18:46:56.810814Z",
+      "type": "release",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
+      "id": "4d146f61-14aa-571c-998c-78503c6b3e07",
+      "title": "GPT-6 Astra: A new generation of intelligence",
+      "summary": "Introducing GPT-6 Astra, our most intelligent and aligned model yet, with state-of-the-art capabilities across computer use, coding, cybersecurity, and science.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/gpt-6-astra",
+      "published_at": "2026-09-03T11:00:00+00:00",
+      "fetched_at": "2026-09-05T18:46:56.810814Z",
+      "type": "announcement",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases",
+        "Agents & Tooling"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "415e66da-59f3-513c-9241-49285b9617ef",
       "title": "Discovery of a new OpenAI agent message board",
       "summary": "Not stated Not stated",
