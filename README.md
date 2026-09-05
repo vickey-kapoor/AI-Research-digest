@@ -229,8 +229,8 @@ minutes are free on public repositories, so this costs nothing but list noise.
 
 ```bash
 # Clone the repository
-git clone https://github.com/vickey-kapoor/ai-research-digest.git
-cd ai-research-digest
+git clone https://github.com/vickey-kapoor/Applied-AI-Dev-Digest.git
+cd Applied-AI-Dev-Digest
 
 # Create virtual environment
 python -m venv venv
@@ -265,15 +265,30 @@ npm run lint      # ESLint
 npm test          # Vitest unit tests
 ```
 
+### Continuous Integration
+
+`.github/workflows/ci.yml` runs on every pull request and on pushes to
+`master`, in two parallel jobs:
+
+| Job | Runs |
+|---|---|
+| Python tests | `pytest` on 3.11 (240 tests) |
+| Dashboard typecheck and lint | `npm ci`, `tsc --noEmit`, `npm run lint`, `npm test` (14 tests) |
+
+The suite mocks every network and OpenAI call, so CI needs no secrets and the
+workflow runs read-only. It is separate from `daily-news.yml` and never sends a
+digest.
+
 ## Project Structure
 
 ```
-ai-research-digest/
+Applied-AI-Dev-Digest/
 ├── .github/workflows/
-│   └── daily-news.yml            # GitHub Actions (daily + weekly)
+│   ├── ci.yml                    # Tests + typecheck/lint on every PR
+│   └── daily-news.yml            # 15-minute poll; schedule_guard decides what runs
 ├── src/
 │   ├── fetchers/
-│   │   ├── blog_fetcher.py       # RSS fetch from 12 AI lab/platform blogs
+│   │   ├── blog_fetcher.py       # RSS fetch from 11 AI lab/platform blogs
 │   │   ├── github_fetcher.py     # GitHub release tracking (7 repos)
 │   │   ├── hackernews_fetcher.py # HN top stories filtered to frontier labs
 │   │   └── huggingface_fetcher.py # HF Daily Papers (upvotes ≥ 20)
@@ -288,6 +303,7 @@ ai-research-digest/
 │   ├── news_ranker.py            # GPT-4o-mini ranking + feedback weights
 │   ├── news_summarizer.py        # Structured lab-release brief generation
 │   ├── pdf_generator.py          # PDF report generation
+│   ├── schedule_guard.py         # Decides whether a digest is due (stdlib only)
 │   ├── telegram_sender.py        # Telegram Bot API
 │   └── topic_config.py           # Dynamic topic config from KV
 ├── dashboard/                    # Next.js dashboard (Vercel)
@@ -301,12 +317,13 @@ ai-research-digest/
 │       │   └── api/              # API routes (topics, pause, feedback, etc.)
 │       ├── components/
 │       │   └── nav.tsx           # Top nav with pause toggle + send test
-│       └── lib/
-│           ├── topics.ts         # Topic definitions + helpers
-│           └── kv.ts             # Shared Redis client
-├── data/                         # papers.json + digests.json
+│       ├── lib/
+│       │   ├── topics.ts         # Topic definitions + helpers
+│       │   └── kv.ts             # Shared Redis client
+│       └── __tests__/            # Vitest suite (14 tests)
+├── data/                         # papers.json, digests.json, schedule_state.json
 ├── reports/                      # Generated PDF reports
-├── tests/                        # Pytest test suite (160+ tests)
+├── tests/                        # Pytest test suite (240 tests)
 ├── main.py                       # Pipeline entry point
 ├── preview.py                    # Local-only preview (outputs JSON; Vercel reads KV)
 ├── weekly_digest.py              # Sunday weekly roundup
