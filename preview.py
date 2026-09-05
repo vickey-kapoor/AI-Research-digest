@@ -9,8 +9,8 @@ from dotenv import load_dotenv
 from src.constants import DIGEST_MAX_RESULTS
 from src.topic_config import get_active_keywords
 from src.fetcher import fetch_all
-from src.news_ranker import rank_research
-from src.news_summarizer import summarize_research_bundle
+from src.news_ranker import rank_news
+from src.news_summarizer import summarize_release
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -39,13 +39,13 @@ def main():
 
     # Rank
     try:
-        top = rank_research(items, openai_key)
+        top = rank_news(items, openai_key)
     except Exception:
         top = items[0]
 
     # Summarize
     try:
-        top = summarize_research_bundle(top, openai_key)
+        top = summarize_release(top, openai_key)
     except Exception:
         pass  # Summary is optional for preview
 

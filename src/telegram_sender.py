@@ -120,41 +120,41 @@ MESSAGE_SECTIONS = (
 )
 
 
-def format_research_message(research: dict) -> str:
+def format_digest_message(item: dict) -> str:
     """
     Format an item into a Telegram message using the AI-lab-brief format.
 
     Args:
-        research: Item dictionary with title, source, url, and structured brief fields
+        item: Item dictionary with title, source, url, and structured brief fields
 
     Returns:
         Formatted message string with Markdown
     """
-    if not research:
+    if not item:
         return "*AI Dev Digest*\n\nNo updates found today."
 
-    title = _escape_markdown(research.get("title", "Untitled"))
-    source = _escape_markdown(research.get("source", "Unknown"))
-    url = _validate_url(research.get("url", ""))
+    title = _escape_markdown(item.get("title", "Untitled"))
+    source = _escape_markdown(item.get("source", "Unknown"))
+    url = _validate_url(item.get("url", ""))
 
     # Build topic tag from topic_id (preferred) or item type fallback
-    topic_id = research.get("topic_id", "")
-    tag = TOPIC_LABELS.get(topic_id) or TYPE_TAGS.get(research.get("type", ""), "#Update")
+    topic_id = item.get("topic_id", "")
+    tag = TOPIC_LABELS.get(topic_id) or TYPE_TAGS.get(item.get("type", ""), "#Update")
 
     # Release-type badge
-    release_type = research.get("release_type", "").lower().strip()
+    release_type = item.get("release_type", "").lower().strip()
     badge = RELEASE_TYPE_BADGES.get(release_type)
     badge_str = f" · {badge}" if badge else ""
 
     # Structured brief fields
     sections = [
-        (label, _escape_markdown(research.get(key, "")))
+        (label, _escape_markdown(item.get(key, "")))
         for key, label in MESSAGE_SECTIONS
     ]
 
     # Fall back to flat summary if the structured brief is missing
     if not any(text for _, text in sections):
-        summary = _escape_markdown(research.get("summary", ""))
+        summary = _escape_markdown(item.get("summary", ""))
         return f"""{tag} · {source}{badge_str}
 
 *{title}*

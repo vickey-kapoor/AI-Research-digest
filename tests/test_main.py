@@ -31,11 +31,11 @@ class TestMain:
 
     @patch("main.export_digest")
     @patch("main.send_telegram_message")
-    @patch("main.format_research_message")
-    @patch("main.generate_research_pdf")
-    @patch("main.summarize_research_bundle")
+    @patch("main.format_digest_message")
+    @patch("main.generate_digest_pdf")
+    @patch("main.summarize_release")
     @patch("main.export_papers")
-    @patch("main.rank_research")
+    @patch("main.rank_news")
     @patch("main.fetch_all")
     @patch("main.increment_topic_stat")
     @patch("main.get_active_keywords", return_value=["api", "sdk", "model"])
@@ -46,11 +46,11 @@ class TestMain:
         mock_get_active_keywords,
         mock_increment_stat,
         mock_fetch_all,
-        mock_rank_research,
+        mock_rank_news,
         mock_export_papers,
-        mock_summarize_research_bundle,
-        mock_generate_research_pdf,
-        mock_format_research_message,
+        mock_summarize_release,
+        mock_generate_digest_pdf,
+        mock_format_digest_message,
         mock_send_telegram_message,
         mock_export_digest,
         env_vars,
@@ -72,26 +72,26 @@ class TestMain:
         }
 
         mock_fetch_all.return_value = [paper]
-        mock_rank_research.return_value = paper
+        mock_rank_news.return_value = paper
         mock_export_papers.return_value = "paper-1"
-        mock_summarize_research_bundle.return_value = enriched_paper
-        mock_generate_research_pdf.return_value = "reports/13-Mar/test.pdf"
-        mock_format_research_message.return_value = "formatted"
+        mock_summarize_release.return_value = enriched_paper
+        mock_generate_digest_pdf.return_value = "reports/13-Mar/test.pdf"
+        mock_format_digest_message.return_value = "formatted"
         monkeypatch.setenv("GITHUB_RUN_ID", "run-123")
 
         main.main()
 
-        mock_summarize_research_bundle.assert_called_once_with(paper, "test_openai_key")
+        mock_summarize_release.assert_called_once_with(paper, "test_openai_key")
         mock_send_telegram_message.assert_called_once_with("test_bot_token", "12345", "formatted")
         mock_export_digest.assert_called_once()
 
     @patch("main.send_telegram_message")
-    @patch("main.format_research_message")
-    @patch("main.generate_research_pdf")
-    @patch("main.summarize_research_bundle")
+    @patch("main.format_digest_message")
+    @patch("main.generate_digest_pdf")
+    @patch("main.summarize_release")
     @patch("main.export_digest")
     @patch("main.export_papers")
-    @patch("main.rank_research")
+    @patch("main.rank_news")
     @patch("main.fetch_all")
     @patch("main.increment_topic_stat")
     @patch("main.get_active_keywords", return_value=["api", "sdk", "model"])
@@ -102,12 +102,12 @@ class TestMain:
         mock_get_active_keywords,
         mock_increment_stat,
         mock_fetch_all,
-        mock_rank_research,
+        mock_rank_news,
         mock_export_papers,
         mock_export_digest,
-        mock_summarize_research_bundle,
-        mock_generate_research_pdf,
-        mock_format_research_message,
+        mock_summarize_release,
+        mock_generate_digest_pdf,
+        mock_format_digest_message,
         mock_send_telegram_message,
         env_vars,
     ):
@@ -122,11 +122,11 @@ class TestMain:
         }
 
         mock_fetch_all.return_value = [paper]
-        mock_rank_research.return_value = paper
+        mock_rank_news.return_value = paper
         mock_export_papers.return_value = "paper-1"
-        mock_summarize_research_bundle.return_value = paper
-        mock_generate_research_pdf.return_value = "reports/13-Mar/test.pdf"
-        mock_format_research_message.return_value = "formatted"
+        mock_summarize_release.return_value = paper
+        mock_generate_digest_pdf.return_value = "reports/13-Mar/test.pdf"
+        mock_format_digest_message.return_value = "formatted"
         mock_send_telegram_message.side_effect = RuntimeError("send failed")
 
         # Pipeline continues despite Telegram failure (no sys.exit)
@@ -165,11 +165,11 @@ class TestMain:
 
     @patch("main.export_digest")
     @patch("main.send_telegram_message")
-    @patch("main.format_research_message", return_value="formatted")
-    @patch("main.generate_research_pdf", return_value="reports/x.pdf")
-    @patch("main.summarize_research_bundle")
+    @patch("main.format_digest_message", return_value="formatted")
+    @patch("main.generate_digest_pdf", return_value="reports/x.pdf")
+    @patch("main.summarize_release")
     @patch("main.export_papers", return_value="paper-1")
-    @patch("main.rank_research")
+    @patch("main.rank_news")
     @patch("main.fetch_all")
     @patch("main.increment_topic_stat")
     @patch("main.get_active_keywords", return_value=["frontier model"])
@@ -180,11 +180,11 @@ class TestMain:
         mock_get_active_keywords,
         mock_increment_stat,
         mock_fetch_all,
-        mock_rank_research,
+        mock_rank_news,
         mock_export_papers,
-        mock_summarize_research_bundle,
-        mock_generate_research_pdf,
-        mock_format_research_message,
+        mock_summarize_release,
+        mock_generate_digest_pdf,
+        mock_format_digest_message,
         mock_send_telegram_message,
         mock_export_digest,
         env_vars,
@@ -201,8 +201,8 @@ class TestMain:
         enriched = {**paper, "summary": "Generated summary", "what_shipped": "OpenAI shipped X."}
 
         mock_fetch_all.return_value = [paper]
-        mock_rank_research.return_value = paper
-        mock_summarize_research_bundle.return_value = enriched
+        mock_rank_news.return_value = paper
+        mock_summarize_release.return_value = enriched
 
         main.main()
 

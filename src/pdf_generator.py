@@ -37,7 +37,7 @@ def _sanitize_text_for_pdf(text: str) -> str:
     return text
 
 
-class ResearchPDF(FPDF):
+class DigestPDF(FPDF):
     """Custom PDF class for lab-development briefs."""
 
     def __init__(self):
@@ -62,12 +62,12 @@ class ResearchPDF(FPDF):
         self.cell(0, 10, f"Page {self.page_no()}", align="C")
 
 
-def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
+def generate_digest_pdf(item: dict, output_dir: str = "reports") -> str:
     """
     Generate a PDF brief for an AI lab development.
 
     Args:
-        research: Item dictionary with title, source, description, summary, url
+        item: Item dictionary with title, source, description, summary, url
         output_dir: Base directory for saving reports
 
     Returns:
@@ -79,18 +79,18 @@ def generate_research_pdf(research: dict, output_dir: str = "reports") -> str:
     full_output_dir.mkdir(parents=True, exist_ok=True)
 
     # Sanitize all text inputs
-    title = _sanitize_text_for_pdf(research.get("title", "Today's AI Lab Development"))
-    lab = _sanitize_text_for_pdf(research.get("source", "Unknown"))
-    source = _sanitize_text_for_pdf(research.get("source", "Unknown"))
+    title = _sanitize_text_for_pdf(item.get("title", "Today's AI Lab Development"))
+    lab = _sanitize_text_for_pdf(item.get("source", "Unknown"))
+    source = _sanitize_text_for_pdf(item.get("source", "Unknown"))
     # Use detailed_summary for PDF if available, fallback to short summary
     summary = _sanitize_text_for_pdf(
-        research.get("detailed_summary", "") or research.get("summary", "")
+        item.get("detailed_summary", "") or item.get("summary", "")
     )
-    description = _sanitize_text_for_pdf(research.get("summary", ""))
-    url = research.get("url", "")
+    description = _sanitize_text_for_pdf(item.get("summary", ""))
+    url = item.get("url", "")
 
     # Create PDF
-    pdf = ResearchPDF()
+    pdf = DigestPDF()
     pdf.add_page()
 
     # Title section

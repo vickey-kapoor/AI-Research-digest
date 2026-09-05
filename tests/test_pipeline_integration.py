@@ -116,11 +116,11 @@ class TestFullPipelineFlow:
 
     @patch("main.export_digest")
     @patch("main.send_telegram_message")
-    @patch("main.format_research_message")
-    @patch("main.generate_research_pdf")
-    @patch("main.summarize_research_bundle")
+    @patch("main.format_digest_message")
+    @patch("main.generate_digest_pdf")
+    @patch("main.summarize_release")
     @patch("main.export_papers")
-    @patch("main.rank_research")
+    @patch("main.rank_news")
     @patch("main.fetch_all")
     def test_pipeline_runs_end_to_end(
         self,

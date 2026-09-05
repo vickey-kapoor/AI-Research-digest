@@ -9,7 +9,7 @@ import pytest
 
 from src.pdf_generator import (
     _sanitize_text_for_pdf,
-    generate_research_pdf,
+    generate_digest_pdf,
 )
 
 
@@ -69,19 +69,19 @@ class TestSanitizeTextForPdf:
         assert "\u00a0" not in result
 
 
-class TestGenerateResearchPdf:
-    """Tests for single research PDF generation."""
+class TestGenerateDigestPdf:
+    """Tests for single digest PDF generation."""
 
     def test_generate_pdf_creates_file(self, sample_paper_with_detailed_summary, pdf_output_dir):
         """Test that PDF file is created."""
-        pdf_path = generate_research_pdf(sample_paper_with_detailed_summary, output_dir=pdf_output_dir)
+        pdf_path = generate_digest_pdf(sample_paper_with_detailed_summary, output_dir=pdf_output_dir)
 
         assert os.path.exists(pdf_path)
         assert pdf_path.endswith(".pdf")
 
     def test_generate_pdf_uses_date_folder(self, sample_paper_with_detailed_summary, pdf_output_dir):
         """Test that PDF is saved in date-formatted folder."""
-        pdf_path = generate_research_pdf(sample_paper_with_detailed_summary, output_dir=pdf_output_dir)
+        pdf_path = generate_digest_pdf(sample_paper_with_detailed_summary, output_dir=pdf_output_dir)
 
         # Path should contain date folder (e.g., "15-Jan")
         path_parts = Path(pdf_path).parts
@@ -93,7 +93,7 @@ class TestGenerateResearchPdf:
         paper["title"] = "Research: A/B Test <script>alert(1)</script>"
         paper["summary"] = "Test summary"
 
-        pdf_path = generate_research_pdf(paper, output_dir=pdf_output_dir)
+        pdf_path = generate_digest_pdf(paper, output_dir=pdf_output_dir)
 
         # Filename should not contain unsafe characters
         filename = os.path.basename(pdf_path)
@@ -103,13 +103,13 @@ class TestGenerateResearchPdf:
 
     def test_generate_pdf_with_summary(self, sample_paper_with_summary, pdf_output_dir):
         """Test PDF generation with short summary (fallback)."""
-        pdf_path = generate_research_pdf(sample_paper_with_summary, output_dir=pdf_output_dir)
+        pdf_path = generate_digest_pdf(sample_paper_with_summary, output_dir=pdf_output_dir)
 
         assert os.path.exists(pdf_path)
 
     def test_generate_pdf_with_detailed_summary(self, sample_paper_with_detailed_summary, pdf_output_dir):
         """Test PDF generation with detailed summary (preferred)."""
-        pdf_path = generate_research_pdf(sample_paper_with_detailed_summary, output_dir=pdf_output_dir)
+        pdf_path = generate_digest_pdf(sample_paper_with_detailed_summary, output_dir=pdf_output_dir)
 
         assert os.path.exists(pdf_path)
         # File should have some content (more than just headers)
@@ -123,5 +123,5 @@ class TestGenerateResearchPdf:
         paper["summary"] = "Summary with \u00a0non-breaking space"
 
         # Should not raise exception
-        pdf_path = generate_research_pdf(paper, output_dir=pdf_output_dir)
+        pdf_path = generate_digest_pdf(paper, output_dir=pdf_output_dir)
         assert os.path.exists(pdf_path)

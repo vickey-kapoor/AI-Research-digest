@@ -25,30 +25,30 @@ def _call_openai_ranking(client: OpenAI, prompt: str):
     )
 
 
-def rank_research(research: list[dict], api_key: str) -> dict:
+def rank_news(items: list[dict], api_key: str) -> dict:
     """
     Use OpenAI to select the most significant AI lab development of the day.
 
     Args:
-        research: List of candidate item dictionaries
+        items: List of candidate item dictionaries
         api_key: OpenAI API key
 
     Returns:
         The most significant item
     """
-    if not research:
-        raise ValueError("No research to rank")
+    if not items:
+        raise ValueError("No items to rank")
 
-    if len(research) == 1:
-        return research[0]
+    if len(items) == 1:
+        return items[0]
 
     # Load feedback weights and reorder by preference before sending to LLM
     try:
         weights = get_feedback_weights()
         if weights:
             # Sort papers so preferred topics come first (higher weight = earlier)
-            research = sorted(
-                research,
+            items = sorted(
+                items,
                 key=lambda r: weights.get(r.get("topic_id", ""), 1.0),
                 reverse=True,
             )
@@ -58,9 +58,9 @@ def rank_research(research: list[dict], api_key: str) -> dict:
     client = OpenAI(api_key=api_key)
 
     # Prepare item summary for the prompt (with sanitization)
-    research_text = "\n\n".join(
+    items_text = "\n\n".join(
         f"[{i+1}] Title: {_sanitize_text(r.get('title', ''), 200)}\nSource: {_sanitize_text(r.get('source', ''), 50)}\nType: {r.get('type', 'announcement')}\nSummary: {_sanitize_text(r.get('summary', ''), 400)}"
-        for i, r in enumerate(research)
+        for i, r in enumerate(items)
     )
 
     prompt = f"""You are tracking what the frontier AI labs ship — OpenAI, Anthropic, Google DeepMind, Meta, Mistral, xAI, Alibaba/Qwen, DeepSeek, NVIDIA and their peers.
@@ -87,7 +87,7 @@ Deprioritize:
 Prefer first-party lab announcements over coverage of them. When two items describe the same launch, pick the one closest to the source.
 
 Items:
-{research_text}
+{items_text}
 
 Return the single most important item as JSON: {{"index": N, "reason": "one sentence on why this is the most significant lab development today"}}"""
 
@@ -102,12 +102,12 @@ Return the single most important item as JSON: {{"index": N, "reason": "one sent
                 selected_index = int(result["index"]) - 1
             except (json.JSONDecodeError, KeyError):
                 selected_index = int(content.strip()) - 1
-            if 0 <= selected_index < len(research):
-                return research[selected_index]
+            if 0 <= selected_index < len(items):
+                return items[selected_index]
     except (ValueError, IndexError, TypeError, AttributeError):
         pass
     except Exception:
         logger.error("Failed to rank items with AI")
 
     # Fallback to first paper if parsing fails
-    return research[0]
+    return items[0]

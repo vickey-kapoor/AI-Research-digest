@@ -12,11 +12,11 @@ from src.utils.retry import retry_with_backoff
 logger = get_logger(__name__)
 
 
-def _prepare_inputs(research: dict) -> tuple[str, str, str]:
+def _prepare_inputs(item: dict) -> tuple[str, str, str]:
     """Sanitize and extract title, source, and summary from an item."""
-    title = sanitize_prompt_text(research.get("title", ""), 200)
-    source = sanitize_prompt_text(research.get("source", "Unknown"), 100)
-    summary = sanitize_prompt_text(research.get("summary", ""), 800)
+    title = sanitize_prompt_text(item.get("title", ""), 200)
+    source = sanitize_prompt_text(item.get("source", "Unknown"), 100)
+    summary = sanitize_prompt_text(item.get("summary", ""), 800)
     return title, source, summary
 
 
@@ -52,16 +52,16 @@ DETAIL_SECTIONS = (
 )
 
 
-def summarize_research_bundle(research: dict, api_key: str) -> dict:
+def summarize_release(item: dict, api_key: str) -> dict:
     """Generate a structured lab-release brief in a single model call.
 
     Returns the original item unchanged if the request fails.
     """
     if not api_key:
-        return research
+        return item
 
     client = OpenAI(api_key=api_key)
-    title, source, description = _prepare_inputs(research)
+    title, source, description = _prepare_inputs(item)
 
     prompt = f"""You are briefing an engineer who tracks what the frontier AI labs ship.
 Be concrete and factual. No hype, no marketing language. Prefer specifics — model names, numbers, prices, dates — over adjectives.
@@ -93,14 +93,14 @@ Return JSON (no markdown fences):
 
         parsed = json.loads(content)
         if not isinstance(parsed, dict):
-            return research
+            return item
 
-        research_with_summaries = research.copy()
+        enriched = item.copy()
 
         # Store structured fields
         for key in SUMMARY_FIELDS:
             if parsed.get(key):
-                research_with_summaries[key] = parsed[key]
+                enriched[key] = parsed[key]
 
         # Build short summary for backward compat (Telegram fallback, KV, etc.)
         parts = []
@@ -109,7 +109,7 @@ Return JSON (no markdown fences):
         if parsed.get("capabilities"):
             parts.append(parsed["capabilities"])
         if parts:
-            research_with_summaries["summary"] = " ".join(parts)
+            enriched["summary"] = " ".join(parts)
 
         # Build detailed summary for PDF
         detail_parts = []
@@ -117,9 +117,9 @@ Return JSON (no markdown fences):
             if parsed.get(key):
                 detail_parts.append(f"**{label}**\n{parsed[key]}")
         if detail_parts:
-            research_with_summaries["detailed_summary"] = "\n\n".join(detail_parts)
+            enriched["detailed_summary"] = "\n\n".join(detail_parts)
 
-        return research_with_summaries
+        return enriched
     except Exception:
         logger.warning("Could not generate summaries")
-        return research
+        return item

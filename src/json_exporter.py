@@ -110,12 +110,12 @@ def get_sent_top_paper_ids() -> set[str]:
     }
 
 
-def export_papers(research_items: list[dict], ranked_paper: dict = None) -> str:
+def export_papers(items: list[dict], ranked_paper: dict = None) -> str:
     """
     Export fetched papers to papers.json.
 
     Args:
-        research_items: List of research items from fetch_ai_research
+        items: List of digest items from fetch_all
         ranked_paper: The top-ranked paper (optional, to update ranking score)
 
     Returns:
@@ -136,7 +136,7 @@ def export_papers(research_items: list[dict], ranked_paper: dict = None) -> str:
     top_paper_id = None
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
-    for item in research_items:
+    for item in items:
         identity = _paper_identity(item)
         normalized_title = _identity_title(item.get("title", ""))
         existing_paper = existing_by_identity.get(identity) or existing_by_title.get(normalized_title)
@@ -184,7 +184,7 @@ def export_papers(research_items: list[dict], ranked_paper: dict = None) -> str:
     data["papers"] = data["papers"][:PAPERS_CAP]
 
     save_json("papers.json", data)
-    logger.info("Exported %d papers to papers.json", len(research_items))
+    logger.info("Exported %d papers to papers.json", len(items))
 
     return top_paper_id
 
