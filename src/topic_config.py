@@ -1,10 +1,6 @@
 """Dynamic topic configuration backed by Vercel KV."""
 
-import json
-import os
-import urllib.parse
-import urllib.request
-
+from src import kv_client
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -146,34 +142,17 @@ _SUPPLEMENTAL_KEYWORDS = [
 
 
 def _kv_get(key: str):
-    """Fetch a value from Vercel KV REST API. Returns None on any failure."""
-    url = os.environ.get("KV_REST_API_URL", "").strip()
-    token = os.environ.get("KV_REST_API_TOKEN", "").strip()
-    if not url or not token:
-        return None
+    """Fetch a value from KV, returning None on any failure.
 
-    # Validate URL scheme to prevent SSRF
-    parsed = urllib.parse.urlparse(url)
-    if parsed.scheme not in ("https", "http") or not parsed.hostname:
-        logger.warning("Invalid KV_REST_API_URL scheme or hostname")
+    Topic configuration must never be able to stop a digest: every caller here
+    falls back to the built-in defaults when this returns None, so a KV outage
+    degrades the digest rather than failing it. kv_client raises by design, so
+    this is the boundary where that is converted into a None.
+    """
+    if not kv_client.kv_configured():
         return None
-
     try:
-        req = urllib.request.Request(
-            f"{url}/get/{key}",
-            headers={"Authorization": f"Bearer {token}"},
-        )
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            data = json.loads(resp.read())
-        result = data.get("result")
-        if result is None:
-            return None
-        if isinstance(result, str):
-            try:
-                return json.loads(result)
-            except (json.JSONDecodeError, TypeError):
-                return result
-        return result
+        return kv_client.kv_get(key)
     except Exception as e:
         logger.warning("Could not read KV key '%s': %s", key, e)
         return None
@@ -236,32 +215,12 @@ def get_feedback_weights() -> dict[str, float]:
       clamped to [0.75, 1.25]
     Returns a dict of {topic_id: multiplier}.
     """
-    url = os.environ.get("KV_REST_API_URL")
-    token = os.environ.get("KV_REST_API_TOKEN")
-    if not url or not token:
+    if not kv_client.kv_configured():
         return {}
 
     try:
-        req = urllib.request.Request(
-            f"{url}",
-            data=json.dumps(["LRANGE", "feedback:log", "0", "-1"]).encode(),
-            headers={
-                "Authorization": f"Bearer {token}",
-                "Content-Type": "application/json",
-            },
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            data = json.loads(resp.read())
-
-        raw_items = data.get("result", [])
-        entries = []
-        for raw in raw_items:
-            try:
-                entry = json.loads(raw) if isinstance(raw, str) else raw
-                entries.append(entry)
-            except (json.JSONDecodeError, TypeError):
-                continue
+        # kv_get_list already parses each entry and drops unparseable ones.
+        entries = kv_client.kv_get_list("feedback:log")
 
         # Filter to last 30 days
         from datetime import datetime, timedelta, timezone
@@ -291,31 +250,15 @@ def get_feedback_weights() -> dict[str, float]:
 
 def increment_topic_stat(topic_id: str) -> None:
     """Increment the win counter for a topic in KV stats."""
-    url = os.environ.get("KV_REST_API_URL")
-    token = os.environ.get("KV_REST_API_TOKEN")
-    if not url or not token:
+    if not kv_client.kv_configured():
         return
 
     try:
-        # Read current stats
         stats = _kv_get("stats:topics") or {}
         if not isinstance(stats, dict):
             stats = {}
         stats[topic_id] = stats.get(topic_id, 0) + 1
-
-        # Write back
-        data = json.dumps(stats).encode()
-        req = urllib.request.Request(
-            f"{url}",
-            data=json.dumps(["SET", "stats:topics", json.dumps(stats)]).encode(),
-            headers={
-                "Authorization": f"Bearer {token}",
-                "Content-Type": "application/json",
-            },
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=10):
-            pass
+        kv_client.kv_set("stats:topics", stats)
         logger.info("Incremented topic stat for '%s'", topic_id)
     except Exception as e:
         logger.warning("Could not update topic stats: %s", e)

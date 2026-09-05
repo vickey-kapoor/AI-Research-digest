@@ -29,6 +29,19 @@ def _get_config():
     return url, token
 
 
+def kv_configured() -> bool:
+    """Whether KV credentials are present.
+
+    Callers that treat an unconfigured KV as normal — local runs and previews,
+    where topic config simply falls back to defaults — check this first so a
+    missing credential stays silent instead of logging a warning per key.
+    """
+    return bool(
+        os.getenv("KV_REST_API_URL", "").strip()
+        and os.getenv("KV_REST_API_TOKEN", "").strip()
+    )
+
+
 def _kv_request(method, path, body=None):
     """Send a request to the Vercel KV REST API."""
     base_url, token = _get_config()
@@ -46,7 +59,7 @@ def _kv_request(method, path, body=None):
         return json.loads(resp.read().decode())
 
 
-@retry_with_backoff(max_retries=2, base_delay=1.0, exceptions=(URLError, OSError))
+@retry_with_backoff(exceptions=(URLError, OSError))
 def kv_set(key, value):
     """Set a JSON-serializable value in KV (Redis SET)."""
     payload = json.dumps(value)
@@ -55,7 +68,28 @@ def kv_set(key, value):
     return result.get("result")
 
 
-@retry_with_backoff(max_retries=2, base_delay=1.0, exceptions=(URLError, OSError))
+@retry_with_backoff(exceptions=(URLError, OSError))
+def kv_get(key):
+    """Get a single value from KV (Redis GET), parsed from JSON.
+
+    Returns None when the key is absent. Values are written by kv_set and by
+    the dashboard, both of which store JSON, so a stored string round-trips;
+    anything that will not parse is returned as the raw string rather than
+    discarded.
+    """
+    result = _kv_request("POST", "/", ["GET", key])
+    raw = result.get("result")
+    if raw is None:
+        return None
+    if isinstance(raw, str):
+        try:
+            return json.loads(raw)
+        except (json.JSONDecodeError, TypeError):
+            return raw
+    return raw
+
+
+@retry_with_backoff(exceptions=(URLError, OSError))
 def kv_append(key, value):
     """Append a JSON-serializable value to a KV list (Redis RPUSH)."""
     payload = json.dumps(value)
@@ -64,7 +98,7 @@ def kv_append(key, value):
     return result.get("result")
 
 
-@retry_with_backoff(max_retries=2, base_delay=1.0, exceptions=(URLError, OSError))
+@retry_with_backoff(exceptions=(URLError, OSError))
 def kv_get_list(key):
     """Get all items from a KV list (Redis LRANGE 0 -1). Returns list of parsed JSON objects."""
     result = _kv_request("POST", "/", ["LRANGE", key, "0", "-1"])
@@ -79,7 +113,7 @@ def kv_get_list(key):
     return items
 
 
-@retry_with_backoff(max_retries=2, base_delay=1.0, exceptions=(URLError, OSError))
+@retry_with_backoff(exceptions=(URLError, OSError))
 def kv_delete(key):
     """Delete a key from KV (Redis DEL)."""
     result = _kv_request("POST", "/", ["DEL", key])

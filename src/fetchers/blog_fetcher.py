@@ -64,11 +64,7 @@ def _strip_html(text: str) -> str:
     return html.unescape(extractor.get_text())
 
 
-@retry_with_backoff(
-    max_retries=2,
-    base_delay=1.0,
-    exceptions=(socket.timeout, OSError),
-)
+@retry_with_backoff(exceptions=(socket.timeout, OSError))
 def _parse_blog_feed(url: str):
     """Parse blog RSS feed with retry on timeout."""
     old_timeout = socket.getdefaulttimeout()

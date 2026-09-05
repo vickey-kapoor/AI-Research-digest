@@ -11,7 +11,7 @@ logger = get_logger(__name__)
 
 
 def retry_with_backoff(
-    max_retries: int = 3,
+    max_retries: int = 2,
     base_delay: float = 1.0,
     max_delay: float = 30.0,
     exponential_base: float = 2.0,
@@ -22,7 +22,7 @@ def retry_with_backoff(
     Decorator that retries a function with exponential backoff.
 
     Args:
-        max_retries: Maximum number of retry attempts (default: 3)
+        max_retries: Maximum number of retry attempts (default: 2)
         base_delay: Initial delay between retries in seconds (default: 1.0)
         max_delay: Maximum delay between retries in seconds (default: 30.0)
         exponential_base: Base for exponential calculation (default: 2.0)
@@ -33,7 +33,7 @@ def retry_with_backoff(
         Decorated function with retry logic
 
     Example:
-        @retry_with_backoff(max_retries=3, exceptions=(requests.Timeout, requests.ConnectionError))
+        @retry_with_backoff(exceptions=(requests.Timeout, requests.ConnectionError))
         def fetch_data():
             return requests.get(url)
     """

@@ -93,6 +93,24 @@ class TestRetryWithBackoff:
 class TestRetryWithBackoffEdgeCases:
     """Edge case tests for retry decorator."""
 
+    def test_default_is_two_retries(self):
+        """Pins the default every call site relies on.
+
+        Every other test here passes max_retries explicitly, which is how the
+        default drifted to 3 while all eight call sites overrode it with 2.
+        """
+        calls = []
+
+        @retry_with_backoff(base_delay=0.01)
+        def always_fails():
+            calls.append(1)
+            raise ValueError("boom")
+
+        with pytest.raises(ValueError):
+            always_fails()
+
+        assert len(calls) == 3, "expected 1 initial attempt + 2 retries"
+
     def test_zero_retries(self):
         """With max_retries=0, function should only be called once."""
         call_count = 0
