@@ -4,7 +4,7 @@ Daily digest of the latest developments from the frontier AI labs — delivered 
 
 ## Features
 
-- Fetches from **12 AI lab and platform blogs** via RSS (OpenAI, Google DeepMind, Google AI, Google Research, Meta AI, Mistral AI, Qwen, Hugging Face, NVIDIA, Together AI, EleutherAI, AWS ML)
+- Fetches from **11 AI lab and platform blogs** via RSS (OpenAI, Google DeepMind, Google AI, Google Research, Meta AI, Mistral AI, Qwen, Hugging Face, NVIDIA, Together AI, EleutherAI)
 - Tracks **7 GitHub repos** for releases that mark a shipped development (official model SDKs plus the serving stacks new models land in)
 - Monitors **Hacker News** for frontier lab discussions (score > 100, last 24h) — also the main channel for Anthropic, which publishes no RSS feed
 - Surfaces **Hugging Face Daily Papers** with high upvotes (20+, last 24h)
@@ -14,7 +14,7 @@ Daily digest of the latest developments from the frontier AI labs — delivered 
 - Sends to Telegram via Bot API
 - Produces a PDF report and weekly digest roundup
 - Exports structured data to JSON (papers + digests)
-- Runs automatically via GitHub Actions (10:00 AM CST daily)
+- Runs via GitHub Actions at **12:00 noon America/Chicago**, held steady across daylight saving (see **Scheduling**)
 - **Pause/resume** digest from the dashboard
 - **Send test** button re-sends the last digest to Telegram
 - **Digest preview** page shows the last sent digest as a Telegram message mockup
@@ -81,7 +81,6 @@ https://openai.com/index/gpt-4o-mini
 | NVIDIA | blogs.nvidia.com/feed/ |
 | Together AI | www.together.ai/blog/rss.xml |
 | EleutherAI | blog.eleuther.ai/index.xml |
-| AWS Machine Learning | aws.amazon.com/blogs/machine-learning/feed/ |
 
 **Anthropic has no public RSS feed** for its news, research, or engineering posts, so Anthropic announcements reach the digest through the Hacker News source (which filters on `Anthropic` and `Claude`) and Hugging Face Daily Papers.
 
@@ -173,16 +172,58 @@ Add `KV_REST_API_URL`, `KV_REST_API_TOKEN`, `TELEGRAM_BOT_TOKEN`, and `TELEGRAM_
 
 **For local development:** Set `GITHUB_TOKEN` in `.env` to a personal access token for GitHub release fetching. This is optional — the fetcher works without auth but has lower rate limits.
 
-### 3. Adjust Schedule (Optional)
+### 3. Scheduling
 
-Edit `.github/workflows/daily-news.yml` to change the time:
+The digest is delivered at **12:00 noon America/Chicago**, and the weekly
+roundup at **13:00 on Sundays**. No secrets, tokens or third-party services are
+involved.
 
-```yaml
-schedule:
-  - cron: '0 16 * * *'  # 10:00 AM CST (16:00 UTC) daily
-```
+**How.** A single daily cron cannot hold a delivery time on GitHub Actions.
+Scheduled delivery is best-effort, and measured on this repo runs arrived
+between 30 minutes and 5h23m after their slot — enough to put a "daily" digest
+anywhere from late morning to evening, and occasionally past midnight onto the
+next date.
 
-Use [crontab.guru](https://crontab.guru/) to customize.
+So the workflow polls every 15 minutes and `src/schedule_guard.py` decides
+whether anything is actually due:
+
+| Condition | Daily | Weekly |
+|---|---|---|
+| Local time has passed | 12:00 | 13:00 |
+| Day | any | Sunday |
+| Already ran today | skip | skip |
+
+A late tick is simply followed by another, so the digest lands within roughly
+one interval of the target rather than hours away. Almost every tick exits at
+the guard step — no dependency install, no fetching — so a no-op costs seconds.
+
+**Daylight saving.** The target is evaluated in `America/Chicago`, not as a
+fixed UTC hour. Cron only understands UTC, so a fixed hour would silently slip
+by one when CDT gives way to CST in November. Evaluating locally keeps noon at
+noon year-round.
+
+**State.** `data/schedule_state.json` records the last run date per job and is
+committed with the digest output. Each job is marked only after its script
+succeeds, so a failure leaves it due and the next tick retries rather than
+skipping the day. If a run sends but fails to commit, the next tick runs again;
+`get_sent_top_paper_ids()` filters items already sent as a top pick, so that
+repeat finds nothing new and sends nothing.
+
+**Changing the times.** Override with environment variables rather than editing
+the cron:
+
+| Variable | Default |
+|---|---|
+| `DIGEST_TIMEZONE` | `America/Chicago` |
+| `DAILY_TARGET_HOUR` | `12` |
+| `WEEKLY_TARGET_HOUR` | `13` |
+
+**Running by hand.** The Actions tab offers a `daily`/`weekly` dropdown. A
+manual dispatch bypasses the guard, so it sends immediately regardless of the
+time or whether today's digest already went out.
+
+**Trade-off.** The Actions tab gets ~96 entries a day instead of one. Actions
+minutes are free on public repositories, so this costs nothing but list noise.
 
 ## Local Development
 
