@@ -2,12 +2,13 @@
   "digests": [
     {
       "date": "2026-09-05",
-      "run_at": "2026-09-05T18:46:57.855457Z",
-      "top_paper_id": "278d852e-9df1-5e79-b55c-1a45781f55f5",
-      "papers_fetched": 7,
-      "pdf_path": "reports/05-Sep/Portal_by_Spotify_cut_my_Claude_Code_token_usage_b.pdf",
+      "run_at": "2026-09-05T20:55:53.916434Z",
+      "top_paper_id": "32bb0721-71ca-58f3-b115-17554d54a23d",
+      "papers_fetched": 6,
+      "pdf_path": "reports/05-Sep/anthropic-sdk-python_v140_released.pdf",
       "telegram_sent": true,
-      "workflow_run_id": "33985100120"
+      "workflow_run_id": "33991521482",
+      "previous_run_at": "2026-09-05T18:46:57.855457Z"
     },
     {
       "date": "2026-09-04",
