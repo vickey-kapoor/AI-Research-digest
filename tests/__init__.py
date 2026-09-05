@@ -1,1 +1,1 @@
-"""Test suite for AI Research Telegram Digest."""
+"""Test suite for Applied AI Dev Digest."""

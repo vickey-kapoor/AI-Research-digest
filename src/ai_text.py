@@ -1,4 +1,4 @@
-"""Shared helpers for preparing research text for LLM prompts."""
+"""Shared helpers for preparing item text for LLM prompts."""
 
 import re
 

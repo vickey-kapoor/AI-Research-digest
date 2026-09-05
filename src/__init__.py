@@ -1,1 +1,1 @@
-"""AI Research Telegram Digest - Daily AI research delivered to Telegram."""
+"""Applied AI Dev Digest - daily AI lab developments delivered to Telegram."""

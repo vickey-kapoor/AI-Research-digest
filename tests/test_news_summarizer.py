@@ -6,7 +6,7 @@ import pytest
 from unittest.mock import Mock, patch
 
 from src.news_summarizer import (
-    summarize_research_bundle,
+    summarize_release,
     _prepare_inputs,
 )
 from src.ai_text import sanitize_prompt_text
@@ -60,11 +60,11 @@ class TestSanitizeText:
         assert len(result) <= 103  # 100 + "..."
 
 
-class TestSummarizeResearchBundle:
+class TestSummarizeRelease:
     """Tests for the structured summary generation."""
 
     def test_no_api_key_returns_original(self, sample_paper):
-        result = summarize_research_bundle(sample_paper, "")
+        result = summarize_release(sample_paper, "")
         assert result == sample_paper
 
     def test_adds_structured_fields(self, sample_paper):
@@ -87,7 +87,7 @@ class TestSummarizeResearchBundle:
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
 
-            result = summarize_research_bundle(sample_paper, "test_api_key")
+            result = summarize_release(sample_paper, "test_api_key")
 
             assert result["what_shipped"] == "OpenAI released GPT-4o mini in the API."
             assert result["capabilities"].startswith("128K context")
@@ -109,7 +109,7 @@ class TestSummarizeResearchBundle:
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
 
-            result = summarize_research_bundle(sample_paper, "test_api_key")
+            result = summarize_release(sample_paper, "test_api_key")
 
             assert result == sample_paper
 
@@ -120,7 +120,7 @@ class TestSummarizeResearchBundle:
             mock_client.chat.completions.create.side_effect = Exception("API Error")
             mock_openai.return_value = mock_client
 
-            result = summarize_research_bundle(sample_paper, "test_api_key")
+            result = summarize_release(sample_paper, "test_api_key")
 
             assert result == sample_paper
 
@@ -146,7 +146,7 @@ class TestSummarizeResearchBundle:
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
 
-            summarize_research_bundle(sample_paper, "test_api_key")
+            summarize_release(sample_paper, "test_api_key")
 
         assert set(sample_paper.keys()) == original_keys
 
@@ -171,6 +171,6 @@ class TestSummarizeResearchBundle:
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
 
-            result = summarize_research_bundle(sample_paper, "test_api_key")
+            result = summarize_release(sample_paper, "test_api_key")
 
             assert result["what_shipped"] == "Test what shipped"

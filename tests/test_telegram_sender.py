@@ -8,7 +8,7 @@ from src.telegram_sender import (
     _truncate,
     _truncate_message,
     _escape_markdown,
-    format_research_message,
+    format_digest_message,
     send_telegram_message,
 )
 
@@ -107,11 +107,11 @@ class TestEscapeMarkdown:
         assert result == "Paper\\_\\[v2\\] \\*draft\\*"
 
 
-class TestFormatResearchMessage:
-    """Tests for research message formatting."""
+class TestFormatDigestMessage:
+    """Tests for digest message formatting."""
 
     def test_basic_formatting(self, sample_paper_with_summary):
-        message = format_research_message(sample_paper_with_summary)
+        message = format_digest_message(sample_paper_with_summary)
         assert sample_paper_with_summary["title"] in message
         assert "What shipped" in message
         assert "Capabilities" in message
@@ -120,29 +120,29 @@ class TestFormatResearchMessage:
         assert "Caveats" in message
         assert sample_paper_with_summary["source"] in message
 
-    def test_empty_research(self):
-        message = format_research_message({})
+    def test_empty_item(self):
+        message = format_digest_message({})
         assert "No updates found today" in message
 
-    def test_none_research(self):
-        message = format_research_message(None)
+    def test_none_item(self):
+        message = format_digest_message(None)
         assert "No updates found today" in message
 
     def test_url_validation_in_message(self, sample_paper_with_summary):
         paper = sample_paper_with_summary.copy()
         paper["url"] = "javascript:alert(1)"
-        message = format_research_message(paper)
+        message = format_digest_message(paper)
         assert "javascript:" not in message
 
     def test_source_shown_in_message(self, sample_paper_with_summary):
-        message = format_research_message(sample_paper_with_summary)
+        message = format_digest_message(sample_paper_with_summary)
         assert "OpenAI" in message
 
     def test_fallback_to_flat_summary(self, sample_paper):
         """Items without structured fields fall back to flat summary display."""
         paper = sample_paper.copy()
         paper["summary"] = "Flat summary text"
-        message = format_research_message(paper)
+        message = format_digest_message(paper)
         assert "Flat summary text" in message
 
     def test_markdown_is_escaped_in_message(self, sample_paper):
@@ -150,7 +150,7 @@ class TestFormatResearchMessage:
         paper["title"] = "Paper_[v2]"
         paper["what_shipped"] = "Uses *special* syntax"
         paper["capabilities"] = "Technical details"
-        message = format_research_message(paper)
+        message = format_digest_message(paper)
         assert "*Paper\\_\\[v2\\]*" in message
         assert "Uses \\*special\\* syntax" in message
 

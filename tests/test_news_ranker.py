@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import Mock, patch
 
-from src.news_ranker import rank_research, _sanitize_text
+from src.news_ranker import rank_news, _sanitize_text
 
 
 class TestSanitizeText:
@@ -53,17 +53,17 @@ class TestSanitizeText:
         assert result == "Text with spaces"
 
 
-class TestRankResearch:
-    """Tests for research ranking."""
+class TestRankNews:
+    """Tests for news ranking."""
 
     def test_empty_list_raises_error(self):
         """Test that empty list raises ValueError."""
         with pytest.raises(ValueError):
-            rank_research([], "test_api_key")
+            rank_news([], "test_api_key")
 
     def test_single_paper_returned(self, sample_paper):
         """Test that single paper is returned directly."""
-        result = rank_research([sample_paper], "test_api_key")
+        result = rank_news([sample_paper], "test_api_key")
         assert result == sample_paper
 
     @patch("src.news_ranker.get_feedback_weights", return_value={})
@@ -74,7 +74,7 @@ class TestRankResearch:
             mock_client.chat.completions.create.return_value = mock_openai_response
             mock_openai.return_value = mock_client
 
-            result = rank_research(sample_papers, "test_api_key")
+            result = rank_news(sample_papers, "test_api_key")
 
             # AI returned "1", so first paper should be selected
             assert result == sample_papers[0]
@@ -87,7 +87,7 @@ class TestRankResearch:
             mock_client.chat.completions.create.side_effect = Exception("API Error")
             mock_openai.return_value = mock_client
 
-            result = rank_research(sample_papers, "test_api_key")
+            result = rank_news(sample_papers, "test_api_key")
 
             # Should fall back to first paper
             assert result == sample_papers[0]
@@ -104,7 +104,7 @@ class TestRankResearch:
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
 
-            result = rank_research(sample_papers, "test_api_key")
+            result = rank_news(sample_papers, "test_api_key")
 
             # Should fall back to first paper
             assert result == sample_papers[0]
@@ -121,7 +121,7 @@ class TestRankResearch:
             mock_client.chat.completions.create.return_value = mock_response
             mock_openai.return_value = mock_client
 
-            result = rank_research(sample_papers, "test_api_key")
+            result = rank_news(sample_papers, "test_api_key")
 
             # Should fall back to first paper
             assert result == sample_papers[0]
@@ -148,7 +148,7 @@ class TestRankResearch:
             mock_client.chat.completions.create.return_value = mock_openai_response
             mock_openai.return_value = mock_client
 
-            rank_research([paper_with_injection, normal_paper], "test_api_key")
+            rank_news([paper_with_injection, normal_paper], "test_api_key")
 
             # Check that the prompt contains filtered content
             call_args = mock_client.chat.completions.create.call_args

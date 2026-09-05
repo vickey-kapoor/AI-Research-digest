@@ -11,10 +11,10 @@ from src.constants import DIGEST_MAX_RESULTS
 from src.logger import get_logger
 from src.topic_config import get_active_keywords, is_paused, increment_topic_stat
 from src.fetcher import fetch_all
-from src.news_ranker import rank_research
-from src.news_summarizer import summarize_research_bundle
-from src.telegram_sender import format_research_message, send_telegram_message
-from src.pdf_generator import generate_research_pdf
+from src.news_ranker import rank_news
+from src.news_summarizer import summarize_release
+from src.telegram_sender import format_digest_message, send_telegram_message
+from src.pdf_generator import generate_digest_pdf
 from src.json_exporter import export_papers, export_digest, get_sent_top_paper_ids, _paper_id_for_item
 from src.kv_client import kv_append, kv_set
 
@@ -55,15 +55,15 @@ def main():
 
     # Fetch items from all sources (blogs, GitHub releases, Hacker News)
     logger.info("Fetching AI lab development items...")
-    research_items = []
+    items = []
     try:
-        research_items = fetch_all(max_results=DIGEST_MAX_RESULTS, filter_keywords=active_keywords)
-        logger.info("Found %d items from all sources", len(research_items))
+        items = fetch_all(max_results=DIGEST_MAX_RESULTS, filter_keywords=active_keywords)
+        logger.info("Found %d items from all sources", len(items))
     except Exception as e:
         logger.error("Error fetching items: %s", e)
 
     # Check if we have any content
-    if not research_items:
+    if not items:
         # Record the empty day rather than exiting silently — otherwise the
         # commit step stages nothing and the day vanishes from digests.json
         # with no way to tell it apart from a run that never fired.
@@ -83,29 +83,29 @@ def main():
 
     # Filter out papers already sent as top pick
     sent_ids = get_sent_top_paper_ids()
-    new_items = [item for item in research_items if _paper_id_for_item(item) not in sent_ids]
+    new_items = [item for item in items if _paper_id_for_item(item) not in sent_ids]
     if new_items:
-        logger.info("Filtered out %d already-sent items", len(research_items) - len(new_items))
+        logger.info("Filtered out %d already-sent items", len(items) - len(new_items))
     else:
-        logger.info("All %d items were previously sent, skipping digest", len(research_items))
+        logger.info("All %d items were previously sent, skipping digest", len(items))
 
     # Export all fetched items to JSON and select top pick
     top_paper_id = None
-    top_research = None
+    top_item = None
 
     if new_items:
         # Rank and select top item from unsent items only
         logger.info("Selecting most important item...")
         try:
-            top_research = rank_research(new_items, openai_key)
-            logger.info("Selected: %s", top_research["title"])
+            top_item = rank_news(new_items, openai_key)
+            logger.info("Selected: %s", top_item["title"])
         except Exception as e:
             logger.error("Error ranking items: %s", e)
-            top_research = new_items[0]
+            top_item = new_items[0]
 
         # Track topic stats in KV
         try:
-            topic_id = top_research.get("topic_id")
+            topic_id = top_item.get("topic_id")
             if topic_id:
                 increment_topic_stat(topic_id)
         except Exception as e:
@@ -116,23 +116,23 @@ def main():
         # includes the structured fields rather than the raw RSS description.
         logger.info("Generating summaries...")
         try:
-            top_research = summarize_research_bundle(top_research, openai_key)
-            if "what_shipped" in top_research:
+            top_item = summarize_release(top_item, openai_key)
+            if "what_shipped" in top_item:
                 logger.info("Generated structured brief")
-            if "detailed_summary" in top_research:
+            if "detailed_summary" in top_item:
                 logger.info("Generated detailed summary for PDF")
         except Exception:
             logger.warning("Could not generate summaries")
 
-        # summarize_research_bundle returns a copy, so swap it back into the
+        # summarize_release returns a copy, so swap it back into the
         # fetched list — otherwise papers.json stores the unsummarized original.
-        research_items = [
-            top_research if _paper_id_for_item(item) == _paper_id_for_item(top_research) else item
-            for item in research_items
+        items = [
+            top_item if _paper_id_for_item(item) == _paper_id_for_item(top_item) else item
+            for item in items
         ]
 
         try:
-            top_paper_id = export_papers(research_items, top_research)
+            top_paper_id = export_papers(items, top_item)
             logger.info("Items exported to data/papers.json")
         except Exception as e:
             logger.warning("Could not export items to JSON: %s", e)
@@ -140,14 +140,14 @@ def main():
         # Append top item to weekly KV list for Sunday digest
         try:
             kv_append("digest:weekly", {
-                "title": top_research.get("title", ""),
-                "source": top_research.get("source", ""),
-                "topic_id": top_research.get("topic_id"),
-                "url": top_research.get("url", ""),
-                "type": top_research.get("type", ""),
-                "what_shipped": top_research.get("what_shipped", ""),
-                "why_it_matters": top_research.get("why_it_matters", ""),
-                "release_type": top_research.get("release_type", ""),
+                "title": top_item.get("title", ""),
+                "source": top_item.get("source", ""),
+                "topic_id": top_item.get("topic_id"),
+                "url": top_item.get("url", ""),
+                "type": top_item.get("type", ""),
+                "what_shipped": top_item.get("what_shipped", ""),
+                "why_it_matters": top_item.get("why_it_matters", ""),
+                "release_type": top_item.get("release_type", ""),
                 "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             })
             logger.info("Appended top item to weekly KV list")
@@ -156,27 +156,27 @@ def main():
     else:
         # Still export items for the dashboard, but no top pick
         try:
-            export_papers(research_items)
+            export_papers(items)
             logger.info("Items exported to data/papers.json")
         except Exception as e:
             logger.warning("Could not export items to JSON: %s", e)
 
     # Generate PDF report
     pdf_path = None
-    if top_research:
+    if top_item:
         logger.info("Generating PDF report...")
         try:
-            pdf_path = generate_research_pdf(top_research)
+            pdf_path = generate_digest_pdf(top_item)
             logger.info("PDF saved: %s", pdf_path)
         except Exception:
             logger.warning("Could not generate PDF")
 
     # Send Telegram message (only if we have a new item to send)
     telegram_sent = False
-    if top_research:
+    if top_item:
         logger.info("Sending Telegram message...")
         try:
-            message = format_research_message(top_research)
+            message = format_digest_message(top_item)
             send_telegram_message(telegram_token, telegram_chat_id, message)
             telegram_sent = True
         except Exception as e:
@@ -186,18 +186,18 @@ def main():
     if telegram_sent:
         try:
             kv_set("digest:last", {
-                "title": top_research.get("title", ""),
-                "source": top_research.get("source", ""),
-                "url": top_research.get("url", ""),
-                "type": top_research.get("type", ""),
-                "topic_id": top_research.get("topic_id", ""),
-                "summary": top_research.get("summary", ""),
-                "what_shipped": top_research.get("what_shipped", ""),
-                "capabilities": top_research.get("capabilities", ""),
-                "availability": top_research.get("availability", ""),
-                "why_it_matters": top_research.get("why_it_matters", ""),
-                "caveats": top_research.get("caveats", ""),
-                "release_type": top_research.get("release_type", ""),
+                "title": top_item.get("title", ""),
+                "source": top_item.get("source", ""),
+                "url": top_item.get("url", ""),
+                "type": top_item.get("type", ""),
+                "topic_id": top_item.get("topic_id", ""),
+                "summary": top_item.get("summary", ""),
+                "what_shipped": top_item.get("what_shipped", ""),
+                "capabilities": top_item.get("capabilities", ""),
+                "availability": top_item.get("availability", ""),
+                "why_it_matters": top_item.get("why_it_matters", ""),
+                "caveats": top_item.get("caveats", ""),
+                "release_type": top_item.get("release_type", ""),
                 "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             })
             logger.info("Stored last digest payload in KV")
@@ -210,7 +210,7 @@ def main():
         workflow_run_id = os.getenv("GITHUB_RUN_ID", "")
         export_digest(
             top_paper_id=top_paper_id,
-            papers_fetched=len(research_items),
+            papers_fetched=len(items),
             pdf_path=pdf_path,
             telegram_sent=telegram_sent,
             workflow_run_id=workflow_run_id
