@@ -175,7 +175,7 @@ def format_research_message(research: dict) -> str:
     return "\n".join(lines)
 
 
-@retry_with_backoff(max_retries=2, base_delay=1.0, exceptions=(requests.RequestException,))
+@retry_with_backoff(exceptions=(requests.RequestException,))
 def send_telegram_message(bot_token: str, chat_id: str, message: str) -> bool:
     """
     Send a message via Telegram Bot API.

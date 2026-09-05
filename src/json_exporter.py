@@ -74,8 +74,13 @@ def save_json(filename: str, data: dict):
     logger.info("Saved %s", filepath)
 
 
-def _normalize_title(title: str) -> str:
-    """Normalize titles for identity and deduplication checks."""
+def _identity_title(title: str) -> str:
+    """Normalize a title for identity keys: case and whitespace only.
+
+    Deliberately conservative. Punctuation is significant here — it is part of
+    what separates one release from another — so this must not be swapped for
+    fetcher._fuzzy_title, which strips it.
+    """
     return " ".join((title or "").strip().lower().split())
 
 
@@ -86,7 +91,7 @@ def _paper_identity(item: dict) -> str:
         return f"url:{url}"
 
     source = (item.get("source") or "unknown").strip().lower()
-    title = _normalize_title(item.get("title", ""))
+    title = _identity_title(item.get("title", ""))
     return f"title:{source}:{title}"
 
 
@@ -125,7 +130,7 @@ def export_papers(research_items: list[dict], ranked_paper: dict = None) -> str:
         for paper in data["papers"]
     }
     existing_by_title = {
-        _normalize_title(paper.get("title", "")): paper
+        _identity_title(paper.get("title", "")): paper
         for paper in data["papers"]
     }
     top_paper_id = None
@@ -133,7 +138,7 @@ def export_papers(research_items: list[dict], ranked_paper: dict = None) -> str:
 
     for item in research_items:
         identity = _paper_identity(item)
-        normalized_title = _normalize_title(item.get("title", ""))
+        normalized_title = _identity_title(item.get("title", ""))
         existing_paper = existing_by_identity.get(identity) or existing_by_title.get(normalized_title)
 
         is_top = ranked_paper and identity == _paper_identity(ranked_paper)

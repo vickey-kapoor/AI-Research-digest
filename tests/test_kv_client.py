@@ -5,7 +5,7 @@ from unittest.mock import patch, MagicMock
 
 import pytest
 
-from src.kv_client import kv_append, kv_get_list, kv_delete
+from src.kv_client import kv_append, kv_get, kv_get_list, kv_delete
 
 
 @pytest.fixture(autouse=True)
@@ -72,6 +72,39 @@ class TestKvGetList:
         result = kv_get_list("key")
         assert len(result) == 1
         assert result[0]["title"] == "Good"
+
+
+class TestKvGet:
+    """kv_get is the primitive topic_config used to hand-roll for itself."""
+
+    @patch("src.kv_client.urlopen")
+    def test_parses_json_value(self, mock_urlopen):
+        mock_urlopen.return_value = _mock_urlopen(json.dumps({"model_releases": True}))
+        assert kv_get("topics:config") == {"model_releases": True}
+
+    @patch("src.kv_client.urlopen")
+    def test_returns_none_for_missing_key(self, mock_urlopen):
+        mock_urlopen.return_value = _mock_urlopen(None)
+        assert kv_get("absent") is None
+
+    @patch("src.kv_client.urlopen")
+    def test_returns_raw_string_when_not_json(self, mock_urlopen):
+        """A plain string written outside this client must survive, not vanish."""
+        mock_urlopen.return_value = _mock_urlopen("not json at all")
+        assert kv_get("key") == "not json at all"
+
+    @patch("src.kv_client.urlopen")
+    def test_passes_through_non_string_values(self, mock_urlopen):
+        mock_urlopen.return_value = _mock_urlopen(True)
+        assert kv_get("digest:paused") is True
+
+    @patch("src.kv_client.urlopen")
+    def test_issues_a_redis_get(self, mock_urlopen):
+        mock_urlopen.return_value = _mock_urlopen(None)
+        kv_get("stats:topics")
+
+        body = json.loads(mock_urlopen.call_args[0][0].data.decode())
+        assert body == ["GET", "stats:topics"]
 
 
 class TestKvDelete:

@@ -1,7 +1,9 @@
 """Unit tests for topic configuration module."""
 
-from unittest.mock import patch, MagicMock
-import json
+from datetime import datetime, timezone
+from unittest.mock import patch
+
+import pytest
 
 from src.topic_config import (
     DEFAULT_TOPICS,
@@ -172,72 +174,59 @@ class TestCustomKeywords:
         assert "my-custom-kw" not in keywords
 
 
+@pytest.fixture
+def kv_env(monkeypatch):
+    """Credentials present, so get_feedback_weights reaches the KV call."""
+    monkeypatch.setenv("KV_REST_API_URL", "https://kv.example.com")
+    monkeypatch.setenv("KV_REST_API_TOKEN", "test-token")
+
+
+def _today() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
 class TestGetFeedbackWeights:
     """Tests for get_feedback_weights clamping and filtering."""
 
-    @patch("src.topic_config.urllib.request.urlopen")
-    def test_positive_feedback_boosts(self, mock_urlopen, monkeypatch):
-        monkeypatch.setenv("KV_REST_API_URL", "https://kv.example.com")
-        monkeypatch.setenv("KV_REST_API_TOKEN", "test-token")
-
-        from datetime import datetime, timezone
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
-        entries = [
-            json.dumps({"url": "a", "rating": 1, "topic_id": "alignment", "date": today}),
-            json.dumps({"url": "b", "rating": 1, "topic_id": "alignment", "date": today}),
+    @patch("src.topic_config.kv_client.kv_get_list")
+    def test_positive_feedback_boosts(self, mock_get_list, kv_env):
+        today = _today()
+        mock_get_list.return_value = [
+            {"url": "a", "rating": 1, "topic_id": "model_releases", "date": today},
+            {"url": "b", "rating": 1, "topic_id": "model_releases", "date": today},
         ]
-        mock_resp = MagicMock()
-        mock_resp.read.return_value = json.dumps({"result": entries}).encode()
-        mock_resp.__enter__ = lambda s: s
-        mock_resp.__exit__ = MagicMock(return_value=False)
-        mock_urlopen.return_value = mock_resp
 
         weights = get_feedback_weights()
-        assert weights["alignment"] == 1.1
+        assert weights["model_releases"] == 1.1
 
-    @patch("src.topic_config.urllib.request.urlopen")
-    def test_clamped_at_lower_bound(self, mock_urlopen, monkeypatch):
-        monkeypatch.setenv("KV_REST_API_URL", "https://kv.example.com")
-        monkeypatch.setenv("KV_REST_API_TOKEN", "test-token")
-
-        from datetime import datetime, timezone
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
-        entries = [
-            json.dumps({"url": f"u{i}", "rating": -1, "topic_id": "interpretability", "date": today})
+    @patch("src.topic_config.kv_client.kv_get_list")
+    def test_clamped_at_lower_bound(self, mock_get_list, kv_env):
+        today = _today()
+        mock_get_list.return_value = [
+            {"url": f"u{i}", "rating": -1, "topic_id": "lab_research", "date": today}
             for i in range(20)
         ]
-        mock_resp = MagicMock()
-        mock_resp.read.return_value = json.dumps({"result": entries}).encode()
-        mock_resp.__enter__ = lambda s: s
-        mock_resp.__exit__ = MagicMock(return_value=False)
-        mock_urlopen.return_value = mock_resp
 
         weights = get_feedback_weights()
-        assert weights["interpretability"] == 0.75
+        assert weights["lab_research"] == 0.75
 
-    @patch("src.topic_config.urllib.request.urlopen")
-    def test_clamped_at_upper_bound(self, mock_urlopen, monkeypatch):
-        monkeypatch.setenv("KV_REST_API_URL", "https://kv.example.com")
-        monkeypatch.setenv("KV_REST_API_TOKEN", "test-token")
-
-        from datetime import datetime, timezone
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
-        entries = [
-            json.dumps({"url": f"u{i}", "rating": 1, "topic_id": "alignment", "date": today})
+    @patch("src.topic_config.kv_client.kv_get_list")
+    def test_clamped_at_upper_bound(self, mock_get_list, kv_env):
+        today = _today()
+        mock_get_list.return_value = [
+            {"url": f"u{i}", "rating": 1, "topic_id": "model_releases", "date": today}
             for i in range(20)
         ]
-        mock_resp = MagicMock()
-        mock_resp.read.return_value = json.dumps({"result": entries}).encode()
-        mock_resp.__enter__ = lambda s: s
-        mock_resp.__exit__ = MagicMock(return_value=False)
-        mock_urlopen.return_value = mock_resp
 
         weights = get_feedback_weights()
-        assert weights["alignment"] == 1.25
+        assert weights["model_releases"] == 1.25
 
     def test_returns_empty_when_no_kv(self):
+        """kv_client raises without credentials; the weights must degrade to {}."""
         weights = get_feedback_weights()
         assert weights == {}
+
+    @patch("src.topic_config.kv_client.kv_get_list", side_effect=OSError("KV down"))
+    def test_returns_empty_when_kv_errors(self, mock_get_list, kv_env):
+        """A KV outage must not stop ranking — weights fall back to neutral."""
+        assert get_feedback_weights() == {}

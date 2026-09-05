@@ -128,8 +128,15 @@ AGGREGATOR_SOURCES = {"Hacker News", "Hugging Face", "AI Alignment Forum"}
 _VERSION_TOKEN = re.compile(r"\bv?\d+(?:[.\-]\d+)+\b|\bv\d+\b")
 
 
-def _normalize_title(title: str) -> str:
-    """Lowercase, strip punctuation, collapse whitespace."""
+def _fuzzy_title(title: str) -> str:
+    """Reduce a title to bare words for similarity comparison.
+
+    Punctuation becomes whitespace, so "GPT-4o mini" and "GPT 4o mini" compare
+    equal. That is right for fuzzy matching and wrong for identity, which is
+    why json_exporter._identity_title normalizes far more conservatively —
+    two similar titles are the same story, but two distinct keys must stay
+    distinct.
+    """
     return " ".join(re.sub(r"[^a-z0-9 ]", " ", (title or "").lower()).split())
 
 
@@ -150,7 +157,7 @@ def _is_same_story(a: dict, b: dict, threshold: float) -> bool:
     if a.get("source", "") == b.get("source", ""):
         return False
 
-    title_a, title_b = _normalize_title(a.get("title", "")), _normalize_title(b.get("title", ""))
+    title_a, title_b = _fuzzy_title(a.get("title", "")), _fuzzy_title(b.get("title", ""))
     if not title_a or not title_b:
         return False
 

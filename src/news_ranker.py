@@ -14,7 +14,7 @@ logger = get_logger(__name__)
 _sanitize_text = sanitize_prompt_text
 
 
-@retry_with_backoff(max_retries=2, base_delay=1.0, exceptions=(Exception,))
+@retry_with_backoff(exceptions=(Exception,))
 def _call_openai_ranking(client: OpenAI, prompt: str):
     """Make an OpenAI API call for ranking with retry logic."""
     return client.chat.completions.create(

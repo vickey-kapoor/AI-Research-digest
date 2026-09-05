@@ -12,9 +12,9 @@ USER_AGENT = f"{APP_NAME}/{APP_VERSION} (+https://github.com/vickey-kapoor/Appli
 
 # Network settings
 REQUEST_TIMEOUT = 30  # seconds
-# MAX_RETRIES removed: it claimed 3 while every one of the eight call sites
-# passed max_retries=2, so the constant documented behaviour the code did not
-# have. retry_with_backoff carries its own default for callers that omit it.
+# MAX_RETRIES removed: it claimed 3 while every call site passed 2. The
+# retry_with_backoff default is now 2 to match, so call sites no longer
+# override it and there is one place left that says how many retries happen.
 
 # Deduplication settings
 DEDUP_SIMILARITY_THRESHOLD = float(os.getenv("DEDUP_SIMILARITY_THRESHOLD", "0.85"))

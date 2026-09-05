@@ -20,7 +20,7 @@ def _prepare_inputs(research: dict) -> tuple[str, str, str]:
     return title, source, summary
 
 
-@retry_with_backoff(max_retries=2, base_delay=1.0, exceptions=(Exception,))
+@retry_with_backoff(exceptions=(Exception,))
 def _call_openai(client: OpenAI, prompt: str) -> str:
     """Make an OpenAI API call with retry logic."""
     response = client.chat.completions.create(
