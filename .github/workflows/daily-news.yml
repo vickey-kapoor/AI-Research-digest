@@ -2,15 +2,36 @@ name: Daily Applied AI Dev Digest
 
 # Sends daily AI research digest to Telegram
 
+# Polls every 15 minutes; src/schedule_guard.py decides whether anything is
+# actually due. A single daily cron cannot hold a delivery time here: GitHub's
+# scheduled delivery is best-effort and this workflow has arrived between 30
+# minutes and 5h23m after its slot, which put the digest anywhere from late
+# morning to evening. Polling means a late tick is simply followed by another,
+# so the digest lands within about one interval of the target.
+#
+# The target is local noon evaluated in America/Chicago, not a fixed UTC hour,
+# so it stays at noon when CDT gives way to CST in November.
+#
+# Almost every tick exits at the guard step: no pip install, no fetching.
 on:
   schedule:
-    # Daily digest. 16:00 UTC = 11:00 AM CDT / 10:00 AM CST.
-    # Minute 17 rather than 00: GitHub's shared schedulers are most congested
-    # on the hour, and this workflow has been delivered up to 9 hours late.
-    - cron: '17 16 * * *'
-    # Weekly roundup, Sundays. 17:00 UTC = 12:00 PM CDT / 11:00 AM CST.
-    - cron: '17 17 * * 0'
-  workflow_dispatch: # Allow manual trigger
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'Send a digest now, ignoring the schedule guard'
+        required: false
+        default: 'daily'
+        type: choice
+        options:
+          - daily
+          - weekly
+
+# One digest run at a time. Without this a slow run could still be sending
+# while the next tick starts, and both would see the same "not yet run" state.
+concurrency:
+  group: daily-digest
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -24,7 +45,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
 
+      # Runs on the runner's system Python with no dependencies installed —
+      # the guard is stdlib-only, so a tick with nothing due costs seconds.
+      - name: Check what is due
+        id: guard
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # A manual run is an explicit instruction; skip the guard.
+            REQUESTED="${{ github.event.inputs.job || 'daily' }}"
+            echo "Manual dispatch: $REQUESTED"
+            [ "$REQUESTED" = "daily" ] && echo "daily=true" >> "$GITHUB_OUTPUT" || echo "daily=false" >> "$GITHUB_OUTPUT"
+            [ "$REQUESTED" = "weekly" ] && echo "weekly=true" >> "$GITHUB_OUTPUT" || echo "weekly=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "daily=$(python3 -m src.schedule_guard check daily)" >> "$GITHUB_OUTPUT"
+            echo "weekly=$(python3 -m src.schedule_guard check weekly)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Nothing due
+        if: steps.guard.outputs.daily != 'true' && steps.guard.outputs.weekly != 'true'
+        run: echo "Neither digest is due yet — exiting."
+
       - name: Validate secrets
+        if: steps.guard.outputs.daily == 'true' || steps.guard.outputs.weekly == 'true' 
         run: |
           missing=""
           [ -z "${{ secrets.OPENAI_API_KEY }}" ] && missing="$missing OPENAI_API_KEY"
@@ -38,16 +80,19 @@ jobs:
           fi
 
       - name: Set up Python
+        if: steps.guard.outputs.daily == 'true' || steps.guard.outputs.weekly == 'true'
         uses: actions/setup-python@v5.6.0
         with:
           python-version: '3.11'
 
       - name: Install dependencies
+        if: steps.guard.outputs.daily == 'true' || steps.guard.outputs.weekly == 'true'
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run Applied AI dev digest
+        if: steps.guard.outputs.daily == 'true' || steps.guard.outputs.weekly == 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -73,6 +118,7 @@ jobs:
           fi
 
       - name: Commit and push reports and data
+        if: steps.guard.outputs.daily == 'true' || steps.guard.outputs.weekly == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
