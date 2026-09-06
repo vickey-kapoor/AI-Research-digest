@@ -2,13 +2,13 @@
   "digests": [
     {
       "date": "2026-09-06",
-      "run_at": "2026-09-06T04:44:03.320573Z",
-      "top_paper_id": null,
-      "papers_fetched": 1,
-      "pdf_path": "reports/06-Sep/GPT-6_Astra_A_new_generation_of_intelligence.pdf",
-      "telegram_sent": false,
-      "workflow_run_id": "34012233957",
-      "previous_run_at": "2026-09-06T00:13:39.822977Z"
+      "run_at": "2026-09-06T18:01:17.037569Z",
+      "top_paper_id": "5ddf0707-ed02-5b5f-b0d7-c9427cfaa9a8",
+      "papers_fetched": 2,
+      "pdf_path": "reports/06-Sep/Research_acceleration_The_view_inside_OpenAI.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "34050353647",
+      "previous_run_at": "2026-09-06T04:44:03.320573Z"
     },
     {
       "date": "2026-09-05",

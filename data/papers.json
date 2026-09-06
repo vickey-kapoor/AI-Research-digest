@@ -1,6 +1,45 @@
 {
   "papers": [
     {
+      "id": "5ddf0707-ed02-5b5f-b0d7-c9427cfaa9a8",
+      "title": "Research acceleration: The view inside OpenAI",
+      "summary": "OpenAI has released insights into the usage of coding agents in AI research. The coding agents are designed to accelerate research by improving experiment velocity and handling complex tasks. Early data indicates that these agents can manage a higher task complexity compared to traditional methods, although specific benchmark numbers are not provided.",
+      "source": "OpenAI",
+      "url": "https://openai.com/index/research-acceleration-view-inside-openai",
+      "published_at": "2026-09-06T08:00:00+00:00",
+      "fetched_at": "2026-09-06T18:01:16.085150Z",
+      "type": "announcement",
+      "topic_id": "agents_tooling",
+      "topics": [
+        "Agents & Tooling",
+        "Benchmarks & Evals"
+      ],
+      "ranking_score": 0,
+      "status": "unread",
+      "what_shipped": "OpenAI has released insights into the usage of coding agents in AI research.",
+      "capabilities": "The coding agents are designed to accelerate research by improving experiment velocity and handling complex tasks. Early data indicates that these agents can manage a higher task complexity compared to traditional methods, although specific benchmark numbers are not provided.",
+      "availability": "Not stated.",
+      "why_it_matters": "The introduction of coding agents may significantly enhance the efficiency of AI research, allowing researchers to focus on more complex problems and potentially reducing the time required for experiments.",
+      "caveats": "The claims made regarding the performance and impact of these coding agents are based on early data, which has not been independently verified, and specific metrics for evaluation are not disclosed.",
+      "release_type": "research"
+    },
+    {
+      "id": "fc4ab9a4-6a1a-5659-8311-1ccd0a3b4758",
+      "title": "GPT-6 Astra on robot arms",
+      "summary": "223 points · 177 comments",
+      "source": "Hacker News",
+      "url": "https://openai.robocurve.org/gpt-6-astra/",
+      "published_at": "2026-09-06T01:52:45+00:00",
+      "fetched_at": "2026-09-06T18:01:16.085150Z",
+      "type": "discussion",
+      "topic_id": "model_releases",
+      "topics": [
+        "Model Releases"
+      ],
+      "ranking_score": 0,
+      "status": "unread"
+    },
+    {
       "id": "278d852e-9df1-5e79-b55c-1a45781f55f5",
       "title": "Portal by Spotify cut my Claude Code token usage by 90%",
       "summary": "Portal by Spotify, a tool that reduces Claude Code token usage. The tool claims to cut token usage by 90%, which could significantly reduce costs for users relying on Claude Code for their applications. Specific benchmarks or performance metrics beyond the token reduction are not provided.",
