@@ -2,13 +2,13 @@
   "digests": [
     {
       "date": "2026-09-06",
-      "run_at": "2026-09-06T22:13:14.786293Z",
-      "top_paper_id": "5ddf0707-ed02-5b5f-b0d7-c9427cfaa9a8",
+      "run_at": "2026-09-06T23:57:24.404847Z",
+      "top_paper_id": "fc4ab9a4-6a1a-5659-8311-1ccd0a3b4758",
       "papers_fetched": 2,
-      "pdf_path": "reports/06-Sep/Research_acceleration_The_view_inside_OpenAI.pdf",
+      "pdf_path": "reports/06-Sep/GPT-6_Astra_on_robot_arms.pdf",
       "telegram_sent": true,
-      "workflow_run_id": "34063357758",
-      "previous_run_at": "2026-09-06T20:23:52.087103Z"
+      "workflow_run_id": "34068287903",
+      "previous_run_at": "2026-09-06T22:13:14.786293Z"
     },
     {
       "date": "2026-09-05",
