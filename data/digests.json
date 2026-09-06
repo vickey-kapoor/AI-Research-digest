@@ -2,12 +2,13 @@
   "digests": [
     {
       "date": "2026-09-06",
-      "run_at": "2026-09-06T00:13:39.822977Z",
-      "top_paper_id": "4d146f61-14aa-571c-998c-78503c6b3e07",
+      "run_at": "2026-09-06T04:44:03.320573Z",
+      "top_paper_id": null,
       "papers_fetched": 1,
       "pdf_path": "reports/06-Sep/GPT-6_Astra_A_new_generation_of_intelligence.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "34000714219"
+      "telegram_sent": false,
+      "workflow_run_id": "34012233957",
+      "previous_run_at": "2026-09-06T00:13:39.822977Z"
     },
     {
       "date": "2026-09-05",
