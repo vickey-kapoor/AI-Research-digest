@@ -1,6 +1,15 @@
 {
   "digests": [
     {
+      "date": "2026-09-06",
+      "run_at": "2026-09-06T00:13:39.822977Z",
+      "top_paper_id": "4d146f61-14aa-571c-998c-78503c6b3e07",
+      "papers_fetched": 1,
+      "pdf_path": "reports/06-Sep/GPT-6_Astra_A_new_generation_of_intelligence.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "34000714219"
+    },
+    {
       "date": "2026-09-05",
       "run_at": "2026-09-05T22:39:10.904351Z",
       "top_paper_id": "278d852e-9df1-5e79-b55c-1a45781f55f5",
@@ -716,14 +725,6 @@
       "pdf_path": "reports/05-Jun/My_research_agenda_and_work.pdf",
       "telegram_sent": true,
       "workflow_run_id": "27031444697"
-    },
-    {
-      "date": "2026-06-04",
-      "top_paper_id": "",
-      "papers_fetched": 1,
-      "pdf_path": "",
-      "telegram_sent": false,
-      "workflow_run_id": "26971200556"
     }
   ]
 }
