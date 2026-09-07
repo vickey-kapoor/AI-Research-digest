@@ -1,6 +1,15 @@
 {
   "digests": [
     {
+      "date": "2026-09-07",
+      "run_at": "2026-09-07T03:40:21.897700Z",
+      "top_paper_id": "5ddf0707-ed02-5b5f-b0d7-c9427cfaa9a8",
+      "papers_fetched": 1,
+      "pdf_path": "reports/07-Sep/Research_acceleration_The_view_inside_OpenAI.pdf",
+      "telegram_sent": true,
+      "workflow_run_id": "34080406822"
+    },
+    {
       "date": "2026-09-06",
       "run_at": "2026-09-06T23:57:24.404847Z",
       "top_paper_id": "fc4ab9a4-6a1a-5659-8311-1ccd0a3b4758",
@@ -718,14 +727,6 @@
       "pdf_path": "",
       "telegram_sent": false,
       "workflow_run_id": "27068851772"
-    },
-    {
-      "date": "2026-06-05",
-      "top_paper_id": "b665c226-ec59-5f1c-89c8-c7c5782bf06f",
-      "papers_fetched": 1,
-      "pdf_path": "reports/05-Jun/My_research_agenda_and_work.pdf",
-      "telegram_sent": true,
-      "workflow_run_id": "27031444697"
     }
   ]
 }
